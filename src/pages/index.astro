@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Hero from "@/components/Hero.astro";
+import ContactForm from "@/components/ContactForm.astro";
+---
+
+<Layout title="1367 — Studio">
+  <Hero
+    title="A starter built for motion."
+    subtitle="Astro · Sanity · Tailwind · GSAP · Lenis · SplitType · Resend"
+  />
+
+  <section class="px-6 py-32 md:px-12">
+    <h2 data-reveal class="mb-12 text-3xl font-semibold md:text-5xl">
+      Get in touch
+    </h2>
+    <ContactForm />
+  </section>
+</Layout>

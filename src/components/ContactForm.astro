@@ -1,0 +1,66 @@
+---
+// Posts to the Resend-backed endpoint at /api/contact
+---
+
+<form
+  id="contact-form"
+  class="flex w-full max-w-lg flex-col gap-4"
+  method="POST"
+  action="/api/contact"
+>
+  <input
+    type="text"
+    name="name"
+    placeholder="Name"
+    required
+    class="rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none focus:border-ink/40"
+  />
+  <input
+    type="email"
+    name="email"
+    placeholder="Email"
+    required
+    class="rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none focus:border-ink/40"
+  />
+  <textarea
+    name="message"
+    placeholder="Message"
+    rows="4"
+    required
+    class="rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none focus:border-ink/40"
+  ></textarea>
+  <button
+    type="submit"
+    class="rounded-lg bg-ink px-6 py-3 font-medium text-paper transition-opacity hover:opacity-80"
+  >
+    Send
+  </button>
+  <p id="contact-status" class="text-sm text-ink/60" aria-live="polite"></p>
+</form>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("contact-status");
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!status) return;
+
+    status.textContent = "Sending…";
+    const data = Object.fromEntries(new FormData(form));
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      status.textContent = res.ok
+        ? "Thanks — your message was sent."
+        : "Something went wrong. Please try again.";
+      if (res.ok) form.reset();
+    } catch {
+      status.textContent = "Network error. Please try again.";
+    }
+  });
+</script>
