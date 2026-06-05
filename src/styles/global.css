@@ -1,15 +1,19 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Tailwind v4 theme tokens — customize freely.
    https://tailwindcss.com/docs/theme */
 @theme {
-  --font-sans: "Inter", system-ui, sans-serif;
-  --color-ink: #0a0a0a;
-  --color-paper: #fafafa;
+  --font-geist: 'Geist', sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --color-primary: #f43c00;
+  --color-muted: #7a7a7a;
+  --color-ink: #191919;
+  --color-white: #ffffff;
 }
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
 html {
@@ -35,9 +39,9 @@ html.lenis body {
 }
 
 body {
-  background-color: var(--color-paper);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
+  background-color: var(--color-ink);
+  color: var(--color-white);
+  font-family: var(--font-geist);
   -webkit-font-smoothing: antialiased;
 }
 
