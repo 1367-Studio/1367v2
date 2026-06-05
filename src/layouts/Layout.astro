@@ -1,4 +1,5 @@
 ---
+import Header from "../components/Header.astro"
 import "@/styles/global.css";
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 }
 
 const {
-  title = "1367 — Studio",
+  title = "1367 Studio",
   description = "Astro + Sanity + Tailwind + GSAP + Lenis starter.",
 } = Astro.props;
 ---
@@ -21,10 +22,16 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {/* Google Fonts */}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   </head>
   <body>
-    <slot />
-
+    <Header />
+    <main>
+      <slot />
+    </main>
     <script>
       import { initSmoothScroll } from "@/lib/smooth-scroll";
       import { initTextReveal } from "@/lib/text-reveal";
