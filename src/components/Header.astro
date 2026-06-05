@@ -1,0 +1,37 @@
+---
+import { client } from '../lib/sanity'
+import { Menu } from '@lucide/astro';
+
+const header = await client.fetch(`
+  *[_type == "header"][0]{
+    siteName,
+    navigation
+  }
+`)
+
+const leftLinks = header?.navigation?.filter((item: any) => item.position === 'left')
+const rightLinks = header?.navigation?.filter((item: any) => item.position === 'right')
+---
+
+<header class="flex items-center justify-around px-8 py-4">
+  {/* Links da esquerda */}
+  <nav class="flex gap-6">
+    {leftLinks?.map((item: any) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
+  </nav>
+
+  {/* Logo no centro */}
+  <a href="/" class="text-xl font-bold">
+    {header?.siteName}
+  </a>
+
+  {/* Links da direita */}
+  <nav class="flex gap-6 items-center">
+    {rightLinks?.map((item: any) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
+    {/* Hamburger */}
+    <button><Menu /></button>
+  </nav>
+</header>
