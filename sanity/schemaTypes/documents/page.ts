@@ -21,19 +21,14 @@ export default {
       type: 'hero',
     },
     {
-      name: 'statement',
-      title: 'Statement',
-      type: 'statement',
+      name: 'projects',
+      title: 'Projects',
+      type: 'projects',
     },
     {
-      name: 'ticker',
-      title: 'Ticker',
-      type: 'ticker',
-    },
-    {
-      name: 'featuredCase',
-      title: 'Featured Case (Split Screen)',
-      type: 'featuredCase',
+      name: 'marquee',
+      title: 'Marquee',
+      type: 'marquee',
     },
     {
       name: 'seo',

@@ -1,0 +1,48 @@
+---
+interface Brand {
+  name: string
+  logoUrl: string
+  alt: string
+}
+
+interface Props {
+  title: string
+  subtitle: string
+  brandsLabel: string
+  brands: Brand[]
+}
+
+const { title, subtitle, brandsLabel, brands = [] } = Astro.props
+---
+
+<section class="bg-primary px-8 py-40 text-center text-white">
+  <div class="mx-auto max-w-2xl">
+
+    {/* Title */}
+    <h2 class="text-4xl leading-tight md:text-[40px]">
+      {title}
+    </h2>
+
+    {/* Subtitle */}
+    <p class="mx-auto mt-6 max-w-md text-sm leading-relaxed opacity-80">
+      {subtitle}
+    </p>
+
+    {/* Label for brands */}
+    <p class="mt-16 text-xs opacity-60">
+      {brandsLabel}
+    </p>
+
+    {/* Logos */}
+    <div class="mt-6 flex items-center justify-center gap-10">
+      {brands.map((brand) => (
+        <img
+          src={brand.logoUrl}
+          alt={brand.alt ?? brand.name}
+          class="h-6 w-auto opacity-90"
+        />
+      ))}
+    </div>
+
+  </div>
+</section>
