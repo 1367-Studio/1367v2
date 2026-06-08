@@ -2,7 +2,7 @@ import header from './documents/header'
 import case_ from './documents/case'
 import page from './documents/page'
 import post from './documents/post'
-import blockContent from './objects/blockContent'
+import hero from './objects/hero'
 import seo from './objects/seo'
 
 export const schemaTypes = [
@@ -12,6 +12,6 @@ export const schemaTypes = [
   page,
   header,
   // objects
+  hero,
   seo,
-  blockContent,
 ]
