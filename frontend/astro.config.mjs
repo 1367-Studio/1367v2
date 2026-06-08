@@ -1,17 +1,13 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
-import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
+import tailwindcss from '@tailwindcss/vite';
 
-// https://astro.build/config
 export default defineConfig({
-  // "server" output is required for the Resend contact API route.
-  // Switch to "static" if you don't need server endpoints.
+  adapter: vercel(),
   output: 'server',
-  adapter: node({ mode: 'standalone' }),
-  site: 'https://example.com',
+  site: 'https://seu-dominio.com',
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
