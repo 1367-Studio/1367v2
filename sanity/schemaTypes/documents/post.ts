@@ -13,7 +13,7 @@ export default {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'title' },
+      options: {source: 'title'},
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -26,7 +26,7 @@ export default {
       name: 'coverImage',
       title: 'Imagem de capa',
       type: 'image',
-      options: { hotspot: true },
+      options: {hotspot: true},
       fields: [
         {
           name: 'alt',
@@ -42,14 +42,9 @@ export default {
       rows: 3,
     },
     {
-      name: 'body',
-      title: 'Conteúdo',
-      type: 'blockContent',
-    },
-    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
     },
   ],
-};
+}

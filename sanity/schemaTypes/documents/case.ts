@@ -13,7 +13,7 @@ export default {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'title' },
+      options: {source: 'title'},
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -30,7 +30,7 @@ export default {
       name: 'services',
       title: 'Serviços',
       type: 'array',
-      of: [{ type: 'string' }],
+      of: [{type: 'string'}],
       options: {
         layout: 'tags', // aparece como tags no Studio
       },
@@ -39,8 +39,8 @@ export default {
       name: 'coverImage',
       title: 'Imagem de capa',
       type: 'image',
-      options: { hotspot: true },
-      fields: [{ name: 'alt', title: 'Alt', type: 'string' }],
+      options: {hotspot: true},
+      fields: [{name: 'alt', title: 'Alt', type: 'string'}],
     },
     {
       name: 'excerpt',
@@ -49,14 +49,9 @@ export default {
       rows: 3,
     },
     {
-      name: 'body',
-      title: 'Conteúdo',
-      type: 'blockContent',
-    },
-    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',
     },
   ],
-};
+}

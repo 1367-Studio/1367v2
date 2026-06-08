@@ -7,7 +7,7 @@ export default {
       name: 'identifier',
       title: 'Identificador',
       type: 'string',
-      description: 'Uso interno: "home" ou "contact"',
+      description: 'Uso interno: "home"',
       validation: (Rule: any) => Rule.required(),
     },
     {
@@ -16,9 +16,9 @@ export default {
       type: 'string',
     },
     {
-      name: 'body',
-      title: 'Conteúdo',
-      type: 'blockContent',
+      name: 'hero',
+      title: 'Hero',
+      type: 'hero',
     },
     {
       name: 'seo',
