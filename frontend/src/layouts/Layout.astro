@@ -1,6 +1,23 @@
 ---
 import Header from "../components/Header.astro"
+import Footer from "../components/Footer.astro"
+import { client } from "@/lib/sanity"
+import imageUrlBuilder from '@sanity/image-url'
 import "@/styles/global.css";
+
+const builder = imageUrlBuilder(client)
+function urlFor(source: any) {
+  return builder.image(source).url()
+}
+
+const footerData = await client.fetch(`
+  *[_type == "footer"][0]{
+    heading, ctaLabel, ctaHref,
+    navLinks[]{ label, href },
+    locations[]{ city, country, phone, address },
+    logo
+  }
+`)
 
 interface Props {
   title?: string;
@@ -23,15 +40,24 @@ const {
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {/* Google Fonts */}
+    <link rel="preconnect" href="https://app.endlesstools.io">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&family=Geist+Mono:ital,wght@0,100..900;1,100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   </head>
   <body>
     <Header />
     <main>
       <slot />
     </main>
+    <Footer
+      heading={footerData?.heading}
+      ctaLabel={footerData?.ctaLabel}
+      ctaHref={footerData?.ctaHref}
+      navLinks={footerData?.navLinks}
+      locations={footerData?.locations}
+      logoSrc={footerData?.logo ? urlFor(footerData.logo) : undefined}
+    />
     <script>
       import { initSmoothScroll } from "@/lib/smooth-scroll";
       import { initTextReveal } from "@/lib/text-reveal";

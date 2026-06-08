@@ -21,6 +21,21 @@ export default {
       type: 'hero',
     },
     {
+      name: 'statement',
+      title: 'Statement',
+      type: 'statement',
+    },
+    {
+      name: 'ticker',
+      title: 'Ticker',
+      type: 'ticker',
+    },
+    {
+      name: 'featuredCase',
+      title: 'Featured Case (Split Screen)',
+      type: 'featuredCase',
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',

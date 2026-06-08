@@ -5,7 +5,7 @@ export default {
   fields: [
     {
       name: 'title',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
@@ -13,38 +13,36 @@ export default {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: {source: 'title'},
+      options: { source: 'title' },
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'client',
-      title: 'Cliente',
+      title: 'Client',
       type: 'string',
     },
     {
       name: 'year',
-      title: 'Ano',
+      title: 'Year',
       type: 'number',
     },
     {
       name: 'services',
-      title: 'Serviços',
+      title: 'Services',
       type: 'array',
-      of: [{type: 'string'}],
-      options: {
-        layout: 'tags', // aparece como tags no Studio
-      },
+      of: [{ type: 'string' }],
+      options: { layout: 'tags' },
     },
     {
       name: 'coverImage',
-      title: 'Imagem de capa',
+      title: 'Cover Image',
       type: 'image',
-      options: {hotspot: true},
-      fields: [{name: 'alt', title: 'Alt', type: 'string'}],
+      options: { hotspot: true },
+      fields: [{ name: 'alt', title: 'Alt text', type: 'string' }],
     },
     {
       name: 'excerpt',
-      title: 'Resumo',
+      title: 'Excerpt',
       type: 'text',
       rows: 3,
     },

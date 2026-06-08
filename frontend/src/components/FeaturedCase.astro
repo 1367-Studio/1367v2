@@ -1,0 +1,133 @@
+---
+interface Props {
+  tag?: string
+  title: string
+  description?: string
+  ctaLabel?: string
+  ctaHref?: string
+  imageSrc?: string
+  cardTitle?: string
+  cardSubtitle?: string
+  cardCta?: string
+}
+
+const {
+  tag,
+  title,
+  description,
+  ctaLabel = 'VIEW PROJECT',
+  ctaHref = '#',
+  imageSrc,
+  cardTitle,
+  cardSubtitle,
+  cardCta,
+} = Astro.props
+---
+
+<section id="featured-case" class="flex flex-col lg:flex-row lg:h-screen">
+  <!-- Left: dark panel -->
+  <div class="relative flex w-full lg:w-1/2 flex-col justify-center gap-8 bg-black px-6 py-12 lg:px-12 lg:py-10">
+    {tag && (
+      <span class="font-[Geist_Mono] text-[12px] uppercase tracking-widest text-white">
+        {tag}
+      </span>
+    )}
+
+    <div class="max-w-full lg:max-w-[400px]">
+      <h2 id="featured-title" class="font-[Geist] text-[24px] font-normal leading-[1.1] text-white">
+        {title}
+      </h2>
+      {description && (
+        <p class="mt-5 font-['Instrument_Sans'] text-[16px] font-normal leading-[1.3] tracking-normal text-white">
+          {description}
+        </p>
+      )}
+    </div>
+
+    <a
+      href={ctaHref}
+      class="mt-4 font-[Geist_Mono] text-[12px] uppercase tracking-widest text-white"
+    >
+      {ctaLabel}
+    </a>
+  </div>
+
+  <!-- Right: light panel -->
+  <div class="relative w-full h-[60vh] lg:h-auto lg:w-1/2 bg-[#e8e0d4]">
+    {imageSrc && (
+      <img
+        src={imageSrc}
+        alt={title}
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+    )}
+
+    {(cardTitle || cardSubtitle) && (
+      <div
+        class="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-auto lg:w-[380px] min-h-[160px] rounded-lg p-5"
+        style="background: rgba(12, 12, 11, 0.54); backdrop-filter: blur(11.35px); -webkit-backdrop-filter: blur(11.35px); border: 1px solid rgba(255,255,255,0.11);"
+      >
+         {cardTitle && (
+            <p class="font-[Satoshi] text-[24px] font-medium leading-[1.1] tracking-normal text-white">
+              {cardTitle}
+            </p>
+          )}
+          {cardSubtitle && (
+            <p class="mt-4 mb-2 font-['Instrument_Sans'] text-[16px] font-normal leading-[1.3] tracking-normal text-white">
+              {cardSubtitle}
+            </p>
+          )}
+         
+          {cardCta && (
+            <button class="mt-4 rounded-md px-4 py-2 font-[Inter] text-[16px] font-semibold leading-[1.4] tracking-normal text-white text-center" style="background: transparent; border: 1px solid #E0E0DE66;">
+              {cardCta}
+            </button>
+          )}
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+  import SplitType from 'split-type'
+
+  window.addEventListener('load', () => {
+    const section = document.getElementById('featured-case')
+    if (!section) return
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 80%',
+      },
+    })
+
+    const tag = section.querySelector('span')
+    if (tag) {
+      tl.fromTo(tag, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0)
+    }
+
+    const titleEl = section.querySelector('#featured-title') as HTMLElement
+    if (titleEl) {
+      const split = new SplitType(titleEl, { types: 'lines' })
+      tl.fromTo(
+        split.lines,
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out' },
+        0.1
+      )
+    }
+
+    const desc = section.querySelector('p')
+    const cta = section.querySelector('a')
+    if (desc) tl.fromTo(desc, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.3)
+    if (cta) tl.fromTo(cta, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.45)
+
+    const card = section.querySelector('.absolute.bottom-8') as HTMLElement
+    if (card) tl.fromTo(card, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.3)
+
+    ScrollTrigger.refresh()
+  })
+</script>
