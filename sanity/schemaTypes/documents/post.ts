@@ -5,7 +5,7 @@ export default {
   fields: [
     {
       name: 'title',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
@@ -13,31 +13,27 @@ export default {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: {source: 'title'},
+      options: { source: 'title' },
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'publishedAt',
-      title: 'Data de publicação',
+      title: 'Published At',
       type: 'datetime',
       validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'coverImage',
-      title: 'Imagem de capa',
+      title: 'Cover Image',
       type: 'image',
-      options: {hotspot: true},
+      options: { hotspot: true },
       fields: [
-        {
-          name: 'alt',
-          title: 'Texto alternativo',
-          type: 'string',
-        },
+        { name: 'alt', title: 'Alt text', type: 'string' },
       ],
     },
     {
       name: 'excerpt',
-      title: 'Resumo',
+      title: 'Excerpt',
       type: 'text',
       rows: 3,
     },

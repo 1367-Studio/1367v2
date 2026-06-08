@@ -1,0 +1,70 @@
+---
+interface Props {
+  body: string
+}
+
+const { body } = Astro.props
+---
+
+<section
+  id="statement"
+  class="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black"
+>
+  <p
+    id="statement-text"
+    class="relative z-10 mx-auto w-[599px] text-center font-[Geist] text-[40px] font-normal leading-[1.3] text-white"
+  >
+    {body}
+  </p>
+
+  <div
+    id="statement-iframe"
+    class="pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 -mt-[10px]"
+  >
+    <iframe
+      allowtransparency="true"
+      src="https://app.endlesstools.io/embed/26068064-76e3-48c4-a6be-a7dddf5e5242"
+      title=""
+      frameborder="0"
+      allow="clipboard-write; encrypted-media; gyroscope; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      style="background-color: transparent; width: 580px; height: 580px;"
+    />
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  const section = document.getElementById('statement')
+  const text    = document.getElementById('statement-text')
+  const iframe  = document.getElementById('statement-iframe')
+
+  if (section && text && iframe) {
+    gsap.set(text, { yPercent: 120, autoAlpha: 0 })
+    gsap.set(iframe, { yPercent: 120, opacity: 0 })
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: '+=180%',
+        pin: true,
+        scrub: 1.2,
+        anticipatePin: 1,
+      },
+    })
+
+    // Phase 1 — text enters from below
+    tl.to(text, { yPercent: 0, autoAlpha: 1, duration: 1, ease: 'power3.out' })
+    // Hold — text stays
+    tl.to({}, { duration: 0.5 })
+    // Phase 2 — iframe enters from below over text
+    tl.to(iframe, { yPercent: -40, opacity: 1, duration: 1, ease: 'power3.out' })
+    // Hold — both visible, user can scroll out
+    tl.to({}, { duration: 0.3 })
+  }
+</script>
