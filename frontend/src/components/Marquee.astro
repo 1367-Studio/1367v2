@@ -1,0 +1,26 @@
+---
+interface Props {
+  items: { label: string }[]
+}
+const { items = [] } = Astro.props
+const doubled = [...items, ...items]
+---
+
+<div class="overflow-hidden whitespace-nowrap py-4 bg-primary">
+  <div class="marquee-track inline-flex gap-12">
+    {doubled.map((item) => (
+      <span class="text-[40px] tracking-widest">{item.label}</span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee-track {
+    animation: marquee 20s linear infinite;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+</style>
