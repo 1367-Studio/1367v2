@@ -1,19 +1,28 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Hero from "@/components/Hero.astro";
-import ContactForm from "@/components/ContactForm.astro";
----
+import { client } from "@/lib/sanity"
 
+const page = await client.fetch(`
+  *[_type == "page" && identifier == "home"][0]{
+    hero {
+      title,
+      subtitle,
+      description,
+      ctaLabel,
+      ctaHref,
+      "videoUrl": video.asset->url
+    }
+  }
+`)
+---
 <Layout title="1367 — Studio">
   <Hero
-    title="A starter built for motion."
-    subtitle="Astro · Sanity · Tailwind · GSAP · Lenis · SplitType · Resend"
+    title={page.hero.title}
+    subtitle={page.hero.subtitle}
+    description={page.hero.description}
+    ctaLabel={page.hero.ctaLabel}
+    ctaHref={page.hero.ctaHref}
+    videoUrl={page.hero.videoUrl}
   />
-
-  <section class="px-6 py-32 md:px-12">
-    <h2 data-reveal class="mb-12 text-3xl font-semibold md:text-5xl">
-      Get in touch
-    </h2>
-    <ContactForm />
-  </section>
 </Layout>
