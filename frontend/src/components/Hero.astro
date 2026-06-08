@@ -12,7 +12,7 @@ const { title, subtitle, description, ctaLabel, ctaHref, videoUrl } = Astro.prop
 ---
 
 <section class="relative h-[90vh] w-full overflow-hidden">
-  {/* Vídeo de fundo */}
+  {/* Background video */}
   <video
     class="absolute inset-0 h-full w-full object-cover"
     src={videoUrl}
@@ -22,10 +22,10 @@ const { title, subtitle, description, ctaLabel, ctaHref, videoUrl } = Astro.prop
     playsinline
   />
 
-  {/* Overlay escuro */}
+  {/* Dark Overlay */}
   <div class="absolute inset-0 bg-black/50" />
 
-  {/* Conteúdo */}
+  {/* Content */}
   <div class="absolute bottom-12 left-8 right-8 flex items-end justify-between">
     <div>
       <h1 class="text-2xl text-white md:text-4xl">{title}</h1>

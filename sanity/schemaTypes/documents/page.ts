@@ -21,6 +21,16 @@ export default {
       type: 'hero',
     },
     {
+      name: 'projects',
+      title: 'Projects',
+      type: 'projects',
+    },
+    {
+      name: 'marquee',
+      title: 'Marquee',
+      type: 'marquee',
+    },
+    {
       name: 'seo',
       title: 'SEO',
       type: 'seo',

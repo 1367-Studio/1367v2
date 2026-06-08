@@ -1,6 +1,9 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Marquee from "@/components/Marquee.astro";
 import Hero from "@/components/Hero.astro";
+import ProjectSection from "@/components/ProjectSection.astro";
+import ScrollVideoSection from "@/components/ScrollVideoSection.tsx"
 import { client } from "@/lib/sanity"
 
 const page = await client.fetch(`
@@ -12,6 +15,21 @@ const page = await client.fetch(`
       ctaLabel,
       ctaHref,
       "videoUrl": video.asset->url
+    },
+    projects {
+      title,
+      subtitle,
+      brandsLabel,
+      brands[] {
+        name,
+        "logoUrl": logo.asset->url,
+        "alt": logo.alt
+      }
+    },
+    marquee {
+      items[] {
+        label
+      }
     }
   }
 `)
@@ -25,4 +43,12 @@ const page = await client.fetch(`
     ctaHref={page.hero.ctaHref}
     videoUrl={page.hero.videoUrl}
   />
+  <ScrollVideoSection client:load />
+  <ProjectSection
+  title={page.projects?.title ?? ''}
+  subtitle={page.projects?.subtitle ?? ''}
+  brandsLabel={page.projects?.brandsLabel ?? ''}
+  brands={page.projects?.brands ?? []}
+/>
+  <Marquee items={page?.marquee?.items ?? []}/>
 </Layout>
