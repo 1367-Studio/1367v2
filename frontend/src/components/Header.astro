@@ -14,19 +14,20 @@ const rightLinks = header?.navigation?.filter((item: any) => item.position === '
 ---
 
 <header class="flex items-center justify-around px-8 py-4">
-  {/* Links da esquerda */}
+
+  {/* Links on the left */}
   <nav class="flex gap-6">
     {leftLinks?.map((item: any) => (
       <a href={item.href}>{item.label}</a>
     ))}
   </nav>
 
-  {/* Logo no centro */}
+  {/* Logo in the middle */}
   <a href="/" class="text-xl font-bold">
     {header?.siteName}
   </a>
 
-  {/* Links da direita */}
+  {/* Links on the right */}
   <nav class="flex gap-6 items-center">
     {rightLinks?.map((item: any) => (
       <a href={item.href}>{item.label}</a>
