@@ -1,12 +1,12 @@
 import {defineCliConfig} from 'sanity/cli'
-import {loadEnv} from 'vite'
-
-const {PUBLIC_SANITY_PROJECT_ID} = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '')
 
 export default defineCliConfig({
   api: {
-    projectId: PUBLIC_SANITY_PROJECT_ID,
+    projectId: 'ydpqen8a',
     dataset: 'production',
+  },
+  deployment: {
+    appId: 'inmoinh3ugtee7qbvfnza73d',
   },
   /**
    * Enable auto-updates for studios.
