@@ -1,4 +1,6 @@
 ---
+import UnicornHero from "./UnicornHero.tsx";
+
 interface Props {
   title: string
   subtitle?: string
@@ -12,11 +14,9 @@ const { title, subtitle, description, ctaLabel, ctaHref } = Astro.props
 ---
 
 <section class="relative h-screen w-full overflow-hidden bg-[#0f0f0f]">
-  <img
-    src="/scene_remix_scene.png"
-    alt=""
-    class="absolute inset-0 w-full h-full object-cover"
-  />
+  <div class="absolute inset-0 w-full h-full">
+    <UnicornHero client:only="react" />
+  </div>
 
   {/* Gradient at bottom for text readability */}
   <div class="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-[#0f0f0f]/80 to-transparent lg:h-64" />
