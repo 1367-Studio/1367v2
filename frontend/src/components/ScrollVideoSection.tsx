@@ -60,7 +60,11 @@ export default function ScrollVideoSection() {
 
     const start = () => {
       computeTarget();
-      raf = requestAnimationFrame(tick);
+      // iOS requires a play/pause cycle before currentTime seeks work on a
+      // non-autoplay video. This unlocks the media element without visible playback.
+      video.play().then(() => { video.pause(); raf = requestAnimationFrame(tick); }).catch(() => {
+        raf = requestAnimationFrame(tick);
+      });
     };
 
     video.addEventListener('seeked', onSeeked);
@@ -96,6 +100,7 @@ export default function ScrollVideoSection() {
           src={VIDEO_SRC}
           muted
           playsInline
+          autoPlay
           preload="auto"
           className="h-full w-full object-cover"
         />
