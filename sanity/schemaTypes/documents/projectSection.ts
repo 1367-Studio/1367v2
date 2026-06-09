@@ -3,6 +3,7 @@ export default {
   title: 'Project Section',
   type: 'document',
   fields: [
+    { name: 'video', title: 'Background Video', type: 'file', options: { accept: 'video/*' } },
     { name: 'title', title: 'Title', type: 'string' },
     { name: 'subtitle', title: 'Subtitle', type: 'string' },
     { name: 'brandsLabel', title: 'Brands Label', type: 'string' },
