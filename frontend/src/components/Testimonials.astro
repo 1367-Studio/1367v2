@@ -53,7 +53,7 @@ const total = testimonials.length
             </div>
 
             <!-- Coluna 2: Quote + autor -->
-            <div class="flex flex-col gap-6 w-[250px]">
+            <div class="flex min-w-0 flex-col gap-6 lg:w-[250px]">
               <p class="font-[Geist] text-[16px] font-normal text-white" style="line-height: 104%; letter-spacing: -0.01em;">
                 &ldquo;{t.quote}&rdquo;
               </p>
@@ -77,14 +77,14 @@ const total = testimonials.length
         {brandsLabel}
       </p>
       <div class="p-0">
-        <div class="grid grid-cols-3 gap-x-8 gap-y-14">
+        <div class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-14">
           {brands.map((brand) => (
             <div class="flex items-center justify-start">
               {brand.logoUrl ? (
                 <img
                   src={brand.logoUrl}
                   alt={brand.alt || brand.name}
-                  class="object-contain brightness-0 invert" style="width: 174px; height: 42px;"
+                  class="max-w-full object-contain brightness-0 invert" style="height: 42px; width: auto; max-height: 42px;"
                 />
               ) : (
                 <span class="font-[Geist_Mono] text-[12px] text-white/40">{brand.name}</span>
