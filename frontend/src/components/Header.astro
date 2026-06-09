@@ -48,45 +48,20 @@ const rightLinks = header?.navigation?.filter((item: any) => item.position === '
   #site-header {
     opacity: 0;
     transform: translateY(-12px);
-    transition: transform 0.4s ease, opacity 0.5s ease, background-color 0.3s ease, backdrop-filter 0.3s ease;
+    transition: transform 0.4s ease, opacity 0.5s ease;
   }
 
   #site-header.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
-
-  #site-header.is-hidden {
-    transform: translateY(-100%);
-  }
-
-  #site-header.scrolled {
-    background-color: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
 </style>
 
 <script>
   const header = document.getElementById('site-header')!
-  let lastY = 0
 
   // Entrada: aguarda um frame para a transition capturar a mudança
   requestAnimationFrame(() => {
     setTimeout(() => header.classList.add('is-visible'), 200)
   })
-
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY
-
-    header.classList.toggle('scrolled', y > 60)
-
-    if (y > lastY && y > 120) {
-      header.classList.add('is-hidden')
-    } else {
-      header.classList.remove('is-hidden')
-    }
-
-    lastY = y
-  }, { passive: true })
 </script>

@@ -12,7 +12,7 @@ const { body } = Astro.props
 >
   <p
     id="statement-text"
-    class="relative z-10 mx-auto w-[90vw] max-w-[599px] text-center font-geist text-[clamp(22px,5vw,40px)] font-normal leading-[1.3] text-white"
+    class="relative z-10 mx-auto w-[90vw] max-w-[599px] text-center font-geist text-[clamp(22px,5vw,40px)] font-normal leading-[1.3]"
   >
     {body}
   </p>
@@ -45,7 +45,21 @@ const { body } = Astro.props
   const iframe  = document.getElementById('statement-iframe')
 
   if (section && text && iframe) {
-    gsap.set(text, { yPercent: 120, autoAlpha: 0 })
+    // Split the paragraph into words (so it still wraps) and each word into chars
+    const words = (text.textContent ?? '').trim().split(/\s+/)
+    text.innerHTML = words
+      .map(
+        (word) =>
+          `<span class="word" style="display:inline-block">${[...word]
+            .map((ch) => `<span class="char">${ch}</span>`)
+            .join('')}</span>`
+      )
+      .join(' ')
+
+    const chars = text.querySelectorAll('.char')
+
+    // Start grey + iframe below the fold
+    gsap.set(chars, { color: 'rgba(255,255,255,0.18)' })
     gsap.set(iframe, { yPercent: 200 })
 
     const tl = gsap.timeline({
@@ -59,13 +73,13 @@ const { body } = Astro.props
       },
     })
 
-    // Phase 1 — text enters from below
-    tl.to(text, { yPercent: 0, autoAlpha: 1, duration: 1, ease: 'power3.out' })
-    // Hold
-    tl.to({}, { duration: 0.5 })
-    // Phase 2 — iframe sobe por baixo, cortado pelo overflow-hidden da section
-    tl.to(iframe, { yPercent: -40, duration: 1, ease: 'power3.out' }, '<')
-    // Hold
-    tl.to({}, { duration: 0.3 })
+    // Phase 1 — each letter turns from grey to white as you scroll
+    tl.to(chars, {
+      color: 'rgba(255,255,255,1)',
+      ease: 'none',
+      stagger: { each: 0.04 },
+    })
+    // Phase 2 — iframe rises from below, clipped by the section's overflow-hidden
+    tl.to(iframe, { yPercent: -40, duration: 2, ease: 'power3.out' }, '>-0.5')
   }
 </script>
