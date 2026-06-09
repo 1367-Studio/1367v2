@@ -21,15 +21,17 @@ const doubled = [...marqueeItems, ...marqueeItems]
 <section id="video-project" style="height: 500vh;">
   <div id="video-project-inner" class="sticky top-0 h-screen w-full overflow-hidden bg-black">
 
-    <!-- Video layer -->
-    <video
-      id="scrub-video"
-      src={videoUrl}
-      muted
-      playsinline
-      preload="auto"
-      class="h-full w-full object-cover"
-    />
+    <!-- Video layer — wrapped in frame div -->
+    <div id="video-frame" class="absolute inset-0">
+      <video
+        id="scrub-video"
+        src={videoUrl}
+        muted
+        playsinline
+        preload="auto"
+        class="h-full w-full object-cover"
+      />
+    </div>
 
     <!-- Orange overlay -->
     <div
@@ -102,11 +104,12 @@ const doubled = [...marqueeItems, ...marqueeItems]
 
   const wrapper = document.getElementById('video-project') as HTMLElement
   const video   = document.getElementById('scrub-video')   as HTMLVideoElement
+  const frame   = document.getElementById('video-frame')   as HTMLElement
   const overlay = document.getElementById('orange-overlay') as HTMLElement
   const content = document.getElementById('project-content') as HTMLElement
   const marquee = document.getElementById('project-marquee') as HTMLElement | null
 
-  if (wrapper && video && overlay && content) {
+  if (wrapper && frame && video && overlay && content) {
     overlay.style.opacity = '0'
     content.style.opacity = '0'
     content.style.transform = 'translateY(60px)'
@@ -114,6 +117,8 @@ const doubled = [...marqueeItems, ...marqueeItems]
       marquee.style.opacity = '0'
       marquee.style.transform = 'translateY(20px)'
     }
+
+    const MAX_INSET = 80 // px de moldura no início
 
     const getProgress = () => {
       const rect = wrapper.getBoundingClientRect()
@@ -138,19 +143,25 @@ const doubled = [...marqueeItems, ...marqueeItems]
       const p = getProgress()
 
       if (videoReady && video.duration) {
-        video.currentTime = Math.min(1, p / 0.6) * video.duration
+        const videoProgress = Math.max(0, (p - 0.4) / 0.6)
+        video.currentTime = videoProgress * video.duration
       }
 
-      overlay.style.opacity = String(Math.max(0, Math.min(1, (p - 0.6) / 0.2)))
+      // ── Moldura preta (0% → 40% do scroll): 100px → 0px ────────
+      const frameProgress = Math.min(1, p / 0.4)
+      const inset = MAX_INSET * (1 - frameProgress)
+      frame.style.clipPath = `inset(${inset}px)`
+
+      overlay.style.opacity = String(Math.max(0, Math.min(1, (p - 0.4) / 0.6)))
 
       const cp = Math.max(0, Math.min(1, (p - 0.8) / 0.2))
       content.style.opacity   = String(cp)
       content.style.transform = `translateY(${(1 - cp) * 60}px)`
 
-      if (marquee) {
-        marquee.style.opacity   = String(cp)
-        marquee.style.transform = `translateY(${(1 - cp) * 20}px)`
-      }
+      // if (marquee) {
+      //   marquee.style.opacity   = String(cp)
+      //   marquee.style.transform = `translateY(${(1 - cp) * 20}px)`
+      // }
     })
   }
 </script>
