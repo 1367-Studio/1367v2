@@ -18,7 +18,7 @@ const [hero, statement, featuredCase, featuredCase2, projectSection, ticker, tes
   client.fetch(`*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`),
   client.fetch(`*[_type == "statementSection" && _id == "statementSection"][0]{ body }`),
   client.fetch(`*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`),
-  client.fetch(`*[_type == "featuredCase2Section" && _id == "featuredCase2Section"][0]{ tag, title, description, ctaLabel, ctaHref, image, imageTitle }`),
+  client.fetch(`*[_type == "featuredCase2Section" && _id == "featuredCase2Section"][0]{ tag, title, description, ctaLabel, ctaHref, panelTitle, items[]{ "iconSrc": icon.asset->url, "imageSrc": image.asset->url, title, subtitle } }`),
   client.fetch(`*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
   client.fetch(`*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`),
   client.fetch(`*[_type == "testimonialsSection"][0]{ testimonials[]{ quote, author, "avatarUrl": avatar.asset->url }, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
@@ -64,7 +64,7 @@ const [hero, statement, featuredCase, featuredCase2, projectSection, ticker, tes
     description={featuredCase2?.description}
     ctaLabel={featuredCase2?.ctaLabel ?? "VIEW PROJECT"}
     ctaHref={featuredCase2?.ctaHref ?? "#"}
-    imageSrc={featuredCase2?.image ? urlFor(featuredCase2.image) : undefined}
-    imageTitle={featuredCase2?.imageTitle}
+    panelTitle={featuredCase2?.panelTitle}
+    items={featuredCase2?.items ?? []}
   />
 </Layout>

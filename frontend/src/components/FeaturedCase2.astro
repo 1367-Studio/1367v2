@@ -1,12 +1,19 @@
 ---
+interface CardItem {
+  iconSrc?: string
+  imageSrc?: string
+  title?: string
+  subtitle?: string
+}
+
 interface Props {
   tag?: string
   title: string
   description?: string
   ctaLabel?: string
   ctaHref?: string
-  imageSrc?: string
-  imageTitle?: string
+  panelTitle?: string
+  items?: CardItem[]
 }
 
 const {
@@ -15,14 +22,14 @@ const {
   description,
   ctaHref = '#',
   ctaLabel,
-  imageSrc,
-  imageTitle,
-   } = Astro.props
+  panelTitle,
+  items = [],
+} = Astro.props
 ---
 
 <section id="featured-case-2" class="sticky top-0 flex flex-col lg:flex-row overflow-hidden" style="z-index: 2; height: 100dvh;">
 
- <!-- Left: dark panel -->
+  <!-- Left: dark panel -->
   <div id="fc2-left" class="relative flex w-full lg:w-1/2 flex-col justify-center gap-8 bg-black px-6 py-12 lg:px-12 lg:py-10">
     {tag && (
       <span class="font-[Geist_Mono] text-[12px] uppercase tracking-widest text-white">
@@ -40,7 +47,7 @@ const {
         </p>
       )}
     </div>
-      <a
+    <a
       href={ctaHref}
       class="mt-4 font-[Geist_Mono] text-[12px] uppercase tracking-widest text-white"
     >
@@ -48,12 +55,74 @@ const {
     </a>
   </div>
 
-  {/* Right: light panel */}
-  <div id="fc2-right" class="flex flex-col relative w-full h-[60vh] lg:h-auto flex-1 min-h-0 lg:w-1/2 bg-[#e8e0d4] py-12">
-  <h3 class="text-ink text-xl md:text-2xl text-center py-8 whitespace-nowrap">{imageTitle}</h3>
-  <div class="self-end w-9/10 h-[80%] overflow-hidden rounded-l-lg">
-    <img src={imageSrc} alt="smailing people working" class="h-full w-full object-contain" />
+  <!-- Right: cards panel -->
+  <div id="fc2-right" class="flex flex-col justify-center relative w-full flex-1 min-h-0 lg:w-1/2 bg-[#fffaed] py-8 lg:py-0">
+    <div class="flex flex-col gap-6 lg:gap-10 w-full pl-6 lg:pl-12">
+      {panelTitle && (
+        <h3 class="fc2-panel-title" style="font-family: 'Playfair Display', serif; font-weight: 400; font-size: 32px; line-height: 100%; letter-spacing: 0%; text-align: center; color: #191919;">{panelTitle}</h3>
+      )}
+      <div class="fc2-cards flex flex-col lg:flex-row gap-4 lg:gap-6">
+        {items.map((item, i) => (
+          <div class="fc2-card relative overflow-hidden" style="border-radius: 8px; opacity: 1;">
+            {item.imageSrc && (
+              <img src={item.imageSrc} alt={item.title ?? ''} class={`absolute inset-0 h-full w-full object-cover ${i === 1 ? 'object-right' : ''}`} />
+            )}
+
+            {item.iconSrc && (
+              <img src={item.iconSrc} alt="" class="absolute z-10 object-contain" style="width: 28px; height: 28px; top: 24px; left: 24px;" />
+            )}
+
+            <div class="absolute bottom-0 left-0 right-0 p-4" style="background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);">
+              {item.title && (
+                <p class="font-[Inter] font-semibold leading-[1.3] text-white" style="font-size: clamp(16px, 2vw, 24px);">
+                  {item.title}
+                </p>
+              )}
+              {item.subtitle && (
+                <p class="mt-1 font-[Inter] font-normal leading-[1.4] text-white" style="font-size: clamp(13px, 1.5vw, 16px);">
+                  {item.subtitle}
+                </p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   </div>
-</div>
 
 </section>
+
+<style>
+  /* Desktop: cards preenchem o painel, altura fixa */
+  @media (min-width: 1024px) {
+    .fc2-cards {
+      width: 100%;
+    }
+    .fc2-card {
+      flex: 1;
+      height: 520px;
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .fc2-cards {
+      width: 100%;
+    }
+    .fc2-card {
+      width: 100%;
+      height: 240px;
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    .fc2-cards {
+      width: 100%;
+    }
+    .fc2-card {
+      width: 100%;
+      height: 140px;
+    }
+  }
+</style>
