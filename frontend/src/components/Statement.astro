@@ -44,14 +44,9 @@ const { body } = Astro.props
   const text    = document.getElementById('statement-text')
   const iframe  = document.getElementById('statement-iframe')
 
-  const overlay = document.getElementById('statement-iframe-overlay')
-
-  if (section && text && iframe && overlay) {
+  if (section && text && iframe) {
     gsap.set(text, { yPercent: 120, autoAlpha: 0 })
-    // iframe wrapper só translada — nunca muda opacity para não throttle o browser
-    gsap.set(iframe, { yPercent: 120 })
-    // overlay começa totalmente opaco (esconde o iframe sem mudar sua opacity)
-    gsap.set(overlay, { opacity: 1 })
+    gsap.set(iframe, { yPercent: 200 })
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -68,9 +63,8 @@ const { body } = Astro.props
     tl.to(text, { yPercent: 0, autoAlpha: 1, duration: 1, ease: 'power3.out' })
     // Hold
     tl.to({}, { duration: 0.5 })
-    // Phase 2 — iframe entra por baixo E overlay desaparece (iframe sempre opacity:1)
-    tl.to(iframe,  { yPercent: -40, duration: 1, ease: 'power3.out' }, '<')
-    tl.to(overlay, { opacity: 0,    duration: 1, ease: 'power3.out' }, '<')
+    // Phase 2 — iframe sobe por baixo, cortado pelo overflow-hidden da section
+    tl.to(iframe, { yPercent: -40, duration: 1, ease: 'power3.out' }, '<')
     // Hold
     tl.to({}, { duration: 0.3 })
   }
