@@ -5,6 +5,13 @@ import Hero from "@/components/Hero.astro";
 import ProjectSection from "@/components/ProjectSection.astro";
 import ScrollVideoSection from "@/components/ScrollVideoSection.tsx"
 import { client } from "@/lib/sanity"
+import FeaturedCase2 from "@/components/FeaturedCase2.astro";
+import imageUrlBuilder from '@sanity/image-url'
+
+const builder = imageUrlBuilder(client)
+function urlFor(source: any) {
+  return builder.image(source).url()
+}
 
 const page = await client.fetch(`
   *[_type == "page" && identifier == "home"][0]{
@@ -30,25 +37,36 @@ const page = await client.fetch(`
       items[] {
         label
       }
-    }
+    },
+    featuredCase2 { tag, title, description, ctaLabel, ctaHref, image, imageTitle }
   }
 `)
 ---
+
 <Layout title="1367 — Studio">
   <Hero
-    title={page.hero.title}
-    subtitle={page.hero.subtitle}
-    description={page.hero.description}
-    ctaLabel={page.hero.ctaLabel}
-    ctaHref={page.hero.ctaHref}
-    videoUrl={page.hero.videoUrl}
+    title={page?.hero?.title ?? ''}
+    subtitle={page?.hero?.subtitle ?? ''}
+    description={page?.hero?.description ?? ''}
+    ctaLabel={page?.hero?.ctaLabel ?? ''}
+    ctaHref={page?.hero?.ctaHref ?? ''}
+    videoUrl={page?.hero?.videoUrl ?? ''}
   />
   <ScrollVideoSection client:load />
   <ProjectSection
-  title={page.projects?.title ?? ''}
-  subtitle={page.projects?.subtitle ?? ''}
-  brandsLabel={page.projects?.brandsLabel ?? ''}
-  brands={page.projects?.brands ?? []}
-/>
-  <Marquee items={page?.marquee?.items ?? []}/>
+    title={page?.projects?.title ?? ''}
+    subtitle={page?.projects?.subtitle ?? ''}
+    brandsLabel={page?.projects?.brandsLabel ?? ''}
+    brands={page?.projects?.brands ?? []}
+  />
+  <Marquee items={page?.marquee?.items ?? []} />
+  <FeaturedCase2
+    tag={page.featuredCase2?.tag}
+    title={page.featuredCase2?.title}
+    description={page.featuredCase2?.description}
+    ctaLabel={page.featuredCase2?.ctaLabel}
+    ctaHref={page.featuredCase2?.ctaHref}
+    imageSrc={page.featuredCase2?.image ? urlFor(page.featuredCase2.image) : undefined}
+    imageTitle={page.featuredCase2?.imageTitle}
+  />
 </Layout>
