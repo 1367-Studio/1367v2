@@ -1,11 +1,11 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Marquee from "@/components/Marquee.astro";
 import Hero from "@/components/Hero.astro";
-import ProjectSection from "@/components/ProjectSection.astro";
-import ScrollVideoSection from "@/components/ScrollVideoSection.tsx"
-import { client } from "@/lib/sanity"
+import Statement from "@/components/Statement.astro";
+import FeaturedCase from "@/components/FeaturedCase.astro";
 import FeaturedCase2 from "@/components/FeaturedCase2.astro";
+import VideoProjectSection from "@/components/VideoProjectSection.astro"
+import { client } from "@/lib/sanity"
 import imageUrlBuilder from '@sanity/image-url'
 
 const builder = imageUrlBuilder(client)
@@ -13,60 +13,51 @@ function urlFor(source: any) {
   return builder.image(source).url()
 }
 
-const page = await client.fetch(`
-  *[_type == "page" && identifier == "home"][0]{
-    hero {
-      title,
-      subtitle,
-      description,
-      ctaLabel,
-      ctaHref,
-      "videoUrl": video.asset->url
-    },
-    projects {
-      title,
-      subtitle,
-      brandsLabel,
-      brands[] {
-        name,
-        "logoUrl": logo.asset->url,
-        "alt": logo.alt
-      }
-    },
-    marquee {
-      items[] {
-        label
-      }
-    },
-    featuredCase2 { tag, title, description, ctaLabel, ctaHref, image, imageTitle }
-  }
-`)
+const [hero, statement, featuredCase, featuredCase2, projectSection, ticker] = await Promise.all([
+  client.fetch(`*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`),
+  client.fetch(`*[_type == "statementSection" && _id == "statementSection"][0]{ body }`),
+  client.fetch(`*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`),
+  client.fetch(`*[_type == "featuredCase2Section" && _id == "featuredCase2Section"][0]{ tag, title, description, ctaLabel, ctaHref, image, imageTitle }`),
+  client.fetch(`*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
+  client.fetch(`*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`),
+])
 ---
-
 <Layout title="1367 — Studio">
   <Hero
-    title={page?.hero?.title ?? ''}
-    subtitle={page?.hero?.subtitle ?? ''}
-    description={page?.hero?.description ?? ''}
-    ctaLabel={page?.hero?.ctaLabel ?? ''}
-    ctaHref={page?.hero?.ctaHref ?? ''}
-    videoUrl={page?.hero?.videoUrl ?? ''}
+    title={hero?.title ?? "Designing the future, one pixel at a time."}
+    subtitle={hero?.subtitle ?? ""}
+    description={hero?.description ?? "We build digital experiences that scale with your business."}
+    ctaLabel={hero?.ctaLabel ?? "BOOK A CALL"}
+    ctaHref={hero?.ctaHref ?? "#"}
+    videoUrl={hero?.videoUrl}
   />
-  <ScrollVideoSection client:load />
-  <ProjectSection
-    title={page?.projects?.title ?? ''}
-    subtitle={page?.projects?.subtitle ?? ''}
-    brandsLabel={page?.projects?.brandsLabel ?? ''}
-    brands={page?.projects?.brands ?? []}
+  <Statement body={statement?.body ?? "We don't just build websites. We engineer digital experiences and custom software that solve real problems and scale with your business."} />
+  <VideoProjectSection
+    videoUrl={projectSection?.videoUrl ?? '/cinematic-reflection.mp4'}
+    title={projectSection?.title ?? "We build ambitious digital products."}
+    subtitle={projectSection?.subtitle ?? "From brand identity to scalable software, we partner with companies that want to lead."}
+    brandsLabel={projectSection?.brandsLabel ?? "Trusted by"}
+    brands={projectSection?.brands ?? []}
+    marqueeItems={ticker?.items ?? []}
   />
-  <Marquee items={page?.marquee?.items ?? []} />
+  <FeaturedCase
+    tag={featuredCase?.tag}
+    title={featuredCase?.title ?? "Temporary Staffing Platform & Custom Website"}
+    description={featuredCase?.description ?? "We supported ADD Temp in the design and development of a complete digital platform dedicated to temporary workforce management. To create a centralized hub to efficiently manage applicants, job offers and client relations, while delivering a smooth and modern user experience."}
+    ctaLabel={featuredCase?.ctaLabel ?? "VIEW PROJECT"}
+    ctaHref={featuredCase?.ctaHref ?? "#"}
+    imageSrc={featuredCase?.image ? urlFor(featuredCase.image) : undefined}
+    cardTitle={featuredCase?.cardTitle ?? "Offre d'emploi Macon, VRD (H/F), Nimes (30)"}
+    cardSubtitle={featuredCase?.cardSubtitle ?? "Sous la responsabilité du chef de chantier, vous aurez pour mission : Sécurisation du chantier"}
+    cardCta={featuredCase?.cardCta ?? "Voir offre"}
+  />
   <FeaturedCase2
-    tag={page.featuredCase2?.tag}
-    title={page.featuredCase2?.title}
-    description={page.featuredCase2?.description}
-    ctaLabel={page.featuredCase2?.ctaLabel}
-    ctaHref={page.featuredCase2?.ctaHref}
-    imageSrc={page.featuredCase2?.image ? urlFor(page.featuredCase2.image) : undefined}
-    imageTitle={page.featuredCase2?.imageTitle}
+    tag={featuredCase2?.tag}
+    title={featuredCase2?.title ?? ""}
+    description={featuredCase2?.description}
+    ctaLabel={featuredCase2?.ctaLabel ?? "VIEW PROJECT"}
+    ctaHref={featuredCase2?.ctaHref ?? "#"}
+    imageSrc={featuredCase2?.image ? urlFor(featuredCase2.image) : undefined}
+    imageTitle={featuredCase2?.imageTitle}
   />
 </Layout>
