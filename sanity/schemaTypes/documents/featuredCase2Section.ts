@@ -18,12 +18,23 @@ export default {
       initialValue: 'VIEW PROJECT',
     },
     { name: 'ctaHref', title: 'Button — Link', type: 'string' },
+    { name: 'panelTitle', title: 'Panel Title (right)', type: 'string' },
     {
-      name: 'image',
-      title: 'Image (right panel)',
-      type: 'image',
-      options: { hotspot: true },
+      name: 'items',
+      title: 'Cards (right panel)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            { name: 'icon', title: 'Icon (top-left)', type: 'image', options: { hotspot: true } },
+            { name: 'image', title: 'Main Photo', type: 'image', options: { hotspot: true } },
+            { name: 'title', title: 'Title', type: 'string' },
+            { name: 'subtitle', title: 'Subtitle', type: 'string' },
+          ],
+        },
+      ],
+      validation: (Rule: any) => Rule.max(2),
     },
-    { name: 'imageTitle', title: 'Image — Title', type: 'string' },
   ],
 }
