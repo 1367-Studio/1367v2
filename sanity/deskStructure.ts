@@ -50,6 +50,13 @@ const deskStructure = (S: StructureBuilder) =>
                     .documentId('featuredCaseSection'),
                 ),
               S.listItem()
+                .title('Featured Case 2 Section')
+                .child(
+                  S.editor()
+                    .schemaType('featuredCase2Section')
+                    .documentId('featuredCase2Section'),
+                ),
+              S.listItem()
                 .title('Project Section')
                 .child(
                   S.editor()

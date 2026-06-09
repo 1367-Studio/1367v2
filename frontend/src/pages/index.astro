@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Hero from "@/components/Hero.astro";
 import Statement from "@/components/Statement.astro";
 import FeaturedCase from "@/components/FeaturedCase.astro";
+import FeaturedCase2 from "@/components/FeaturedCase2.astro";
 import VideoProjectSection from "@/components/VideoProjectSection.astro"
 import { client } from "@/lib/sanity"
 import imageUrlBuilder from '@sanity/image-url'
@@ -12,10 +13,11 @@ function urlFor(source: any) {
   return builder.image(source).url()
 }
 
-const [hero, statement, featuredCase, projectSection, ticker] = await Promise.all([
+const [hero, statement, featuredCase, featuredCase2, projectSection, ticker] = await Promise.all([
   client.fetch(`*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`),
   client.fetch(`*[_type == "statementSection" && _id == "statementSection"][0]{ body }`),
   client.fetch(`*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`),
+  client.fetch(`*[_type == "featuredCase2Section" && _id == "featuredCase2Section"][0]{ tag, title, description, ctaLabel, ctaHref, image, imageTitle }`),
   client.fetch(`*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
   client.fetch(`*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`),
 ])
@@ -48,5 +50,14 @@ const [hero, statement, featuredCase, projectSection, ticker] = await Promise.al
     cardTitle={featuredCase?.cardTitle ?? "Offre d'emploi Macon, VRD (H/F), Nimes (30)"}
     cardSubtitle={featuredCase?.cardSubtitle ?? "Sous la responsabilité du chef de chantier, vous aurez pour mission : Sécurisation du chantier"}
     cardCta={featuredCase?.cardCta ?? "Voir offre"}
+  />
+  <FeaturedCase2
+    tag={featuredCase2?.tag}
+    title={featuredCase2?.title ?? ""}
+    description={featuredCase2?.description}
+    ctaLabel={featuredCase2?.ctaLabel ?? "VIEW PROJECT"}
+    ctaHref={featuredCase2?.ctaHref ?? "#"}
+    imageSrc={featuredCase2?.image ? urlFor(featuredCase2.image) : undefined}
+    imageTitle={featuredCase2?.imageTitle}
   />
 </Layout>
