@@ -24,9 +24,9 @@ const {
 } = Astro.props
 ---
 
-<section id="featured-case" class="flex flex-col lg:flex-row lg:h-screen">
+<section id="featured-case" class="sticky top-0 flex flex-col lg:flex-row h-screen" style="z-index: 1;">
   <!-- Left: dark panel -->
-  <div class="relative flex w-full lg:w-1/2 flex-col justify-center gap-8 bg-black px-6 py-12 lg:px-12 lg:py-10">
+  <div id="fc-left" class="relative flex w-full lg:w-1/2 flex-col justify-center gap-8 bg-black px-6 py-12 lg:px-12 lg:py-10">
     {tag && (
       <span class="font-[Geist_Mono] text-[12px] uppercase tracking-widest text-white">
         {tag}
@@ -53,7 +53,7 @@ const {
   </div>
 
   <!-- Right: light panel -->
-  <div class="relative w-full h-[60vh] lg:h-auto lg:w-1/2 bg-[#e8e0d4]">
+  <div id="fc-right" class="relative w-full h-[60vh] lg:h-auto lg:w-1/2 bg-[#e8e0d4]">
     {imageSrc && (
       <img
         src={imageSrc}
@@ -97,6 +97,8 @@ const {
     const section = document.getElementById('featured-case')
     if (!section) return
 
+    gsap.registerPlugin(ScrollTrigger)
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
@@ -105,28 +107,18 @@ const {
     })
 
     const tag = section.querySelector('span')
-    if (tag) {
-      tl.fromTo(tag, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0)
-    }
+    if (tag) tl.fromTo(tag, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0)
 
     const titleEl = section.querySelector('#featured-title') as HTMLElement
     if (titleEl) {
       const split = new SplitType(titleEl, { types: 'lines' })
-      tl.fromTo(
-        split.lines,
-        { opacity: 0, y: 24 },
-        { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out' },
-        0.1
-      )
+      tl.fromTo(split.lines, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out' }, 0.1)
     }
 
     const desc = section.querySelector('p')
-    const cta = section.querySelector('a')
+    const cta  = section.querySelector('a')
     if (desc) tl.fromTo(desc, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.3)
-    if (cta) tl.fromTo(cta, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.45)
-
-    const card = section.querySelector('.absolute.bottom-8') as HTMLElement
-    if (card) tl.fromTo(card, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.3)
+    if (cta)  tl.fromTo(cta,  { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, 0.45)
 
     ScrollTrigger.refresh()
   })
