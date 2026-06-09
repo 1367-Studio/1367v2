@@ -1,11 +1,9 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Marquee from "@/components/Marquee.astro";
 import Hero from "@/components/Hero.astro";
 import Statement from "@/components/Statement.astro";
 import FeaturedCase from "@/components/FeaturedCase.astro";
-import ProjectSection from "@/components/ProjectSection.astro";
-import ScrollVideoSection from "@/components/ScrollVideoSection.tsx"
+import VideoProjectSection from "@/components/VideoProjectSection.astro"
 import { client } from "@/lib/sanity"
 import imageUrlBuilder from '@sanity/image-url'
 
@@ -18,7 +16,7 @@ const [hero, statement, featuredCase, projectSection, ticker] = await Promise.al
   client.fetch(`*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`),
   client.fetch(`*[_type == "statementSection" && _id == "statementSection"][0]{ body }`),
   client.fetch(`*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`),
-  client.fetch(`*[_type == "projectSection" && _id == "projectSection"][0]{ title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
+  client.fetch(`*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
   client.fetch(`*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`),
 ])
 ---
@@ -32,7 +30,14 @@ const [hero, statement, featuredCase, projectSection, ticker] = await Promise.al
     videoUrl={hero?.videoUrl}
   />
   <Statement body={statement?.body ?? "We don't just build websites. We engineer digital experiences and custom software that solve real problems and scale with your business."} />
-  <ScrollVideoSection client:load />
+  <VideoProjectSection
+    videoUrl={projectSection?.videoUrl ?? '/cinematic-reflection.mp4'}
+    title={projectSection?.title ?? "We build ambitious digital products."}
+    subtitle={projectSection?.subtitle ?? "From brand identity to scalable software, we partner with companies that want to lead."}
+    brandsLabel={projectSection?.brandsLabel ?? "Trusted by"}
+    brands={projectSection?.brands ?? []}
+    marqueeItems={ticker?.items ?? []}
+  />
   <FeaturedCase
     tag={featuredCase?.tag}
     title={featuredCase?.title ?? "Temporary Staffing Platform & Custom Website"}
@@ -44,11 +49,4 @@ const [hero, statement, featuredCase, projectSection, ticker] = await Promise.al
     cardSubtitle={featuredCase?.cardSubtitle ?? "Sous la responsabilité du chef de chantier, vous aurez pour mission : Sécurisation du chantier"}
     cardCta={featuredCase?.cardCta ?? "Voir offre"}
   />
-  <ProjectSection
-    title={projectSection?.title ?? ''}
-    subtitle={projectSection?.subtitle ?? ''}
-    brandsLabel={projectSection?.brandsLabel ?? ''}
-    brands={projectSection?.brands ?? []}
-  />
-  <Marquee items={ticker?.items ?? []} />
 </Layout>

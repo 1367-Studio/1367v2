@@ -1,4 +1,6 @@
 ---
+import HeroScene from "./HeroScene.tsx"
+
 interface Props {
   title: string
   subtitle?: string
@@ -8,17 +10,13 @@ interface Props {
   videoUrl?: string
 }
 
-const { title, subtitle, description, ctaLabel, ctaHref, videoUrl } = Astro.props
-
-const SDK_URL = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.2.1/dist/unicornStudio.umd.js"
+const { title, subtitle, description, ctaLabel, ctaHref } = Astro.props
 ---
 
 <section class="relative h-screen w-full overflow-hidden bg-[#0f0f0f]">
-  <div
-    id="unicorn-scene"
-    class="absolute inset-0 w-full h-full overflow-hidden"
-    style="display:flex;align-items:flex-start;"
-  />
+  <div class="absolute inset-0 w-full h-full overflow-hidden">
+    <HeroScene client:load />
+  </div>
 
   {/* Gradient at bottom for text readability */}
   <div class="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-[#0f0f0f]/80 to-transparent lg:h-64" />
@@ -45,22 +43,13 @@ const SDK_URL = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2
   </div>
 </section>
 
-<script define:vars={{ SDK_URL }}>
-  (function () {
-    function initScene() {
-      if (!window.UnicornStudio) return
-      window.UnicornStudio.addScene({
-        elementId: "unicorn-scene",
-        filePath: "/scene.json",
-        scale: 1,
-        dpi: 1.5,
-        lazyLoad: false,
-      })
-    }
-
-    var script = document.createElement("script")
-    script.src = SDK_URL
-    script.onload = initScene
-    document.head.appendChild(script)
-  })()
+<script>
+  function scaleHeroScene() {
+    const scaleX = window.innerWidth / 1440;
+    const scaleY = window.innerHeight / 900;
+    const scale = Math.max(scaleX, scaleY);
+    document.documentElement.style.setProperty("--hero-scale", String(scale));
+  }
+  scaleHeroScene();
+  window.addEventListener("resize", scaleHeroScene);
 </script>

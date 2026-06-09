@@ -5,7 +5,7 @@ export const client = createClient({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
   dataset: import.meta.env.PUBLIC_SANITY_DATASET,
   apiVersion: '2024-01-01',
-  useCdn: true,
+  useCdn: import.meta.env.PROD,
 });
 
 const builder = imageUrlBuilder(client);
