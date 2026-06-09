@@ -26,6 +26,11 @@ export default {
       type: 'projects',
     },
     {
+      name: 'featuredCase2',
+      title: 'Featured Case 2',
+      type: 'featuredCase2',
+    },
+    {
       name: 'marquee',
       title: 'Marquee',
       type: 'marquee',
