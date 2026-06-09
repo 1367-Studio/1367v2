@@ -1,0 +1,114 @@
+---
+interface Location {
+  city: string
+  country: string
+  phone?: string
+  address?: string
+}
+
+interface NavLink {
+  label: string
+  href: string
+}
+
+interface Props {
+  heading?: string
+  ctaLabel?: string
+  ctaHref?: string
+  navLinks?: NavLink[]
+  locations?: Location[]
+  logoSrc?: string
+}
+
+const {
+  heading = "Let's design\nwhat's next.",
+  ctaLabel = 'CONTACT US',
+  ctaHref = '#',
+  navLinks = [
+    { label: 'Projects', href: '#' },
+    { label: 'About us', href: '#' },
+    { label: 'Privacy Policy', href: '#' },
+    { label: 'Legal Notice', href: '#' },
+    { label: 'Get in touch', href: '#' },
+  ],
+  locations = [
+    { city: 'Marseille', country: 'France', phone: '+33 07 63 85 83 88' },
+    { city: 'London', country: 'UK', phone: '+33 07 63 85 83 88' },
+    { city: 'Florianópolis', country: 'Brazil', phone: '48 99195-8826', address: 'SC-405, 4397 - Campeche,\nFlorianópolis - SC, 88065-000\nOKA SHOPPING' },
+  ],
+  logoSrc,
+} = Astro.props
+---
+
+<footer id="site-footer" class="relative overflow-hidden bg-primary">
+  <!-- Top content -->
+  <div class="relative z-20 flex flex-col gap-10 px-6 pt-12 pb-0 lg:flex-row lg:items-start lg:px-12 lg:pt-16 lg:gap-0">
+    <!-- Left: logo + heading + CTA -->
+    <div class="flex flex-col gap-10 lg:w-[58%]">
+      {logoSrc ? (
+        <img src={logoSrc} alt="1367 Studio" class="h-8 w-auto object-contain" />
+      ) : (
+        <span class="font-[Geist] text-[20px] font-bold text-white">1367</span>
+      )}
+      <h2 class="font-[Geist] text-[40px] font-normal leading-[1.04] tracking-[-0.01em] text-white whitespace-pre-line">
+        {heading}
+      </h2>
+      <a
+        href={ctaHref}
+        class="inline-flex w-fit items-center justify-center rounded-lg bg-white px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-primary"
+      >
+        {ctaLabel}
+      </a>
+    </div>
+
+    <!-- Right group: nav + locations -->
+    <div class="flex flex-col gap-10 lg:flex-1 lg:flex-row lg:justify-between">
+
+    <!-- Center: nav links -->
+    <nav class="flex flex-col gap-7 lg:pt-2">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class="font-[Geist] text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-white transition-opacity hover:opacity-60"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Right: locations -->
+    <div class="flex flex-col gap-11 lg:pt-2">
+      {locations.map((loc) => (
+        <div>
+          <p class="font-[Geist] text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-white">
+            {loc.city}, {loc.country}
+          </p>
+          {loc.phone && (
+            <p class="mt-2 font-[Geist] text-[14px] font-normal leading-[1.2] tracking-[-0.01em] text-white">{loc.phone}</p>
+          )}
+          {loc.address && (
+            <p class="mt-2 font-[Geist] text-[14px] font-normal leading-[1.2] tracking-[-0.01em] text-white whitespace-pre-line">
+              {loc.address}
+            </p>
+          )}
+        </div>
+      ))}
+    </div>
+
+    </div> <!-- end right group -->
+  </div>
+
+  <!-- Endless Tools animation -->
+  <iframe
+    src="https://app.endlesstools.io/embed/8be04683-240c-40ba-b873-845f8bbb646c"
+    allowtransparency="true"
+    frameborder="0"
+    allow="clipboard-write; encrypted-media; gyroscope; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    title=""
+    aria-hidden="true"
+    class="block rounded-xl"
+    
+    style="background-color: transparent; display: block; width:100%;  height: 55vh; margin: 0 40px -160px;"
+  />
+</footer>
