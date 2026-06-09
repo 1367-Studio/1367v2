@@ -56,8 +56,8 @@ const {
   </div>
 
   <!-- Right: cards panel -->
-  <div id="fc2-right" class="flex flex-col justify-center relative w-full flex-1 min-h-0 lg:w-1/2 bg-[#fffaed] py-8 lg:py-0">
-    <div class="flex flex-col gap-6 lg:gap-10 w-full pl-6 lg:pl-12">
+  <div id="fc2-right" class="flex flex-col items-center lg:items-stretch justify-center relative w-full flex-1 min-h-0 lg:w-1/2 bg-[#fffaed] py-8 lg:py-0">
+    <div class="flex flex-col gap-6 lg:gap-10 w-full lg:pl-12">
       {panelTitle && (
         <h3 class="fc2-panel-title" style="font-family: 'Playfair Display', serif; font-weight: 400; font-size: 32px; line-height: 100%; letter-spacing: 0%; text-align: center; color: #191919;">{panelTitle}</h3>
       )}
@@ -119,6 +119,8 @@ const {
   @media (max-width: 767px) {
     .fc2-cards {
       width: 100%;
+      padding-left: 24px;
+      padding-right: 24px;
     }
     .fc2-card {
       width: 100%;

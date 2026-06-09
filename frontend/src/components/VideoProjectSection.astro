@@ -28,6 +28,7 @@ const doubled = [...marqueeItems, ...marqueeItems]
         src={videoUrl}
         muted
         playsinline
+        autoplay
         preload="auto"
         class="h-full w-full object-cover"
       />
@@ -129,8 +130,10 @@ const doubled = [...marqueeItems, ...marqueeItems]
     let videoReady = false
 
     const onVideoReady = () => {
-      video.currentTime = 0
-      videoReady = true
+      // iOS requires a play/pause cycle before currentTime seeks work on a
+      // non-autoplay video. This unlocks the media element without visible playback.
+      video.play().then(() => { video.pause(); video.currentTime = 0; videoReady = true })
+           .catch(() => { video.currentTime = 0; videoReady = true })
     }
 
     if (video.readyState >= 1) {
