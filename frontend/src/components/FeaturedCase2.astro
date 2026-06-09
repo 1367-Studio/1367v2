@@ -20,7 +20,7 @@ const {
    } = Astro.props
 ---
 
-<section id="featured-case-2" class="sticky top-0 flex flex-col lg:flex-row h-screen" style="z-index: 2;">
+<section id="featured-case-2" class="sticky top-0 flex flex-col lg:flex-row overflow-hidden" style="z-index: 2; height: 100dvh;">
 
  <!-- Left: dark panel -->
   <div id="fc2-left" class="relative flex w-full lg:w-1/2 flex-col justify-center gap-8 bg-black px-6 py-12 lg:px-12 lg:py-10">
@@ -49,7 +49,7 @@ const {
   </div>
 
   {/* Right: light panel */}
-  <div id="fc2-right" class="flex flex-col relative w-full h-[60vh] lg:h-auto lg:w-1/2 bg-[#e8e0d4] py-12">
+  <div id="fc2-right" class="flex flex-col relative w-full flex-1 min-h-0 lg:w-1/2 bg-[#e8e0d4] py-12">
   <h3 class="text-ink text-2xl text-center py-8">{imageTitle}</h3>
   <div class="self-end w-9/10 h-[80%] overflow-hidden rounded-l-lg">
     <img src={imageSrc} alt="smailing people working" class="h-full w-full object-contain" />

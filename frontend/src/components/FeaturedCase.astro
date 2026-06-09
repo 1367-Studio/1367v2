@@ -24,7 +24,7 @@ const {
 } = Astro.props
 ---
 
-<section id="featured-case" class="sticky top-0 flex flex-col lg:flex-row h-screen" style="z-index: 1;">
+<section id="featured-case" class="sticky top-0 flex flex-col lg:flex-row overflow-hidden" style="z-index: 1; height: 100dvh;">
   <!-- Left: dark panel -->
   <div id="fc-left" class="relative flex w-full lg:w-1/2 flex-col justify-center gap-8 bg-black px-6 py-12 lg:px-12 lg:py-10">
     {tag && (
@@ -53,7 +53,7 @@ const {
   </div>
 
   <!-- Right: light panel -->
-  <div id="fc-right" class="relative w-full h-[60vh] lg:h-auto lg:w-1/2 bg-[#e8e0d4]">
+  <div id="fc-right" class="relative w-full flex-1 min-h-0 lg:w-1/2 bg-[#e8e0d4]">
     {imageSrc && (
       <img
         src={imageSrc}

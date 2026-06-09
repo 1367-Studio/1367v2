@@ -50,7 +50,7 @@ const {
       ) : (
         <span class="font-[Geist] text-[20px] font-bold text-white">1367</span>
       )}
-      <h2 class="font-[Geist] text-[40px] font-normal leading-[1.04] tracking-[-0.01em] text-white whitespace-pre-line">
+      <h2 class="font-[Geist] text-[28px] lg:text-[40px] font-normal leading-[1.04] tracking-[-0.01em] text-white whitespace-pre-line">
         {heading}
       </h2>
       <a
@@ -99,46 +99,59 @@ const {
   </div>
 
   <!-- Endless Tools animation -->
-  <div id="footer-iframe-wrap" style="position:relative; display:block; width:100%; height:55vh; margin: 0 40px -200px;">
-    <div id="footer-iframe-skeleton" style="position:absolute;inset:0;background:linear-gradient(90deg,#111 25%,#1a1a1a 50%,#111 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:12px;"></div>
+  <div id="footer-iframe-outer" style="position:relative; overflow:hidden; margin-bottom:-200px;">
+    <div id="footer-iframe-skeleton" style="position:absolute;inset:0;background:linear-gradient(90deg,#111 25%,#1a1a1a 50%,#111 75%);background-size:200% 100%;border-radius:12px;"></div>
     <iframe
       id="footer-iframe"
       src="https://app.endlesstools.io/embed/8be04683-240c-40ba-b873-845f8bbb646c"
       allowtransparency="true"
       frameborder="0"
+      loading="lazy"
       allow="clipboard-write; encrypted-media; gyroscope; web-share"
       referrerpolicy="strict-origin-when-cross-origin"
       aria-hidden="true"
-      class="block rounded-xl"
-      style="position:fixed;top:0;left:0;width:100%;height:55vh;opacity:0;pointer-events:none;z-index:-1;background:transparent;border:none;"
+      style="display:block; width:100%; height:55vh; border:none; background:transparent; opacity:0; pointer-events:none;"
     />
   </div>
 </footer>
 
-<style>
-  @keyframes shimmer {
+<style is:global>
+  @keyframes footer-shimmer {
     0%   { background-position: 200% 0; }
     100% { background-position: -200% 0; }
   }
+
+  #footer-iframe-skeleton {
+    animation: footer-shimmer 1.5s infinite;
+  }
+
 </style>
 
 <script>
-  const iframe = document.getElementById('footer-iframe') as HTMLIFrameElement | null
+  const iframe  = document.getElementById('footer-iframe') as HTMLIFrameElement | null
   const skeleton = document.getElementById('footer-iframe-skeleton')
+  const outer   = document.getElementById('footer-iframe-outer') as HTMLElement | null
 
   if (iframe) {
     iframe.addEventListener('load', () => {
-      // Só muda CSS — sem mover no DOM, sem reload
-      iframe.style.position = 'absolute'
-      iframe.style.top = '0'
-      iframe.style.left = '0'
-      iframe.style.width = '100%'
-      iframe.style.height = '100%'
       iframe.style.opacity = '1'
       iframe.style.pointerEvents = 'auto'
-      iframe.style.zIndex = '1'
       if (skeleton) skeleton.style.display = 'none'
     })
   }
+
+  function applyMargins() {
+    if (!outer) return
+    if (window.innerWidth >= 1024) {
+      outer.style.marginLeft = '40px'
+      outer.style.marginRight = '40px'
+    } else {
+      outer.style.marginLeft = '0'
+      outer.style.marginRight = '0'
+    }
+  }
+
+  applyMargins()
+  window.addEventListener('resize', applyMargins)
 </script>
 
