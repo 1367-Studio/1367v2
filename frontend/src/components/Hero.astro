@@ -1,6 +1,4 @@
 ---
-import HeroScene from "./HeroScene.tsx"
-
 interface Props {
   title: string
   subtitle?: string
@@ -14,9 +12,11 @@ const { title, subtitle, description, ctaLabel, ctaHref } = Astro.props
 ---
 
 <section class="relative h-screen w-full overflow-hidden bg-[#0f0f0f]">
-  <div class="absolute inset-0 w-full h-full overflow-hidden">
-    <HeroScene client:load />
-  </div>
+  <img
+    src="/scene_remix_scene.png"
+    alt=""
+    class="absolute inset-0 w-full h-full object-cover"
+  />
 
   {/* Gradient at bottom for text readability */}
   <div class="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-[#0f0f0f]/80 to-transparent lg:h-64" />
@@ -42,14 +42,3 @@ const { title, subtitle, description, ctaLabel, ctaHref } = Astro.props
     </div>
   </div>
 </section>
-
-<script>
-  function scaleHeroScene() {
-    const scaleX = window.innerWidth / 1440;
-    const scaleY = window.innerHeight / 900;
-    const scale = Math.max(scaleX, scaleY);
-    document.documentElement.style.setProperty("--hero-scale", String(scale));
-  }
-  scaleHeroScene();
-  window.addEventListener("resize", scaleHeroScene);
-</script>
