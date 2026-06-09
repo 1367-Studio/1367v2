@@ -1,0 +1,137 @@
+---
+interface Testimonial {
+  quote: string
+  author: string
+  avatarUrl?: string
+}
+
+interface Brand {
+  name: string
+  logoUrl?: string
+  alt?: string
+}
+
+interface Props {
+  testimonials: Testimonial[]
+  brandsLabel?: string
+  brands: Brand[]
+}
+
+const {
+  testimonials = [],
+  brandsLabel = 'Trusted by brands worldwide:',
+  brands = [],
+} = Astro.props
+
+const total = testimonials.length
+---
+
+<section id="testimonials-section" class="bg-black px-6 py-16 lg:px-12 lg:py-24">
+  <div class="flex flex-col gap-8 lg:flex-row lg:gap-72">
+
+    <!-- Left: Testimonial carousel -->
+    <div class="lg:w-[38%]">
+      <!-- Progress bar no topo -->
+      <div class="mb-8 h-[1px] bg-white/10">
+        <div id="testimonial-progress" class="h-full bg-white" style="width: 0%;" />
+      </div>
+
+      <div id="testimonial-card">
+        {testimonials.map((t, i) => (
+          <div
+            class="testimonial-slide grid grid-cols-[auto_1fr_auto] gap-5 items-start"
+            data-index={i}
+            style={i !== 0 ? 'display:none' : ''}
+          >
+            <!-- Coluna 1: Foto -->
+            <div class="flex-shrink-0 overflow-hidden" style="width: 73px; height: 98px;">
+              {t.avatarUrl ? (
+                <img src={t.avatarUrl} alt={t.author} class="h-full w-full object-cover" />
+              ) : (
+                <div class="h-full w-full bg-white/10" />
+              )}
+            </div>
+
+            <!-- Coluna 2: Quote + autor -->
+            <div class="flex flex-col gap-6 w-[250px]">
+              <p class="font-[Geist] text-[16px] font-normal text-white" style="line-height: 104%; letter-spacing: -0.01em;">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+              <p class="font-[Geist] text-[14px] font-normal text-white" style="line-height: 104%; letter-spacing: -0.01em;">
+                {t.author}
+              </p>
+            </div>
+
+            <!-- Coluna 3: Contador -->
+            <span class="font-[Geist_Mono] text-[12px] font-normal uppercase whitespace-nowrap" style="line-height: 120%; letter-spacing: -0.01em; color: #fff;">
+              {String(i + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Right: Brand logos -->
+    <div class="lg:w-[62%]">
+      <p class="mb-6 font-[Geist] text-[14px] font-normal text-white" style="line-height: 120%; letter-spacing: -0.01em;">
+        {brandsLabel}
+      </p>
+      <div class="p-0">
+        <div class="grid grid-cols-3 gap-x-8 gap-y-14">
+          {brands.map((brand) => (
+            <div class="flex items-center justify-start">
+              {brand.logoUrl ? (
+                <img
+                  src={brand.logoUrl}
+                  alt={brand.alt || brand.name}
+                  class="object-contain brightness-0 invert" style="width: 174px; height: 42px;"
+                />
+              ) : (
+                <span class="font-[Geist_Mono] text-[12px] text-white/40">{brand.name}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const DURATION = 6000
+
+  const section = document.getElementById('testimonials-section')
+  if (section) {
+    const slides = section.querySelectorAll<HTMLElement>('.testimonial-slide')
+    const progress = document.getElementById('testimonial-progress') as HTMLElement | null
+    let current = 0
+    let timer: ReturnType<typeof setTimeout>
+
+    function goTo(index: number) {
+      slides.forEach((s, i) => {
+        s.style.display = i === index ? '' : 'none'
+      })
+      current = index
+      startProgress()
+    }
+
+    function startProgress() {
+      if (!progress) return
+      clearTimeout(timer)
+      progress.style.transition = 'none'
+      progress.style.width = '0%'
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          progress.style.transition = `width ${DURATION}ms linear`
+          progress.style.width = '100%'
+        })
+      })
+      timer = setTimeout(() => {
+        goTo((current + 1) % slides.length)
+      }, DURATION)
+    }
+
+    if (slides.length > 0) goTo(0)
+  }
+</script>
