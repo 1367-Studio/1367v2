@@ -1,0 +1,138 @@
+---
+interface Case {
+  bgImage?: string
+  manImageDesktop?: string
+  manImageMobile?: string
+  tag?: string
+  title: string
+  rightText?: string
+  ctaLabel?: string
+  ctaHref?: string
+}
+
+interface Props {
+  cases: Case[]
+}
+
+const { cases } = Astro.props
+const validCases = cases.filter(c => c.bgImage)
+---
+
+<div data-cases-wrapper style={`height: ${validCases.length * 100}dvh`}>
+  <section id="featured-cases" class="sticky top-0 overflow-hidden" style="z-index: 2; height: 100dvh;">
+    <div class="relative w-full h-full">
+
+      <!-- imagens de cada case (sobem de baixo) -->
+      {validCases.map((c, i) => (
+        <div
+          class="absolute inset-0"
+          style={`z-index: ${i + 1};${i > 0 ? ' transform: translateY(100%);' : ''}`}
+          data-case-images={i}
+        >
+          <div class="absolute inset-0 z-[1]">
+            <img src={c.bgImage} alt="background" class="w-full h-full object-cover object-center" />
+          </div>
+          {(c.manImageDesktop || c.manImageMobile) && (
+            <div class="absolute inset-0 z-[2]">
+              {c.manImageDesktop && (
+                <img src={c.manImageDesktop} alt="subject" class="hidden lg:block w-full h-full object-cover object-center" />
+              )}
+              {c.manImageMobile && (
+                <img src={c.manImageMobile} alt="subject" class="block lg:hidden w-full h-full object-cover object-center" />
+              )}
+            </div>
+          )}
+          <div class="absolute inset-0 z-[3] bg-black/[32%]"></div>
+        </div>
+      ))}
+
+      <!-- textos de cada case (acima de tudo, fazem swap quando imagem cobre) -->
+      {validCases.map((c, i) => (
+        <div
+          class:list={["absolute inset-0 z-[50]", { "opacity-0 pointer-events-none": i !== 0 }]}
+          data-case-text={i}
+        >
+          <div class="absolute bottom-[40%] left-10 text-white max-w-[255px] leading-[104%] flex flex-col gap-3">
+            {c.tag && (
+              <span class="text-xs font-semibold font-[Geist_Mono] uppercase tracking-widest block">{c.tag}</span>
+            )}
+            <h2 class="text-2xl font-normal font-geist">{c.title}</h2>
+          </div>
+          <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-center max-w-[280px] lg:bottom-[30%] lg:right-10 lg:left-auto lg:translate-x-0 lg:text-left lg:max-w-[220px] flex flex-col gap-19">
+            {c.rightText && (
+              <p class="text-sm text-white leading-relaxed">{c.rightText}</p>
+            )}
+            {c.ctaLabel && (
+              <a href={c.ctaHref ?? '#'} class="text-xs uppercase tracking-widest font-semibold text-white hover:text-white/60 transition-colors">
+                {c.ctaLabel}
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+
+    </div>
+  </section>
+</div>
+
+<script>
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  const wrapper     = document.querySelector('[data-cases-wrapper]') as HTMLElement | null
+  const imageSlides = Array.from(document.querySelectorAll('[data-case-images]')) as HTMLElement[]
+  const textSlides  = Array.from(document.querySelectorAll('[data-case-text]'))  as HTMLElement[]
+
+  if (wrapper && imageSlides.length > 1) {
+    const N = imageSlides.length
+
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate(self) {
+        const progress = self.progress
+        const rawSegment      = progress * (N - 1)
+        const currentSegment  = Math.min(Math.floor(rawSegment), N - 2)
+        const segmentProgress = rawSegment - currentSegment
+
+        // imagens: próximo case sobe de baixo
+        imageSlides.forEach((slide, i) => {
+          if (i === 0) return
+          if (i === currentSegment + 1) {
+            slide.style.transform = `translateY(${(1 - segmentProgress) * 100}%)`
+          } else if (i <= currentSegment) {
+            slide.style.transform = 'translateY(0%)'
+          } else {
+            slide.style.transform = 'translateY(100%)'
+          }
+        })
+
+        // textos: swap nos últimos 20% do slide
+        const fadeStart    = 0.8
+        const textProgress = Math.max(0, (segmentProgress - fadeStart) / (1 - fadeStart))
+
+        textSlides.forEach((text, i) => {
+          let opacity = 0
+          let translateY = 0
+          let pe = 'none'
+
+          if (i === currentSegment) {
+            opacity = 1 - textProgress
+            if (opacity > 0.5) pe = 'auto'
+          } else if (i === currentSegment + 1) {
+            opacity = textProgress
+            translateY = (1 - textProgress) * 24
+            if (opacity > 0.5) pe = 'auto'
+          }
+
+          text.style.opacity = String(opacity)
+          text.style.transform = `translateY(${translateY}px)`
+          text.style.pointerEvents = pe
+        })
+      },
+    })
+  }
+</script>

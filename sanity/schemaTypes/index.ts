@@ -7,6 +7,7 @@ import statementSection from './documents/statementSection'
 import tickerSection from './documents/tickerSection'
 import featuredCaseSection from './documents/featuredCaseSection'
 import featuredCase2Section from './documents/featuredCase2Section'
+import featuredCase3Section from './documents/featuredCase3Section'
 import projectSection from './documents/projectSection'
 import testimonialsSection from './documents/testimonialsSection'
 import brandLogo from './objects/brandLogo'
@@ -24,6 +25,7 @@ export const schemaTypes = [
   tickerSection,
   featuredCaseSection,
   featuredCase2Section,
+  featuredCase3Section,
   projectSection,
   testimonialsSection,
   // objects
