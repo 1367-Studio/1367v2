@@ -11,7 +11,6 @@ const header = await client.fetch(`
 `)
 
 const logoUrl = header?.logoUrl
-console.log('[Header] logoUrl:', logoUrl)
 
 const leftLinks = header?.navigation?.filter((item: any) => item.position === 'left')
 const rightLinks = header?.navigation?.filter((item: any) => item.position === 'right')
