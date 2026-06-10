@@ -1,0 +1,97 @@
+---
+interface Props {
+  tag?: string
+  title: string
+  rightText?: string
+  ctaLabel?: string
+  ctaHref?: string
+  card?: string
+}
+
+const {
+  tag,
+  title,
+  rightText,
+  ctaHref = '#',
+  ctaLabel,
+  card,
+} = Astro.props
+
+---
+
+<section id="featured-case-3" class="sticky top-0 overflow-hidden" style="z-index: 2; height: 100dvh;">
+  <div class="relative w-full h-full">
+
+    <!-- 1. city_bg -->
+    <div class="absolute inset-0 z-[1]">
+      <img src="/city_bg.png" alt="city scene" class="w-full h-full object-cover object-center" />
+    </div>
+
+    <!-- 2. man_without_bg with card for desktop / tablet/mobile without card -->
+    <div class="absolute inset-0 z-[5]">
+      <img src="/man_without_bg_w_card.png" alt="man"
+        class="hidden lg:block w-full h-full object-cover object-center" />
+      <img src="/man_without_bg.png" alt="man"
+        class="block lg:hidden w-full h-full object-cover object-center" />
+    </div>
+
+    <!-- 3. shadow overlay -->
+    <div class="absolute inset-0 z-[4] bg-black/60"></div>
+
+    <!-- tag + title - left -->
+    <div class="absolute bottom-[40%] left-10 z-[5] text-white max-w-[255px] leading-[104%]">
+      {tag && <span class="text-[12px] font-semibold font-[Geist_Mono] uppercase tracking-widest text-white mb-2 block">{tag}</span>}
+      <h2 class="text-2xl font-normal font-geist">{title}</h2>
+    </div>
+
+    <!-- rightText + cta — right -->
+    <div class="absolute z-[6] text-white bottom-6 left-1/2 -translate-x-1/2 text-center max-w-[280px] lg:bottom-[30%] lg:right-10 lg:left-auto lg:translate-x-0 lg:text-left lg:max-w-[220px]">
+      {rightText && (
+        <p class="text-sm text-white/80 mb-4 leading-relaxed">{rightText}</p>
+      )}
+      {ctaLabel && (
+        <a href={ctaHref} class="text-[12px] uppercase tracking-widest font-semibold text-white hover:text-white/60 transition-colors">
+          {ctaLabel}
+        </a>
+      )}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Desktop: cards preenchem o painel, altura fixa */
+  @media (min-width: 1024px) {
+    .fc2-cards {
+      width: 100%;
+    }
+    .fc2-card {
+      flex: 1;
+      height: 520px;
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .fc2-cards {
+      width: 100%;
+    }
+    .fc2-card {
+      width: 100%;
+      height: 240px;
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 767px) {
+    .fc2-cards {
+      width: 100%;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .fc2-card {
+      width: 100%;
+      height: 140px;
+    }
+  }
+</style>

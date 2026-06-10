@@ -4,6 +4,7 @@ import Hero from "@/components/Hero.astro";
 import Statement from "@/components/Statement.astro";
 import FeaturedCase from "@/components/FeaturedCase.astro";
 import FeaturedCase2 from "@/components/FeaturedCase2.astro";
+import FeaturedCase3 from "@/components/FeaturedCase3.astro";
 import VideoProjectSection from "@/components/VideoProjectSection.astro"
 import Testimonials from "@/components/Testimonials.astro"
 import { client } from "@/lib/sanity"
@@ -14,11 +15,12 @@ function urlFor(source: any) {
   return builder.image(source).url()
 }
 
-const [hero, statement, featuredCase, featuredCase2, projectSection, ticker, testimonialsSection] = await Promise.all([
+const [hero, statement, featuredCase, featuredCase2, featuredCase3, projectSection, ticker, testimonialsSection] = await Promise.all([
   client.fetch(`*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`),
   client.fetch(`*[_type == "statementSection" && _id == "statementSection"][0]{ body }`),
   client.fetch(`*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`),
   client.fetch(`*[_type == "featuredCase2Section" && _id == "featuredCase2Section"][0]{ tag, title, description, ctaLabel, ctaHref, panelTitle, items[]{ "iconSrc": icon.asset->url, "imageSrc": image.asset->url, title, subtitle } }`),
+  client.fetch(`*[_type == "featuredCase3Section" && _id == "featuredCase3Section"][0]{ tag, title, rightText, ctaLabel, ctaHref, card}`),
   client.fetch(`*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
   client.fetch(`*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`),
   client.fetch(`*[_type == "testimonialsSection"][0]{ testimonials[]{ quote, author, "avatarUrl": avatar.asset->url }, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
@@ -66,5 +68,13 @@ const [hero, statement, featuredCase, featuredCase2, projectSection, ticker, tes
     ctaHref={featuredCase2?.ctaHref ?? "#"}
     panelTitle={featuredCase2?.panelTitle}
     items={featuredCase2?.items ?? []}
+  />
+  <FeaturedCase3
+    tag={featuredCase3?.tag}
+    title={featuredCase3?.title ?? ""}
+    rightText={featuredCase3?.rightText}
+    ctaLabel={featuredCase3?.ctaLabel ?? "VIEW PROJECT"}
+    ctaHref={featuredCase3?.ctaHref ?? "#"}
+    card={featuredCase3?.card ? urlFor(featuredCase3.card) : ""}
   />
 </Layout>
