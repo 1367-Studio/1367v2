@@ -1,4 +1,6 @@
 ---
+import USDZViewer from './USDZViewer.tsx'
+
 interface Props {
   body: string
 }
@@ -20,16 +22,18 @@ const { body } = Astro.props
   <div
     id="statement-iframe"
     class="pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 -mt-[10px]"
-    style="position: absolute;"
+    style="position: absolute; width: min(280px, 90vw); height: min(280px, 90vw);"
   >
-    <iframe
-      allowtransparency="true"
-      src="https://app.endlesstools.io/embed/26068064-76e3-48c4-a6be-a7dddf5e5242"
-      title=""
-      frameborder="0"
-      allow="clipboard-write; encrypted-media; gyroscope; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      style="background-color: transparent; width: min(280px, 90vw); height: min(280px, 90vw);"
+    <USDZViewer
+      src="/Endless_Tools_2026-06-09_14-23-55.usdz"
+      rotationSpeed={0.015}
+      tiltX={0} tiltY={0} tiltZ={0}
+      offsetY={0}
+      cameraAzimuth={0} cameraElevation={1.57} cameraDistance={1}
+      fov={40} scale={1}
+      lAmbient={28.5} lTopRight={29.5} lBottomLeft={32} lTopLeft={29.5}
+      lFront={30.5} lRight={30.5} lBottom={32.5}
+      client:only="react"
     />
   </div>
 </section>

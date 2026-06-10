@@ -119,7 +119,7 @@ const doubled = [...marqueeItems, ...marqueeItems]
       marquee.style.transform = 'translateY(20px)'
     }
 
-    const MAX_INSET = 80 // px de moldura no início
+    const MAX_INSET = window.innerWidth < 1024 ? 24 : 80
 
     const getProgress = () => {
       const rect = wrapper.getBoundingClientRect()
