@@ -42,9 +42,7 @@ const deskStructure = (S: StructureBuilder) =>
               S.listItem()
                 .title('Testimonials Section')
                 .child(
-                  S.editor()
-                    .schemaType('testimonialsSection')
-                    .documentId('testimonialsSection'),
+                  S.editor().schemaType('testimonialsSection').documentId('testimonialsSection'),
                 ),
               S.listItem()
                 .title('Ticker Section')
@@ -52,24 +50,21 @@ const deskStructure = (S: StructureBuilder) =>
               S.listItem()
                 .title('Featured Case Section')
                 .child(
-                  S.editor()
-                    .schemaType('featuredCaseSection')
-                    .documentId('featuredCaseSection'),
+                  S.editor().schemaType('featuredCaseSection').documentId('featuredCaseSection'),
                 ),
               S.listItem()
                 .title('Featured Case 2 Section')
                 .child(
-                  S.editor()
-                    .schemaType('featuredCase2Section')
-                    .documentId('featuredCase2Section'),
+                  S.editor().schemaType('featuredCase2Section').documentId('featuredCase2Section'),
+                ),
+              S.listItem()
+                .title('Featured Case 3 Section')
+                .child(
+                  S.editor().schemaType('featuredCase3Section').documentId('featuredCase3Section'),
                 ),
               S.listItem()
                 .title('Project Section')
-                .child(
-                  S.editor()
-                    .schemaType('projectSection')
-                    .documentId('projectSection'),
-                ),
+                .child(S.editor().schemaType('projectSection').documentId('projectSection')),
             ]),
         ),
 
