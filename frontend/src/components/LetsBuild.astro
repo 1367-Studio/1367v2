@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string
+  description?: string
+  ctaLabel?: string
+  ctaHref?: string
+}
+
+const {
+  title,
+  description,
+  ctaLabel = 'Book a call',
+  ctaHref = '#',
+} = Astro.props
+---
+<section class="bg-[#000000] flex flex-col justify-between px-6 py-12 lg:flex-row lg:px-10" style="min-height: 100dvh;">
+
+  <div class="flex flex-col justify-around items-start max-w-xl">
+    <h2 class="text-4xl text-white mb-10 lg:text-7xl lg:mb-0">{title}</h2>
+    <a href={ctaHref}
+      class="shrink-0 rounded-lg bg-primary px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-white transition-opacity hover:opacity-90"
+    >
+      {ctaLabel}
+    </a>
+  </div>
+
+  <div class="flex items-end pt-10 lg:pt-0 lg:pb-20">
+    <p class="text-base font-geist text-white leading-relaxed max-w-[384px] lg:text-base">
+      {description}
+    </p>
+  </div>
+
+</section>
