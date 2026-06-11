@@ -2,9 +2,10 @@
 import Layout from "@/layouts/Layout.astro";
 import Hero from "@/components/Hero.astro";
 import Statement from "@/components/Statement.astro";
-import FeaturedCase from "@/components/FeaturedCase.astro";
-import FeaturedCase2 from "@/components/FeaturedCase2.astro";
+// import FeaturedCase from "@/components/FeaturedCase.astro";
+// import FeaturedCase2 from "@/components/FeaturedCase2.astro";
 import FeaturedCase3 from "@/components/FeaturedCase3.astro";
+import LetsBuild from "@/components/LetsBuild.astro";
 import VideoProjectSection from "@/components/VideoProjectSection.astro"
 import Testimonials from "@/components/Testimonials.astro"
 import { client } from "@/lib/sanity"
@@ -15,16 +16,18 @@ function urlFor(source: any) {
   return builder.image(source).url()
 }
 
-const [hero, statement, featuredCase, featuredCase2, featuredCase3, projectSection, ticker, testimonialsSection] = await Promise.all([
+const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, projectSection, ticker, testimonialsSection] = await Promise.all([
   client.fetch(`*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`),
   client.fetch(`*[_type == "statementSection" && _id == "statementSection"][0]{ body }`),
   client.fetch(`*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`),
   client.fetch(`*[_type == "featuredCase2Section" && _id == "featuredCase2Section"][0]{ tag, title, description, ctaLabel, ctaHref, panelTitle, items[]{ "iconSrc": icon.asset->url, "imageSrc": image.asset->url, title, subtitle } }`),
   client.fetch(`*[_type == "featuredCase3Section" && _id == "featuredCase3Section"][0]{ cases[]{ tag, title, rightText, ctaLabel, ctaHref, "bgImage": bgImage.asset->url, "manImageDesktop": manImageDesktop.asset->url, "manImageMobile": manImageMobile.asset->url } }`),
+  client.fetch(`*[_type == "letsBuildSection" && _id == "letsBuildSection"][0]{ title, description, ctaLabel, ctaHref }`),
   client.fetch(`*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
   client.fetch(`*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`),
   client.fetch(`*[_type == "testimonialsSection"][0]{ testimonials[]{ quote, author, "avatarUrl": avatar.asset->url }, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
 ])
+
 ---
 <Layout title="1367 — Studio">
   <Hero
@@ -70,4 +73,10 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, projectSecti
     items={featuredCase2?.items ?? []}
   /> */}
   <FeaturedCase3 cases={featuredCase3?.cases ?? []} />
+  <LetsBuild
+    title={letsBuild.title}
+    description={letsBuild.description}
+    ctaLabel={letsBuild.ctaLabel}
+    ctaHref={letsBuild.ctaHref ?? "#"}
+  />
 </Layout>
