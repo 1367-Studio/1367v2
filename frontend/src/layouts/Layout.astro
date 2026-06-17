@@ -52,12 +52,12 @@ const {
       <slot />
     </main>
     <Footer
-      heading={footerData?.heading}
-      ctaLabel={footerData?.ctaLabel}
-      ctaHref={footerData?.ctaHref}
-      navLinks={footerData?.navLinks}
-      locations={footerData?.locations}
-      logoSrc={footerData?.logo ? urlFor(footerData.logo) : undefined}
+      heading={footerData?.heading ?? undefined}
+      ctaLabel={footerData?.ctaLabel ?? undefined}
+      ctaHref={footerData?.ctaHref ?? undefined}
+      navLinks={footerData?.navLinks ?? undefined}
+      locations={footerData?.locations ?? undefined}
+      logoSrc={footerData?.logo ? builder.image(footerData.logo).height(64).fit('max').auto('format').url() : undefined}
     />
     <script>
       import { initSmoothScroll } from "@/lib/smooth-scroll";

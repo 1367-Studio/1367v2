@@ -30,20 +30,6 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
 
 ---
 <Layout title="1367 — Studio">
-  <Hero
-    title={hero?.title ?? "Designing the future, one pixel at a time."}
-    subtitle={hero?.subtitle ?? ""}
-    description={hero?.description ?? "We build digital experiences that scale with your business."}
-    ctaLabel={hero?.ctaLabel ?? "BOOK A CALL"}
-    ctaHref={hero?.ctaHref ?? "#"}
-    videoUrl={hero?.videoUrl}
-  />
-  <Statement body={statement?.body ?? "We don't just build websites. We engineer digital experiences and custom software that solve real problems and scale with your business."} />
-  <Testimonials
-    testimonials={testimonialsSection?.testimonials ?? []}
-    brandsLabel={testimonialsSection?.brandsLabel ?? "Trusted by brands worldwide:"}
-    brands={testimonialsSection?.brands ?? []}
-  />
   <VideoProjectSection
     videoUrl={projectSection?.videoUrl ?? '/cinematic-reflection.mp4'}
     title={projectSection?.title ?? "We build ambitious digital products."}
@@ -51,6 +37,20 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
     brandsLabel={projectSection?.brandsLabel ?? ""}
     brands={projectSection?.brands ?? []}
     marqueeItems={ticker?.items ?? []}
+  />
+  {/* <Hero
+    title={hero?.title ?? "Designing the future, one pixel at a time."}
+    subtitle={hero?.subtitle ?? ""}
+    description={hero?.description ?? "We build digital experiences that scale with your business."}
+    ctaLabel={hero?.ctaLabel ?? "BOOK A CALL"}
+    ctaHref={hero?.ctaHref ?? "#"}
+    videoUrl={hero?.videoUrl}
+  /> */}
+  <Statement body={statement?.body ?? "We don't just build websites. We engineer digital experiences and custom software that solve real problems and scale with your business."} />
+  <Testimonials
+    testimonials={testimonialsSection?.testimonials ?? []}
+    brandsLabel={testimonialsSection?.brandsLabel ?? "Trusted by brands worldwide:"}
+    brands={testimonialsSection?.brands ?? []}
   />
   {/* <FeaturedCase
     tag={featuredCase?.tag}

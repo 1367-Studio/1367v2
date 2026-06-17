@@ -119,7 +119,13 @@ const doubled = [...marqueeItems, ...marqueeItems]
       marquee.style.transform = 'translateY(20px)'
     }
 
-    const MAX_INSET = window.innerWidth < 1024 ? 24 : 80
+    // Intro keeps the video at its original framed size, then grows it out to
+    // fill 100% width/height. The scroll-driven animation is gated until then.
+    const START_INSET = window.innerWidth < 1024 ? 24 : 80
+
+    let introDone = false
+    const intro = { inset: START_INSET }
+    frame.style.clipPath = `inset(${START_INSET}px)`
 
     const getProgress = () => {
       const rect = wrapper.getBoundingClientRect()
@@ -142,20 +148,38 @@ const doubled = [...marqueeItems, ...marqueeItems]
       video.addEventListener('loadedmetadata', onVideoReady, { once: true })
     }
 
+    // ── Lock scroll, grow the video to full size, then enable scroll animation ──
+    const lockScroll = () => { document.body.style.overflow = 'hidden' }
+    const unlockScroll = () => { document.body.style.overflow = '' }
+
+    lockScroll()
+    gsap.to(intro, {
+      inset: 0,
+      duration: 1.2,
+      delay: 0.2,
+      ease: 'power3.inOut',
+      onUpdate: () => { frame.style.clipPath = `inset(${intro.inset}px)` },
+      onComplete: () => {
+        introDone = true
+        unlockScroll()
+      },
+    })
+
     gsap.ticker.add(() => {
+      // Hold until the intro grow-to-full-size animation has finished.
+      if (!introDone) return
+
       const p = getProgress()
+
+      // Frame is already full-size from the intro — keep it pinned to inset 0.
+      frame.style.clipPath = 'inset(0px)'
 
       if (videoReady && video.duration) {
         const videoProgress = Math.max(0, (p - 0.4) / 0.6)
         video.currentTime = videoProgress * video.duration
       }
 
-      // ── Moldura preta (0% → 40% do scroll): 100px → 0px ────────
-      const frameProgress = Math.min(1, p / 0.4)
-      const inset = MAX_INSET * (1 - frameProgress)
-      frame.style.clipPath = `inset(${inset}px)`
-
-      overlay.style.opacity = String(Math.max(0, Math.min(1, (p - 0.4) / 0.6)))
+      overlay.style.opacity = String(Math.max(0, Math.min(1, (p - 0.6) / 0.4)))
 
       const cp = Math.max(0, Math.min(1, (p - 0.8) / 0.2))
       content.style.opacity   = String(cp)
