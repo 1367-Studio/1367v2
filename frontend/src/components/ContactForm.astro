@@ -56,7 +56,7 @@
         body: JSON.stringify(data),
       });
       status.textContent = res.ok
-        ? "Thanks — your message was sent."
+        ? "Thanks, your message was sent."
         : "Something went wrong. Please try again.";
       if (res.ok) form.reset();
     } catch {
