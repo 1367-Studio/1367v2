@@ -29,7 +29,10 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
 ])
 
 ---
-<Layout title="1367 — Studio">
+<Layout
+  title="1367 Studio — Digital Branding & Custom Software | Florianópolis · Marseille · London"
+  description="1367 Studio is a digital branding agency engineering distinctive brand identities, custom websites and software for ambitious businesses across Brazil, France and the UK."
+>
   <VideoProjectSection
     videoUrl={projectSection?.videoUrl ?? '/cinematic-reflection.mp4'}
     title={projectSection?.title ?? "We build ambitious digital products."}
@@ -43,7 +46,7 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
     subtitle={hero?.subtitle ?? ""}
     description={hero?.description ?? "We build digital experiences that scale with your business."}
     ctaLabel={hero?.ctaLabel ?? "BOOK A CALL"}
-    ctaHref={hero?.ctaHref ?? "#"}
+    ctaHref={hero?.ctaHref ?? "/contact"}
     videoUrl={hero?.videoUrl}
   /> */}
   <Statement body={statement?.body ?? "We don't just build websites. We engineer digital experiences and custom software that solve real problems and scale with your business."} />
@@ -57,7 +60,7 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
     title={featuredCase?.title ?? "Temporary Staffing Platform & Custom Website"}
     description={featuredCase?.description ?? "We supported ADD Temp in the design and development of a complete digital platform dedicated to temporary workforce management. To create a centralized hub to efficiently manage applicants, job offers and client relations, while delivering a smooth and modern user experience."}
     ctaLabel={featuredCase?.ctaLabel ?? "VIEW PROJECT"}
-    ctaHref={featuredCase?.ctaHref ?? "#"}
+    ctaHref={featuredCase?.ctaHref ?? "/contact"}
     imageSrc={featuredCase?.image ? urlFor(featuredCase.image) : undefined}
     cardTitle={featuredCase?.cardTitle ?? "Offre d'emploi Macon, VRD (H/F), Nimes (30)"}
     cardSubtitle={featuredCase?.cardSubtitle ?? "Sous la responsabilité du chef de chantier, vous aurez pour mission : Sécurisation du chantier"}
@@ -68,7 +71,7 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
     title={featuredCase2?.title ?? ""}
     description={featuredCase2?.description}
     ctaLabel={featuredCase2?.ctaLabel ?? "VIEW PROJECT"}
-    ctaHref={featuredCase2?.ctaHref ?? "#"}
+    ctaHref={featuredCase2?.ctaHref ?? "/contact"}
     panelTitle={featuredCase2?.panelTitle}
     items={featuredCase2?.items ?? []}
   /> */}
@@ -77,6 +80,6 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
     title={letsBuild.title}
     description={letsBuild.description}
     ctaLabel={letsBuild.ctaLabel}
-    ctaHref={letsBuild.ctaHref ?? "#"}
+    ctaHref={letsBuild.ctaHref ?? "/contact"}
   />
 </Layout>
