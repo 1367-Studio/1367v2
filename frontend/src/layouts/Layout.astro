@@ -1,6 +1,7 @@
 ---
 import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
+import BaseHead from "../components/BaseHead.astro"
 import { client } from "@/lib/sanity"
 import imageUrlBuilder from '@sanity/image-url'
 import "@/styles/global.css";
@@ -22,23 +23,18 @@ const footerData = await client.fetch(`
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  type?: "website" | "article";
+  noindex?: boolean;
 }
 
-const {
-  title = "1367 Studio",
-  description = "1367 Studio is a digital branding agency crafting distinctive visual identities, strategic brand foundations, and custom websites that help ambitious businesses stand out and grow.",
-} = Astro.props;
+const { title, description, image, type, noindex } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <BaseHead title={title} description={description} image={image} type={type} noindex={noindex} />
     {/* Google Fonts */}
     <link rel="preconnect" href="https://app.endlesstools.io">
     <link rel="dns-prefetch" href="https://app.endlesstools.io">
