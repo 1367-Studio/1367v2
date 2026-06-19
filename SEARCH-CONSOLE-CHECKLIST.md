@@ -53,7 +53,31 @@ on production today (verified). So there is nothing to consolidate in the codeba
       - If it has no equivalent → leave it 404; Google drops 404s from the index automatically.
 - [ ] Optionally use **Removals** to speed up dropping any clearly-dead old URL.
 
-## 6. Content backlog (the real long-term SEO lever)
+## 6. AI / LLM discoverability (GEO)
+Generative engines (ChatGPT, Claude, Perplexity, Google AI Overviews) must be able to
+crawl the site. State today:
+
+- [x] `robots.txt` explicitly **allows** GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot,
+      Claude-Web, anthropic-ai, PerplexityBot, Google-Extended, Applebot(-Extended), CCBot.
+- [x] `/llms.txt` published (studio summary, services, locations, key pages).
+- [x] Production already returns **200** to GPTBot / ClaudeBot / PerplexityBot user-agents
+      (verified) — no platform-level block.
+- [x] Rich JSON-LD (Organization + ProfessionalService + service OfferCatalog) so engines
+      understand who we are and what we sell.
+
+After deploy, confirm and watch:
+- [ ] `https://www.1367studio.com/llms.txt` and `/robots.txt` return 200.
+- [ ] **Vercel dashboard → Firewall:** make sure *Attack Challenge Mode* is **off** and no
+      WAF/bot rule blocks the AI user-agents above. Vercel does not block them by default,
+      but a challenge mode or custom rule would silently break LLM crawling.
+- [ ] Validate structured data at <https://search.google.com/test/rich-results> (paste the
+      live URL) — expect Organization to parse with no errors.
+- [ ] Spot-check discoverability over the next weeks: ask ChatGPT/Claude/Perplexity
+      "What is 1367 Studio?" and see whether they cite the site.
+- [ ] The biggest GEO lever is the same as SEO: **real, factual, text content** (see §7).
+      LLMs summarise text, not animations — keep adding genuine copy and case studies.
+
+## 7. Content backlog (the real long-term SEO lever)
 The site is currently a single page + contact. To rank for the geo/keyword terms in the
 titles, you need **real, unique pages** — but only with genuine content (no thin pages):
 
