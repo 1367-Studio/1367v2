@@ -1,0 +1,78 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const services = [
+  "Premium websites",
+  "Web & mobile apps",
+  "SaaS platforms",
+  "Design",
+  "Branding",
+  "AI agents",
+];
+
+const locations = [
+  { city: "Marseille", country: "France" },
+  { city: "Florianópolis", country: "Brazil" },
+];
+---
+<Layout
+  title="About 1367 Studio | Marseille & Florianópolis"
+  description="1367 Studio is a Marseille-based agency with a second studio in Florianópolis, Brazil, serving clients worldwide. We build premium websites, apps, SaaS platforms, design, branding and AI agents."
+>
+  <section class="min-h-screen bg-primary text-ink">
+    <div class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-12 px-6 py-32 lg:px-0">
+      <header class="flex flex-col gap-4">
+        <span class="font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-ink/70">
+          About us
+        </span>
+        <h1 class="font-[Geist] text-4xl font-normal leading-[1.04] tracking-[-0.01em] text-ink lg:text-6xl">
+          A Marseille studio with a global reach.
+        </h1>
+        <div class="flex max-w-xl flex-col gap-4 font-[Geist] text-base leading-relaxed text-ink/70">
+          <p>
+            1367 Studio is a Marseille-based agency, with a second studio in
+            Florianópolis, Brazil, and clients around the globe.
+          </p>
+          <p>
+            We craft premium websites, apps and SaaS platforms, paired with the
+            design and branding that set ambitious businesses apart. We also
+            build AI agentic systems.
+          </p>
+        </div>
+      </header>
+
+      <div class="flex flex-col gap-4">
+        <span class="font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-ink/70">
+          What we do
+        </span>
+        <ul class="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+          {services.map((service) => (
+            <li class="border-b border-ink/20 pb-3 font-[Geist] text-lg text-ink">
+              {service}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <span class="font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-ink/70">
+          Where we are
+        </span>
+        <div class="flex flex-wrap gap-x-12 gap-y-4">
+          {locations.map((loc) => (
+            <p class="font-[Geist] text-lg text-ink">
+              {loc.city}, <span class="text-ink/60">{loc.country}</span>
+            </p>
+          ))}
+        </div>
+      </div>
+
+      <a
+        href="/contact"
+        class="inline-flex w-fit items-center justify-center rounded-full bg-ink px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-white transition-opacity hover:opacity-80"
+      >
+        Work with us
+      </a>
+    </div>
+  </section>
+</Layout>

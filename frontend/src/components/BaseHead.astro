@@ -1,0 +1,139 @@
+---
+/**
+ * Site-wide <head> primitives: title, description, canonical, Open Graph,
+ * Twitter cards and Organization/WebSite JSON-LD.
+ *
+ * Every page must pass a unique `title` and `description`. Sensible
+ * site-wide defaults exist as a safety net but should be overridden per page.
+ */
+export interface Props {
+  title?: string;
+  description?: string;
+  /** OG/Twitter image — relative to the site root or absolute. */
+  image?: string;
+  /** og:type — "website" for pages, "article" for posts/cases. */
+  type?: "website" | "article";
+  /** Only for staging/preview routes — never on real pages. */
+  noindex?: boolean;
+}
+
+const SITE_NAME = "1367 Studio";
+const DEFAULT_DESCRIPTION =
+  "1367 Studio is a digital branding agency crafting distinctive visual identities, strategic brand foundations, and custom websites that help ambitious businesses stand out and grow.";
+
+const {
+  title = SITE_NAME,
+  description = DEFAULT_DESCRIPTION,
+  image = "/city_bg.png",
+  type = "website",
+  noindex = false,
+} = Astro.props;
+
+// Astro.site is set in astro.config.mjs; fall back defensively.
+const siteOrigin = Astro.site ?? new URL("https://www.1367studio.com");
+const canonical = new URL(Astro.url.pathname, siteOrigin).href;
+const ogImage = new URL(image, siteOrigin).href;
+
+const SERVICES = [
+  "Premium websites",
+  "Web & mobile apps",
+  "SaaS platforms",
+  "Design",
+  "Branding",
+  "AI agents",
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["Organization", "ProfessionalService"],
+      "@id": `${siteOrigin.origin}/#organization`,
+      name: SITE_NAME,
+      url: siteOrigin.origin,
+      logo: new URL("/favicon.svg", siteOrigin).href,
+      image: ogImage,
+      description: DEFAULT_DESCRIPTION,
+      // Real HQ data (matches the footer). Other locations can be added once
+      // their full addresses are confirmed.
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "SC-405, 4397 - Campeche, OKA SHOPPING",
+        addressLocality: "Florianópolis",
+        addressRegion: "SC",
+        postalCode: "88065-000",
+        addressCountry: "BR",
+      },
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+55-48-99195-8826",
+        contactType: "customer service",
+        areaServed: ["BR", "FR", "GB"],
+      },
+      areaServed: ["Florianópolis", "Marseille", "London"],
+      knowsAbout: [
+        "Web design",
+        "Web development",
+        "Mobile app development",
+        "SaaS platforms",
+        "Brand identity",
+        "AI agents",
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Services",
+        itemListElement: SERVICES.map((name) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name },
+        })),
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteOrigin.origin}/#website`,
+      url: siteOrigin.origin,
+      name: SITE_NAME,
+      description: DEFAULT_DESCRIPTION,
+      publisher: { "@id": `${siteOrigin.origin}/#organization` },
+      inLanguage: "en",
+    },
+  ],
+};
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{
+  noindex ? (
+    <meta name="robots" content="noindex, nofollow" />
+  ) : (
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+  )
+}
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+{/* Open Graph */}
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE_NAME} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content="en" />
+
+{/* Twitter */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

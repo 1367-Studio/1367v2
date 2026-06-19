@@ -62,8 +62,8 @@ const validCases = cases.filter(c => c.bgImage)
             {c.rightText && (
               <p class="text-sm text-white leading-relaxed">{c.rightText}</p>
             )}
-            {c.ctaLabel && (
-              <a href={c.ctaHref ?? '#'} class="text-xs uppercase tracking-widest font-semibold text-white hover:text-white/60 transition-colors">
+            {c.ctaLabel && c.ctaHref && (
+              <a href={c.ctaHref} class="text-xs uppercase tracking-widest font-semibold text-white hover:text-white/60 transition-colors">
                 {c.ctaLabel}
               </a>
             )}

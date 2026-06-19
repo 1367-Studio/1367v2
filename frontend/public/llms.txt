@@ -1,0 +1,29 @@
+# 1367 Studio
+
+> 1367 Studio is a Marseille-based digital agency with a second studio in Florianópolis, Brazil, working with clients around the globe. We design and build premium websites, web and mobile apps, SaaS platforms, brand identities, and AI agentic systems for ambitious businesses.
+
+## What we do
+
+- Premium websites
+- Web and mobile apps
+- SaaS platforms
+- Design
+- Branding
+- AI agents (agentic systems)
+
+## Where we are
+
+- Marseille, France (primary studio)
+- Florianópolis, Brazil (second studio)
+- Clients worldwide
+
+## Pages
+
+- [Home](https://www.1367studio.com/): Overview of 1367 Studio and our work.
+- [About](https://www.1367studio.com/about): Who we are, what we build, and where we operate.
+- [Contact](https://www.1367studio.com/contact): Start a project with us.
+
+## Contact
+
+- Phone (Brazil): +55 48 99195-8826
+- Sitemap: https://www.1367studio.com/sitemap-index.xml
