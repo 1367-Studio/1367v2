@@ -34,15 +34,25 @@ const siteOrigin = Astro.site ?? new URL("https://www.1367studio.com");
 const canonical = new URL(Astro.url.pathname, siteOrigin).href;
 const ogImage = new URL(image, siteOrigin).href;
 
+const SERVICES = [
+  "Premium websites",
+  "Web & mobile apps",
+  "SaaS platforms",
+  "Design",
+  "Branding",
+  "AI agents",
+];
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": ["Organization", "ProfessionalService"],
       "@id": `${siteOrigin.origin}/#organization`,
       name: SITE_NAME,
       url: siteOrigin.origin,
       logo: new URL("/favicon.svg", siteOrigin).href,
+      image: ogImage,
       description: DEFAULT_DESCRIPTION,
       // Real HQ data (matches the footer). Other locations can be added once
       // their full addresses are confirmed.
@@ -61,6 +71,22 @@ const jsonLd = {
         areaServed: ["BR", "FR", "GB"],
       },
       areaServed: ["Florianópolis", "Marseille", "London"],
+      knowsAbout: [
+        "Web design",
+        "Web development",
+        "Mobile app development",
+        "SaaS platforms",
+        "Brand identity",
+        "AI agents",
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Services",
+        itemListElement: SERVICES.map((name) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name },
+        })),
+      },
     },
     {
       "@type": "WebSite",
@@ -82,7 +108,16 @@ const jsonLd = {
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+{
+  noindex ? (
+    <meta name="robots" content="noindex, nofollow" />
+  ) : (
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+  )
+}
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
