@@ -7,7 +7,8 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   adapter: vercel(),
   output: 'server',
-  site: 'https://seu-dominio.com',
+  site: 'https://www.1367studio.com',
+  trailingSlash: 'never',
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
