@@ -4,7 +4,7 @@
 
 <form
   id="contact-form"
-  class="flex w-full max-w-lg flex-col gap-4"
+  class="flex w-full max-w-lg flex-col gap-9"
   method="POST"
   action="/api/contact"
 >
@@ -13,29 +13,29 @@
     name="name"
     placeholder="Name"
     required
-    class="rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none focus:border-ink/40"
+    class="w-full appearance-none border-0 border-b border-ink/30 bg-transparent pb-3 font-[Geist] text-lg text-ink placeholder:text-ink/50 outline-none transition-colors focus:border-ink"
   />
   <input
     type="email"
     name="email"
     placeholder="Email"
     required
-    class="rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none focus:border-ink/40"
+    class="w-full appearance-none border-0 border-b border-ink/30 bg-transparent pb-3 font-[Geist] text-lg text-ink placeholder:text-ink/50 outline-none transition-colors focus:border-ink"
   />
   <textarea
     name="message"
     placeholder="Message"
-    rows="4"
+    rows="3"
     required
-    class="rounded-lg border border-ink/15 bg-transparent px-4 py-3 outline-none focus:border-ink/40"
+    class="w-full resize-none appearance-none border-0 border-b border-ink/30 bg-transparent pb-3 font-[Geist] text-lg text-ink placeholder:text-ink/50 outline-none transition-colors focus:border-ink"
   ></textarea>
   <button
     type="submit"
-    class="rounded-lg bg-ink px-6 py-3 font-medium text-white transition-opacity hover:opacity-80"
+    class="mt-2 inline-flex w-fit items-center justify-center rounded-full bg-ink px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-white transition-opacity hover:opacity-80"
   >
     Send
   </button>
-  <p id="contact-status" class="text-sm text-ink/60" aria-live="polite"></p>
+  <p id="contact-status" class="text-sm text-ink/70" aria-live="polite"></p>
 </form>
 
 <script>
