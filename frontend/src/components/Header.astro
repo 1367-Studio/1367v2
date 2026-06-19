@@ -11,9 +11,25 @@ const header = await client.fetch(`
 
 const logoUrl = header?.logoUrl
 
-const leftLinks = header?.navigation?.filter((item: any) => item.position === 'left')
-const rightLinks = header?.navigation?.filter((item: any) => item.position === 'right')
-const allLinks = [...(leftLinks ?? []), ...(rightLinks ?? [])]
+// Fallback destinations for known nav labels when Sanity has no href yet.
+// Items that resolve to no destination are dropped so we never emit dead links.
+// (Projects / About reappear automatically once they have a real href in Sanity.)
+const HREF_FALLBACKS: Record<string, string> = {
+  contact: '/contact',
+  'contact us': '/contact',
+  'get in touch': '/contact',
+}
+
+const navItems = (header?.navigation ?? [])
+  .map((item: any) => ({
+    ...item,
+    href: item?.href || HREF_FALLBACKS[item?.label?.toLowerCase()?.trim()],
+  }))
+  .filter((item: any) => item.href)
+
+const leftLinks = navItems.filter((item: any) => item.position === 'left')
+const rightLinks = navItems.filter((item: any) => item.position === 'right')
+const allLinks = [...leftLinks, ...rightLinks]
 ---
 
 <header
