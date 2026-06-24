@@ -74,7 +74,37 @@ const deskStructure = (S: StructureBuilder) =>
       S.divider(),
 
       // -------------------------------------------------------
-      // 3. CASES & POSTS
+      // 3. ABOUT PAGE
+      // -------------------------------------------------------
+      S.listItem()
+        .title('About Page')
+        .child(
+          S.list()
+            .title('About Page')
+            .items([
+              S.listItem()
+                .title('Hero Section')
+                .child(S.editor().schemaType('aboutHeroSection').documentId('aboutHeroSection')),
+              S.listItem()
+                .title('Text Revealing Section')
+                .child(
+                  S.editor()
+                    .schemaType('aboutTextRevealSection')
+                    .documentId('aboutTextRevealSection'),
+                ),
+              S.listItem()
+                .title('Our Philosophy Section')
+                .child(
+                  S.editor()
+                    .schemaType('aboutPhilosophySection')
+                    .documentId('aboutPhilosophySection'),
+                ),
+            ]),
+        ),
+
+      S.divider(),
+      // -------------------------------------------------------
+      // 4. CASES & POSTS
       // -------------------------------------------------------
       S.listItem()
         .title('Cases')
