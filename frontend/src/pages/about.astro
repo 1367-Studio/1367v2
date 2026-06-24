@@ -1,78 +1,67 @@
 ---
+import AboutHero from "@/components/AboutHero.astro"
+import AboutTextReveal from "@/components/AboutTextReveal.astro";
+import AboutOurPhilosophy from "@/components/AboutOurPhilosophy.astro";
 import Layout from "@/layouts/Layout.astro";
+import LetsBuild from "@/components/LetsBuild.astro";
+import { client } from "@/lib/sanity"
 
-const services = [
-  "Premium websites",
-  "Web & mobile apps",
-  "SaaS platforms",
-  "Design",
-  "Branding",
-  "AI agents",
-];
-
-const locations = [
-  { city: "Marseille", country: "France" },
-  { city: "Florianópolis", country: "Brazil" },
-];
+const [aboutHero, aboutText, philosophy, letsBuild] = await Promise.all([
+  client.fetch(`*[_type == "aboutHeroSection" && _id == "aboutHeroSection"][0]{ leftText, rightText }`),
+  client.fetch(`*[_type == "aboutTextRevealSection" && _id == "aboutTextRevealSection"][0]{ text }`),
+  client.fetch(`*[_type == "aboutPhilosophySection" && _id == "aboutPhilosophySection"][0]{ label, text, stats }`),
+  client.fetch(`*[_type == "letsBuildSection" && _id == "letsBuildSection"][0]{ title, description, ctaLabel, ctaHref }`),
+])
 ---
 <Layout
   title="About 1367 Studio | Marseille & Florianópolis"
-  description="1367 Studio is a Marseille-based agency with a second studio in Florianópolis, Brazil, serving clients worldwide. We build premium websites, apps, SaaS platforms, design, branding and AI agents."
+  description="1367 Studio is a Marseille-based agency..."
+  headerTheme="dark"
 >
-  <section class="min-h-screen bg-primary text-ink">
-    <div class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-12 px-6 py-32 lg:px-0">
-      <header class="flex flex-col gap-4">
-        <span class="font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-ink/70">
-          About us
-        </span>
-        <h1 class="font-[Geist] text-4xl font-normal leading-[1.04] tracking-[-0.01em] text-ink lg:text-6xl">
-          A Marseille studio with a global reach.
-        </h1>
-        <div class="flex max-w-xl flex-col gap-4 font-[Geist] text-base leading-relaxed text-ink/70">
-          <p>
-            1367 Studio is a Marseille-based agency, with a second studio in
-            Florianópolis, Brazil, and clients around the globe.
-          </p>
-          <p>
-            We craft premium websites, apps and SaaS platforms, paired with the
-            design and branding that set ambitious businesses apart. We also
-            build AI agentic systems.
-          </p>
-        </div>
-      </header>
-
-      <div class="flex flex-col gap-4">
-        <span class="font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-ink/70">
-          What we do
-        </span>
-        <ul class="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
-          {services.map((service) => (
-            <li class="border-b border-ink/20 pb-3 font-[Geist] text-lg text-ink">
-              {service}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div class="flex flex-col gap-4">
-        <span class="font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-ink/70">
-          Where we are
-        </span>
-        <div class="flex flex-wrap gap-x-12 gap-y-4">
-          {locations.map((loc) => (
-            <p class="font-[Geist] text-lg text-ink">
-              {loc.city}, <span class="text-ink/60">{loc.country}</span>
-            </p>
-          ))}
-        </div>
-      </div>
-
-      <a
-        href="/contact"
-        class="inline-flex w-fit items-center justify-center rounded-full bg-ink px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-white transition-opacity hover:opacity-80"
-      >
-        Work with us
-      </a>
-    </div>
-  </section>
+  <AboutHero
+    leftText={aboutHero?.leftText ?? ''}
+    rightText={aboutHero?.rightText ?? ''}
+  />
+  <AboutTextReveal text={aboutText?.text ?? ''}/>
+  <AboutOurPhilosophy
+    label={philosophy?.label ?? ''}
+    text={philosophy?.text ?? ''}
+    stats={philosophy?.stats ?? []}/>
+  <LetsBuild
+    title={letsBuild.title}
+    description={letsBuild.description}
+    ctaLabel={letsBuild.ctaLabel}
+    ctaHref={letsBuild.ctaHref ?? "/contact"}
+  />
+</section>
 </Layout>
+
+<style is:global>
+  @keyframes about-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  #about-iframe-skeleton { animation: about-shimmer 1.5s infinite; }
+</style>
+
+<script>
+  const iframe   = document.getElementById('about-iframe') as HTMLIFrameElement | null
+  const skeleton = document.getElementById('about-iframe-skeleton')
+  const outer    = document.getElementById('about-iframe-outer') as HTMLElement | null
+
+  if (iframe) {
+    iframe.addEventListener('load', () => {
+      iframe.style.opacity = '1'
+      iframe.style.pointerEvents = 'auto'
+      if (skeleton) skeleton.style.display = 'none'
+    })
+  }
+
+  function applyMargins() {
+    if (!outer) return
+    outer.style.marginLeft  = window.innerWidth >= 1024 ? '40px' : '0'
+    outer.style.marginRight = window.innerWidth >= 1024 ? '40px' : '0'
+  }
+  applyMargins()
+  window.addEventListener('resize', applyMargins)
+</script>
