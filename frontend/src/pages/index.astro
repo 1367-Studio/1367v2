@@ -1,9 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Hero from "@/components/Hero.astro";
 import Statement from "@/components/Statement.astro";
-// import FeaturedCase from "@/components/FeaturedCase.astro";
-// import FeaturedCase2 from "@/components/FeaturedCase2.astro";
 import FeaturedCase3 from "@/components/FeaturedCase3.astro";
 import LetsBuild from "@/components/LetsBuild.astro";
 import VideoProjectSection from "@/components/VideoProjectSection.astro"
@@ -11,14 +8,8 @@ import Testimonials from "@/components/Testimonials.astro"
 import FocusAreas from "@/components/FocusAreas.astro"
 import BuildingWorldwide from "@/components/BuildingWorldwide.astro"
 import { client } from "@/lib/sanity"
-import imageUrlBuilder from '@sanity/image-url'
 
-const builder = imageUrlBuilder(client)
-function urlFor(source: any) {
-  return builder.image(source).url()
-}
-
-const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, projectSection, ticker, testimonialsSection, focusAreas, buildingWorldwide] = await Promise.all([
+const [hero, statement, _featuredCase, _featuredCase2, featuredCase3, letsBuild, projectSection, ticker, testimonialsSection, focusAreas, buildingWorldwide] = await Promise.all([
   client.fetch(`*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`),
   client.fetch(`*[_type == "statementSection" && _id == "statementSection"][0]{ body }`),
   client.fetch(`*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`),
