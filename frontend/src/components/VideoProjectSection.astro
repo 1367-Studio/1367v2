@@ -35,12 +35,14 @@ const { videoUrl = '/hero-video.mp4', title = '', subtitle = '', brandsLabel = '
     <div
       id="orange-overlay"
       class="absolute inset-0 bg-primary"
+      style="opacity: 0;"
     />
 
     <!-- Project content -->
     <div
       id="project-content"
       class="absolute inset-0 flex flex-col items-center justify-center"
+      style="opacity: 0; transform: translateY(60px);"
     >
       <div class="mx-auto max-w-2xl px-8 text-center text-white">
         {title && (
