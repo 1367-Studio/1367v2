@@ -14,7 +14,7 @@ const data = await client.fetch(
 );
 
 const title = data?.title ?? "Let's build something that matters.";
-const connectTitle = data?.connectTitle ?? "Connect\nwith us";
+const connectTitle = (data?.connectTitle ?? "Connect\nwith us").replace(/\\n/g, "\n");
 const offices = data?.offices ?? [
   { city: "Marseille, France", phone: "+33 07 63 85 83 88", address: null },
   { city: "London, UK", phone: "+33 07 63 85 83 88", address: null },

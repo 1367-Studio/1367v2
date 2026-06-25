@@ -12,8 +12,8 @@ export default {
     {
       name: 'connectTitle',
       title: 'Connect Block Title',
-      description: 'Use a line break (\\n) to split into two lines.',
-      type: 'string',
+      type: 'text',
+      rows: 2,
       initialValue: 'Connect\nwith us',
     },
     {
