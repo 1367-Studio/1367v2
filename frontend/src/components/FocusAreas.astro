@@ -13,36 +13,51 @@ interface Props {
 const { label = 'Focus Areas', items = [] } = Astro.props
 ---
 
-<section class="relative flex min-h-screen flex-col justify-center bg-white px-8 py-[80px]">
+<section class="relative bg-white px-8 py-[60px] md:flex md:min-h-screen md:flex-col md:justify-center md:py-[80px]">
   <div class="relative">
 
     <!-- Label -->
-    <span class="mb-12 block font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-primary">
+    <span class="mb-8 block font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-primary md:mb-12">
       {label}
     </span>
 
     <!-- Rows -->
-    <div id="focus-list" class="flex flex-col gap-8">
+    <div id="focus-list" class="flex flex-col gap-6 md:gap-8">
       {items.map((item, i) => (
         <div
-          class="focus-item group flex cursor-pointer items-end justify-between border-b border-[#e9e9e9] py-[6px]"
+          class="focus-item cursor-pointer border-b border-[#e9e9e9] py-[6px]"
           data-index={i}
         >
-          <!-- Inner wrapper receives the opacity -->
-          <div class="focus-content flex w-full items-end justify-between transition-opacity duration-300">
-            <!-- Title -->
-            <h2 class="font-[Geist] text-[clamp(28px,3.33vw,48px)] font-normal leading-[1.1] tracking-[-0.01em] text-black">
-              {item.title}
-            </h2>
+          <div class="focus-content transition-opacity duration-300">
 
-            <!-- Sub-items (desktop only) -->
-            <div class="hidden items-center gap-6 pb-[6px] md:flex">
-              {item.subItems.map((sub) => (
-                <span class="font-[Geist_Mono] text-[11px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-[#666]">
-                  {sub}
-                </span>
-              ))}
+            <!-- Mobile: stacked layout -->
+            <div class="flex flex-col gap-2 md:hidden">
+              <h2 class="font-[Geist] text-[28px] font-normal leading-[1.1] tracking-[-0.01em] text-black">
+                {item.title}
+              </h2>
+              <div class="flex flex-wrap gap-x-4 gap-y-1 pb-1">
+                {item.subItems.map((sub) => (
+                  <span class="font-[Geist_Mono] text-[10px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-[#666]">
+                    {sub}
+                  </span>
+                ))}
+              </div>
             </div>
+
+            <!-- Desktop: row layout -->
+            <div class="hidden w-full items-end md:flex">
+              <h2 class="w-[75%] font-[Geist] text-[clamp(28px,3.33vw,48px)] font-normal leading-[1.1] tracking-[-0.01em] text-black">
+                {item.title}
+              </h2>
+              <div class="flex w-[25%] items-center gap-6 pb-[6px]">
+                {item.subItems.map((sub) => (
+                  <span class="font-[Geist_Mono] text-[11px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-[#666]">
+                    {sub}
+                  </span>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
       ))}
@@ -79,16 +94,13 @@ const { label = 'Focus Areas', items = [] } = Astro.props
 
   function setActive(index: number) {
     items?.forEach((el, i) => {
-      const active = i === index
       const content = el.querySelector<HTMLElement>('.focus-content')
-      if (content) content.style.opacity = active ? '1' : '0.3'
+      if (content) content.style.opacity = i === index ? '1' : '0.3'
     })
     imgs.forEach((img) => {
-      const idx = Number(img.dataset.index)
-      img.style.opacity = idx === index ? '1' : '0'
+      img.style.opacity = Number(img.dataset.index) === index ? '1' : '0'
     })
 
-    // Move card to vertical center of the active row
     if (card && list && items?.[index]) {
       const listRect = list.getBoundingClientRect()
       const rowRect = items[index].getBoundingClientRect()
@@ -97,13 +109,12 @@ const { label = 'Focus Areas', items = [] } = Astro.props
     }
   }
 
-  // default: first item active
   setActive(0)
 
   items?.forEach((el, i) => {
     el.addEventListener('mouseenter', () => setActive(i))
+    el.addEventListener('click', () => setActive(i))
   })
 
-  // restore first on mouse leave section
   list?.addEventListener('mouseleave', () => setActive(0))
 </script>
