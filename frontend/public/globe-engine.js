@@ -155,7 +155,7 @@
 
   // ── Cards (DOM) ───────────────────────────────────────────────────────────
   const PIN =
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.7c-3.7 0-6.7 3-6.7 6.7 0 4.9 6.7 13.2 6.7 13.2s6.7-8.3 6.7-13.2c0-3.7-3-6.7-6.7-6.7z"/><circle cx="12" cy="8.4" r="2.4" fill="#f4f4f5"/></svg>';
+    '<svg width="25" height="25" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.7c-3.7 0-6.7 3-6.7 6.7 0 4.9 6.7 13.2 6.7 13.2s6.7-8.3 6.7-13.2c0-3.7-3-6.7-6.7-6.7z"/><circle cx="12" cy="8.4" r="2.4" fill="#f4f4f5"/></svg>';
 
   function buildCards() {
     cardsLayer.innerHTML = "";
