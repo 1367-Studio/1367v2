@@ -14,24 +14,32 @@ import testimonialsSection from './documents/testimonialsSection'
 import brandLogo from './objects/brandLogo'
 import testimonialItem from './objects/testimonialItem'
 import seo from './objects/seo'
+import stat from './objects/stat'
+import aboutHeroSection from './documents/aboutHeroSection'
+import aboutPhilosophySection from './documents/aboutPhilosophySection'
+import aboutTextRevealSection from './documents/aboutTextRevealSection'
 
 export const schemaTypes = [
   // documents
-  post,
+  aboutHeroSection,
+  aboutPhilosophySection,
+  aboutTextRevealSection,
   case_,
-  header,
-  footer,
-  heroSection,
-  statementSection,
-  tickerSection,
   featuredCaseSection,
   featuredCase2Section,
   featuredCase3Section,
+  footer,
+  header,
+  heroSection,
   letsBuildSection,
+  post,
   projectSection,
+  statementSection,
   testimonialsSection,
+  tickerSection,
   // objects
   brandLogo,
+  stat,
   testimonialItem,
   seo,
 ]

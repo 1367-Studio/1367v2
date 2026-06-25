@@ -1,0 +1,43 @@
+---
+interface Props {
+  leftText: string
+  rightText?: string
+}
+
+const {
+  leftText,
+  rightText,
+} = Astro.props
+---
+
+
+
+<section class="relative w-full overflow-hidden h-screen bg-black text-white">
+      <div class="flex flex-col gap-8 pt-[64px] px-6 py-12 md:px-8 lg:block">
+        <!-- Left text -->
+        <p class="relative lg:absolute lg:left-8 lg:top-[120px] max-w-[440px] font-geist font-normal text-base md:text-lg lg:text-2xl leading-snug lg:leading-[1.04] tracking-tight lg:tracking-[-0.01em]">
+        {leftText}
+        </p>
+
+        <!-- Right text -->
+        <p class="relative self-end lg:absolute lg:right-8 lg:top-[253px] max-w-[220px] font-[Geist_Mono] font-normal text-xs leading-[1.2] tracking-[-0.01em] uppercase">
+          {rightText}
+        </p>
+    </div>
+
+    <!-- Endless Tools animation -->
+    <div id="about-iframe-outer" class="-translate-y-[28%] lg:translate-y-0" style="position:relative;">
+      <div id="about-iframe-skeleton" style="width:100%; position:absolute;background:linear-gradient(90deg,#111 25%,#1a1a1a 50%,#111 75%);background-size:200% 100%;"></div>
+      <iframe
+        id="about-iframe"
+        src="https://app.endlesstools.io/embed/8be04683-240c-40ba-b873-845f8bbb646c"
+        allowtransparency="true"
+        frameborder="0"
+        loading="lazy"
+        allow="clipboard-write; encrypted-media; gyroscope; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        aria-hidden="true"
+        style="display:block; width:100vw; height:100vh; border:none; background:transparent; opacity:0; pointer-events:none;"
+      />
+    </div>
+</section>

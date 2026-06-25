@@ -26,9 +26,10 @@ interface Props {
   image?: string;
   type?: "website" | "article";
   noindex?: boolean;
+  headerTheme?: 'light' | 'dark';
 }
 
-const { title, description, image, type, noindex } = Astro.props;
+const { title, description, image, type, noindex, headerTheme } = Astro.props;
 ---
 
 <!doctype html>
@@ -43,7 +44,7 @@ const { title, description, image, type, noindex } = Astro.props;
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Sans:wght@400;600&family=Inter:wght@400;600&family=Playfair+Display:wght@400&display=swap" rel="stylesheet">
   </head>
   <body>
-    <Header />
+    <Header theme={headerTheme}/>
     <main>
       <slot />
     </main>
