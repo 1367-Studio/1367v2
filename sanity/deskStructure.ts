@@ -103,8 +103,46 @@ const deskStructure = (S: StructureBuilder) =>
         ),
 
       S.divider(),
+
       // -------------------------------------------------------
-      // 4. CASES & POSTS
+      // 4. CONTACT PAGE
+      // -------------------------------------------------------
+      S.listItem()
+        .title('Contact Page')
+        .child(
+          S.list()
+            .title('Contact Page')
+            .items([
+              S.listItem()
+                .title('Contact Section')
+                .child(
+                  S.editor().schemaType('contactSection').documentId('contactSection'),
+                ),
+            ]),
+        ),
+
+      S.divider(),
+
+      // -------------------------------------------------------
+      // 5. OTHER PAGES
+      // -------------------------------------------------------
+      S.listItem()
+        .title('Other Pages')
+        .child(
+          S.list()
+            .title('Other Pages')
+            .items([
+              S.listItem()
+                .title('404 — Not Found')
+                .child(
+                  S.editor().schemaType('notFoundSection').documentId('notFoundSection'),
+                ),
+            ]),
+        ),
+
+      S.divider(),
+      // -------------------------------------------------------
+      // 6. CASES & POSTS
       // -------------------------------------------------------
       S.listItem()
         .title('Cases')

@@ -125,6 +125,7 @@ export default function USDZViewer({
     let animId: number
     let elapsed = 0
     let lastTs = performance.now()
+    let visible = true
 
     new USDZLoader().load(src, (group) => {
       const box = new THREE.Box3().setFromObject(group)
@@ -138,7 +139,18 @@ export default function USDZViewer({
       turntable.add(group)
     })
 
+    const io = new IntersectionObserver(
+      (entries) => {
+        const wasVisible = visible
+        visible = entries[0].isIntersecting
+        if (visible && !wasVisible) animate(performance.now())
+      },
+      { threshold: 0 }
+    )
+    io.observe(container)
+
     const animate = (ts: number) => {
+      if (!visible) return
       animId = requestAnimationFrame(animate)
       if (r.playing.current) elapsed += (ts - lastTs) * 0.001
       lastTs = ts
@@ -184,6 +196,7 @@ export default function USDZViewer({
     return () => {
       cancelAnimationFrame(animId)
       ro.disconnect()
+      io.disconnect()
       renderer.dispose()
       if (container.contains(renderer.domElement)) container.removeChild(renderer.domElement)
     }

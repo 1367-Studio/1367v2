@@ -46,25 +46,25 @@ const {theme = 'light'} = Astro.props
   <div class="flex w-full max-w-3xl items-center justify-between">
     <nav class="flex gap-6 cursor-pointer hidden md:flex">
       {leftLinks?.map((item: any) => (
-        <a href={item.href} class={`font-[Geist] text-[14px] font-normal leading-[1.12] tracking-[-0.01em] text-center text-black opacity-100 transition-all duration-200 hover:opacity-60 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>{item.label}</a>
+        <a href={item.href} class="header-link font-[Geist] text-[14px] font-normal leading-[1.12] tracking-[-0.01em] text-center opacity-100 transition-all duration-200 hover:opacity-60">{item.label}</a>
       ))}
     </nav>
 
     <a href="/" class="shrink-0">
       {logoUrl
-        ? <img src={logoUrl} alt="1367 Studio" class="h-6 w-auto" />
-        : <span class={`font-bold text-black ${theme === 'dark' ? 'text-white' : 'text-black'}`}>1367</span>
+        ? <img src={logoUrl} alt="1367 Studio" class="header-logo h-6 w-auto" />
+        : <span class="header-link font-bold">1367</span>
       }
     </a>
 
     <nav class="flex gap-6 cursor-pointer items-center hidden md:flex">
       {rightLinks?.map((item: any) => (
-        <a href={item.href} class={`font-[Geist] text-[14px] font-normal leading-[1.12] tracking-[-0.01em] text-center text-black opacity-100 transition-all duration-200 hover:opacity-60 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>{item.label}</a>
+        <a href={item.href} class="header-link font-[Geist] text-[14px] font-normal leading-[1.12] tracking-[-0.01em] text-center opacity-100 transition-all duration-200 hover:opacity-60">{item.label}</a>
       ))}
     </nav>
 
     <!-- hamburger button -->
-    <button id="menu-btn" class={`text-black md:hidden relative z-50 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+    <button id="menu-btn" class="header-link md:hidden relative z-50">
       <Menu id="icon-menu" size={16} />
       <X id="icon-close" size={16} class="hidden" />
     </button>
@@ -85,6 +85,7 @@ const {theme = 'light'} = Astro.props
     opacity: 0;
     transform: translateY(-12px);
     transition: transform 0.4s ease, opacity 0.5s ease;
+    --hc: #000000;
   }
 
   #site-header.is-visible {
@@ -92,10 +93,28 @@ const {theme = 'light'} = Astro.props
     transform: translateY(0);
   }
 
+  #site-header[data-theme="light"] {
+    --hc: #ffffff;
+  }
+
+  .header-link {
+    color: var(--hc);
+    transition: color 0.3s ease, opacity 0.2s ease;
+  }
+
+  .header-logo {
+    filter: brightness(0);
+    transition: filter 0.3s ease;
+  }
+
+  #site-header[data-theme="light"] .header-logo {
+    filter: brightness(0) invert(1);
+  }
+
   #mobile-menu.is-open {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
   }
 </style>
 
@@ -110,6 +129,39 @@ const {theme = 'light'} = Astro.props
   requestAnimationFrame(() => {
     setTimeout(() => header.classList.add('is-visible'), 200)
   })
+
+  // Adaptive color: detecta o bg atrás do header automaticamente
+  function isBlack(color: string): boolean {
+    const m = color.match(/\d+/g)
+    if (!m || m.length < 3) return false
+    const [r, g, b] = m.map(Number)
+    return r < 30 && g < 30 && b < 30
+  }
+
+  function updateHeaderTheme() {
+    const cy = header.getBoundingClientRect().bottom + 4
+    const cx = window.innerWidth / 2
+    const elements = document.elementsFromPoint(cx, cy)
+
+    for (const el of elements) {
+      if (header.contains(el) || el === header) continue
+      if (el === document.body || el === document.documentElement) continue
+      // data-header-theme tem prioridade
+      const forced = (el as HTMLElement).dataset?.headerTheme
+      if (forced) { header.setAttribute('data-theme', forced); return }
+      const bg = getComputedStyle(el).backgroundColor
+      if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+        header.setAttribute('data-theme', isBlack(bg) ? 'light' : 'dark')
+        return
+      }
+    }
+    // fallback: usa o bg do body
+    const bodyBg = getComputedStyle(document.body).backgroundColor
+    header.setAttribute('data-theme', isDark(bodyBg) ? 'light' : 'dark')
+  }
+
+  updateHeaderTheme()
+  window.addEventListener('scroll', updateHeaderTheme, { passive: true })
 
   // popup toggle
   btn.addEventListener('click', () => {
