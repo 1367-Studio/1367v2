@@ -11,11 +11,9 @@ interface Props {
   subtitle?: string
   brandsLabel?: string
   brands?: Brand[]
-  marqueeItems?: { label: string }[]
 }
 
-const { videoUrl = '/cinematic-reflection.mp4', title = '', subtitle = '', brandsLabel = '', brands = [], marqueeItems = [] } = Astro.props
-const doubled = [...marqueeItems, ...marqueeItems]
+const { videoUrl = '/hero-video.mp4', title = '', subtitle = '', brandsLabel = '', brands = [] } = Astro.props
 ---
 
 <section id="video-project" style="height: 500vh;">
@@ -28,7 +26,6 @@ const doubled = [...marqueeItems, ...marqueeItems]
         src={videoUrl}
         muted
         playsinline
-        autoplay
         preload="auto"
         class="h-full w-full object-cover"
       />
@@ -75,30 +72,8 @@ const doubled = [...marqueeItems, ...marqueeItems]
       </div>
     </div>
 
-    <!-- Marquee -->
-    {doubled.length > 0 && (
-      <div id="project-marquee" class="absolute bottom-0 left-0 right-0 overflow-hidden whitespace-nowrap py-4">
-        <div class="marquee-track inline-flex gap-12">
-          {doubled.map((item) => (
-            <span class="font-[Geist] text-[40px] tracking-widest text-white">{item.label}</span>
-          ))}
-        </div>
-      </div>
-    )}
-
   </div>
 </section>
-
-<style>
-  .marquee-track {
-    animation: marquee 20s linear infinite;
-  }
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-</style>
 
 <script>
   import { gsap } from 'gsap'
@@ -108,24 +83,43 @@ const doubled = [...marqueeItems, ...marqueeItems]
   const frame   = document.getElementById('video-frame')   as HTMLElement
   const overlay = document.getElementById('orange-overlay') as HTMLElement
   const content = document.getElementById('project-content') as HTMLElement
-  const marquee = document.getElementById('project-marquee') as HTMLElement | null
 
   if (wrapper && frame && video && overlay && content) {
     overlay.style.opacity = '0'
     content.style.opacity = '0'
     content.style.transform = 'translateY(60px)'
-    if (marquee) {
-      marquee.style.opacity = '0'
-      marquee.style.transform = 'translateY(20px)'
-    }
 
-    // Intro keeps the video at its original framed size, then grows it out to
-    // fill 100% width/height. The scroll-driven animation is gated until then.
+    // Intro: clip-path expand on load (no scroll lock)
     const START_INSET = window.innerWidth < 1024 ? 24 : 80
-
-    let introDone = false
     const intro = { inset: START_INSET }
     frame.style.clipPath = `inset(${START_INSET}px)`
+    gsap.to(intro, {
+      inset: 0,
+      duration: 1.2,
+      delay: 0.2,
+      ease: 'power3.inOut',
+      onUpdate: () => { frame.style.clipPath = `inset(${intro.inset}px)` },
+    })
+
+    // iOS requires a play/pause cycle to unlock seeking
+    let videoReady = false
+    const unlock = () => {
+      video.play()
+        .then(() => { video.pause(); video.currentTime = 0; videoReady = true })
+        .catch(() => { video.currentTime = 0; videoReady = true })
+    }
+    if (video.readyState >= 1) { unlock() }
+    else { video.addEventListener('loadedmetadata', unlock, { once: true }) }
+
+    // Queue-based seeking: never interrupt a seek in progress — browser gets
+    // stuck if you keep setting currentTime while it's still seeking.
+    let pendingTime: number | null = null
+    video.addEventListener('seeked', () => {
+      if (pendingTime !== null) {
+        video.currentTime = pendingTime
+        pendingTime = null
+      }
+    })
 
     const getProgress = () => {
       const rect = wrapper.getBoundingClientRect()
@@ -133,62 +127,22 @@ const doubled = [...marqueeItems, ...marqueeItems]
       return scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0
     }
 
-    let videoReady = false
-
-    const onVideoReady = () => {
-      // iOS requires a play/pause cycle before currentTime seeks work on a
-      // non-autoplay video. This unlocks the media element without visible playback.
-      video.play().then(() => { video.pause(); video.currentTime = 0; videoReady = true })
-           .catch(() => { video.currentTime = 0; videoReady = true })
-    }
-
-    if (video.readyState >= 1) {
-      onVideoReady()
-    } else {
-      video.addEventListener('loadedmetadata', onVideoReady, { once: true })
-    }
-
-    // ── Lock scroll, grow the video to full size, then enable scroll animation ──
-    const lockScroll = () => { document.body.style.overflow = 'hidden' }
-    const unlockScroll = () => { document.body.style.overflow = '' }
-
-    lockScroll()
-    gsap.to(intro, {
-      inset: 0,
-      duration: 1.2,
-      delay: 0.2,
-      ease: 'power3.inOut',
-      onUpdate: () => { frame.style.clipPath = `inset(${intro.inset}px)` },
-      onComplete: () => {
-        introDone = true
-        unlockScroll()
-      },
-    })
-
     gsap.ticker.add(() => {
-      // Hold until the intro grow-to-full-size animation has finished.
-      if (!introDone) return
-
       const p = getProgress()
 
-      // Frame is already full-size from the intro — keep it pinned to inset 0.
-      frame.style.clipPath = 'inset(0px)'
-
       if (videoReady && video.duration) {
-        const videoProgress = Math.max(0, (p - 0.4) / 0.6)
-        video.currentTime = videoProgress * video.duration
+        const t = p * video.duration
+        if (video.seeking) {
+          pendingTime = t
+        } else {
+          video.currentTime = t
+        }
       }
 
-      overlay.style.opacity = String(Math.max(0, Math.min(1, (p - 0.6) / 0.4)))
-
-      const cp = Math.max(0, Math.min(1, (p - 0.8) / 0.2))
+      overlay.style.opacity = String(Math.max(0, Math.min(1, (p - 0.78) / 0.22)))
+      const cp = Math.max(0, Math.min(1, (p - 0.9) / 0.1))
       content.style.opacity   = String(cp)
       content.style.transform = `translateY(${(1 - cp) * 60}px)`
-
-      // if (marquee) {
-      //   marquee.style.opacity   = String(cp)
-      //   marquee.style.transform = `translateY(${(1 - cp) * 20}px)`
-      // }
     })
   }
 </script>

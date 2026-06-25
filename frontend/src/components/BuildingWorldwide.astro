@@ -1,0 +1,80 @@
+---
+interface Props {
+  title?: string
+}
+
+const { title = 'Building\nWorldwide' } = Astro.props
+---
+
+<style is:global>
+  /* City card styles (from globe-engine) */
+  :root {
+    --gink: #111113;
+    --gpill: #f3f3f4;
+    --gsub-c: #9a9aa0;
+  }
+  .gcard {
+    position: absolute; left: 0; top: 0;
+    transform: translate(-50%, -50%) scale(var(--s, 1));
+    transform-origin: center center;
+    display: flex; align-items: center; gap: 13px;
+    padding: 6px 10px 6px 6px;
+    border-radius: 999px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: transform .16s ease-out;
+  }
+  .gpin { display: flex; align-items: center; justify-content: center; flex: none; }
+  .gpin svg { width: 25px; height: 25px; display: block; fill: var(--gink); }
+  .gtext { display: flex; flex-direction: column; gap: 4px; }
+  .gtitle { font-weight: 600; font-size: 21px; line-height: 1; letter-spacing: -0.012em; color: var(--gink); }
+  .gsub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-weight: 500; font-size: 11.5px; line-height: 1;
+    letter-spacing: 0.04em; color: var(--gsub-c);
+    font-variant-numeric: tabular-nums;
+  }
+  .gclock { color: var(--gink); opacity: .55; }
+  .gdot { opacity: .5; margin: 0 1px; }
+</style>
+
+<!-- Title in normal flow, above the scroll track -->
+<div class="bg-white px-8 pb-0 pt-[80px] text-center md:px-16 md:pt-[100px]">
+  <h2 class="whitespace-pre-line font-[Geist] text-[72px] font-normal leading-[1.0] tracking-[-0.03em] text-black">
+    {title}
+  </h2>
+</div>
+
+<!-- 200vh scroll track: canvas fills 100vh, no title inside, no clip -->
+<section
+  id="globe-scene"
+  data-header-theme="light"
+  style="position: relative; height: 200vh; background: #ffffff;"
+>
+  <div style="position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;">
+    <canvas id="globe-canvas" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;"></canvas>
+    <div id="globe-cards" style="position: absolute; inset: 0; pointer-events: none;"></div>
+  </div>
+</section>
+
+<!-- Three.js (r128 build bundled with the globe) + Globe engine -->
+<script is:inline src="/three.globe.js"></script>
+<script is:inline src="/globe-engine.js"></script>
+<script is:inline>
+  (function () {
+    function start() {
+      if (!window.THREE || !window.Globe) { setTimeout(start, 30); return; }
+      window.Globe.init({
+        canvas:     document.getElementById('globe-canvas'),
+        cardsLayer: document.getElementById('globe-cards'),
+        sceneEl:    document.getElementById('globe-scene'),
+      });
+      window.Globe.setConfig({ spins: 0, density: 'dense' });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start);
+    } else {
+      start();
+    }
+  })();
+</script>

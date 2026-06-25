@@ -18,6 +18,7 @@ import stat from './objects/stat'
 import aboutHeroSection from './documents/aboutHeroSection'
 import aboutPhilosophySection from './documents/aboutPhilosophySection'
 import aboutTextRevealSection from './documents/aboutTextRevealSection'
+import buildingWorldwideSection from './documents/buildingWorldwideSection'
 import contactSection from './documents/contactSection'
 import focusAreasSection from './documents/focusAreasSection'
 import notFoundSection from './documents/notFoundSection'
@@ -26,6 +27,7 @@ import officeItem from './objects/officeItem'
 export const schemaTypes = [
   // documents
   aboutHeroSection,
+  buildingWorldwideSection,
   aboutPhilosophySection,
   aboutTextRevealSection,
   case_,
