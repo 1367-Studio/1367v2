@@ -63,6 +63,11 @@ const deskStructure = (S: StructureBuilder) =>
                   S.editor().schemaType('featuredCase3Section').documentId('featuredCase3Section'),
                 ),
               S.listItem()
+                .title('Focus Areas Section')
+                .child(
+                  S.editor().schemaType('focusAreasSection').documentId('focusAreasSection'),
+                ),
+              S.listItem()
                 .title("Let's Build Section")
                 .child(S.editor().schemaType('letsBuildSection').documentId('letsBuildSection')),
               S.listItem()

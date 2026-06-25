@@ -26,14 +26,14 @@ const {
 const total = testimonials.length
 ---
 
-<section id="testimonials-section" class="bg-black px-6 py-16 lg:px-12 lg:py-24">
+<section id="testimonials-section" class="bg-white px-6 py-16 lg:px-12 lg:py-24">
   <div class="flex flex-col gap-20 lg:flex-row lg:gap-96">
 
     <!-- Left: Testimonial carousel -->
     <div class="lg:w-[38%]">
       <!-- Progress bar no topo -->
-      <div class="mb-8 h-[1px] bg-white/10">
-        <div id="testimonial-progress" class="h-full bg-white" style="width: 0%;" />
+      <div class="mb-8 h-[1px] bg-black/10">
+        <div id="testimonial-progress" class="h-full bg-black" style="width: 0%;" />
       </div>
 
       <div id="testimonial-card">
@@ -48,22 +48,22 @@ const total = testimonials.length
               {t.avatarUrl ? (
                 <img src={t.avatarUrl} alt={t.author} class="h-full w-full object-cover" />
               ) : (
-                <div class="h-full w-full bg-white/10" />
+                <div class="h-full w-full bg-black/10" />
               )}
             </div>
 
             <!-- Coluna 2: Quote + autor -->
             <div class="flex min-w-0 flex-col gap-6 lg:w-[250px]">
-              <p class="font-[Geist] text-[16px] font-normal text-white" style="line-height: 104%; letter-spacing: -0.01em;">
+              <p class="font-[Geist] text-[16px] font-normal text-black" style="line-height: 104%; letter-spacing: -0.01em;">
                 &ldquo;{t.quote}&rdquo;
               </p>
-              <p class="font-[Geist] text-[14px] font-normal text-white" style="line-height: 104%; letter-spacing: -0.01em;">
+              <p class="font-[Geist] text-[14px] font-normal text-black" style="line-height: 104%; letter-spacing: -0.01em;">
                 {t.author}
               </p>
             </div>
 
             <!-- Coluna 3: Contador -->
-            <span class="font-[Geist_Mono] text-[12px] font-normal uppercase whitespace-nowrap" style="line-height: 120%; letter-spacing: -0.01em; color: #fff;">
+            <span class="font-[Geist_Mono] text-[12px] font-normal uppercase whitespace-nowrap" style="line-height: 120%; letter-spacing: -0.01em; color: #000;">
               {String(i + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
             </span>
           </div>
@@ -73,7 +73,7 @@ const total = testimonials.length
 
     <!-- Right: Brand logos -->
     <div class="lg:w-[62%]">
-      <p class="mb-6 font-[Geist] text-[14px] font-normal text-white" style="line-height: 120%; letter-spacing: -0.01em;">
+      <p class="mb-6 font-[Geist] text-[14px] font-normal text-black" style="line-height: 120%; letter-spacing: -0.01em;">
         {brandsLabel}
       </p>
       <div class="p-0">
@@ -84,10 +84,10 @@ const total = testimonials.length
                 <img
                   src={brand.logoUrl}
                   alt={brand.alt || brand.name}
-                  class="max-w-full object-contain brightness-0 invert" style="height: 42px; width: auto; max-height: 42px;"
+                  class="max-w-full object-contain" style="height: 42px; width: auto; max-height: 42px;"
                 />
               ) : (
-                <span class="font-[Geist_Mono] text-[12px] text-white/40">{brand.name}</span>
+                <span class="font-[Geist_Mono] text-[12px] text-black/40">{brand.name}</span>
               )}
             </div>
           ))}
