@@ -1,0 +1,28 @@
+<section class="case-hero flex flex-col bg-white text-black px-8 pt-[60px] pb-[40px] lg:grid lg:min-h-[535px] lg:pt-[120px] lg:pb-[84px]">
+  <div class="area-line h-[1px] bg-black"></div>
+  <span class="area-client font-[Geist] font-normal text-[24px] lg:text-[32px] leading-[1.2] tracking-[-0.01em] mb-6 lg:mb-0 lg:max-w-[76px]">Project overview</span>
+   <h2 class="area-title font-[Geist] font-normal text-[32px] lg:text-[48px] leading-[1.2] tracking-[-0.01em] text-black mb-6 lg:mb-0">
+    Turning uncertainty into exhilaration for everyday golfers.
+  </h2>
+  <p class="area-text text-[#666666]">
+    Golf instruction is a crowded market. Quick fixes, pricey gear, and pro lessons leave players overwhelmed, unsure where to turn. PG1 provides certainty, fixing root flaws in a personalized series of steps, in the right order, at the right time. Every upswing in performance feeds a player's passion, so we anchored the brand in an exhilarating Idea Worth Rallying Around®. Love Your Game shifts the slog of practice to the thrill of progress, framing Performance Golf as the key to a more joyful game.
+  </p>
+</section>
+
+<style>
+  @media (min-width: 1024px) {
+    .case-hero {
+      grid-template-areas:
+        "line   line  line"
+        "client title    ."
+        ".      text     .";
+      grid-template-rows: auto 1fr auto;
+      grid-template-columns: 50% 40% 10%;
+    }
+
+    .area-line   { grid-area: line; }
+    .area-client { grid-area: client; padding-top: 36px; }
+    .area-title  { grid-area: title; padding-top: 36px; }
+    .area-text   { grid-area: text; padding-top: 2rem; }
+  }
+</style>
