@@ -19,6 +19,7 @@ import aboutHeroSection from './documents/aboutHeroSection'
 import aboutPhilosophySection from './documents/aboutPhilosophySection'
 import aboutTextRevealSection from './documents/aboutTextRevealSection'
 import contactSection from './documents/contactSection'
+import focusAreasSection from './documents/focusAreasSection'
 import notFoundSection from './documents/notFoundSection'
 import officeItem from './objects/officeItem'
 
@@ -41,6 +42,7 @@ export const schemaTypes = [
   testimonialsSection,
   tickerSection,
   contactSection,
+  focusAreasSection,
   notFoundSection,
   // objects
   brandLogo,
