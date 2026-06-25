@@ -39,6 +39,11 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
 >
   <VideoProjectSection
     videoUrl={projectSection?.videoUrl ?? '/hero-video.mp4'}
+    heroTitle={hero?.title ?? "Designing the future, one pixel at a time."}
+    heroSubtitle={hero?.subtitle ?? ""}
+    heroDescription={hero?.description ?? "We build digital experiences that scale with your business."}
+    heroCtaLabel={hero?.ctaLabel ?? "BOOK A CALL"}
+    heroCtaHref={hero?.ctaHref ?? "/contact"}
     title={projectSection?.title ?? "We build ambitious digital products."}
     subtitle={projectSection?.subtitle ?? ""}
     brandsLabel={projectSection?.brandsLabel ?? ""}

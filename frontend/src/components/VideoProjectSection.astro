@@ -7,20 +7,36 @@ interface Brand {
 
 interface Props {
   videoUrl?: string
+  heroTitle?: string
+  heroSubtitle?: string
+  heroDescription?: string
+  heroCtaLabel?: string
+  heroCtaHref?: string
   title?: string
   subtitle?: string
   brandsLabel?: string
   brands?: Brand[]
 }
 
-const { videoUrl = '/hero-video.mp4', title = '', subtitle = '', brandsLabel = '', brands = [] } = Astro.props
+const {
+  videoUrl = '/hero-video.mp4',
+  heroTitle = '',
+  heroSubtitle = '',
+  heroDescription = '',
+  heroCtaLabel = '',
+  heroCtaHref = '/contact',
+  title = '',
+  subtitle = '',
+  brandsLabel = '',
+  brands = [],
+} = Astro.props
 ---
 
-<section id="video-project" style="height: 500vh;">
-  <div id="video-project-inner" class="sticky top-0 h-screen w-full overflow-hidden bg-black">
+<section id="video-project" style="height: 500vh; background: #fff;">
+  <div id="video-project-inner" class="sticky top-0 h-screen w-full overflow-hidden bg-white">
 
-    <!-- Video layer — wrapped in frame div -->
-    <div id="video-frame" class="absolute inset-0">
+    <!-- Video layer -->
+    <div id="video-frame" class="absolute inset-0" style="transform: scale(0.55); border-radius: 16px; overflow: hidden;">
       <video
         id="scrub-video"
         src={videoUrl}
@@ -31,6 +47,33 @@ const { videoUrl = '/hero-video.mp4', title = '', subtitle = '', brandsLabel = '
       />
     </div>
 
+    <!-- Hero text — bottom row, same layout as old Hero -->
+    <div
+      id="hero-text"
+      class="absolute bottom-6 left-6 right-6 flex flex-col gap-6 lg:bottom-10 lg:left-10 lg:right-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8"
+    >
+      <h1 class="font-[Geist] text-[32px] font-normal leading-[1.04]">
+        {heroTitle && <span class="block text-black lg:whitespace-nowrap">{heroTitle}</span>}
+        {heroSubtitle && <span class="block text-black/40 lg:whitespace-nowrap">{heroSubtitle}</span>}
+      </h1>
+
+      <div class="flex items-end gap-6">
+        {heroDescription && (
+          <p class="max-w-[216px] font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-black/70">
+            {heroDescription}
+          </p>
+        )}
+        {heroCtaLabel && (
+          <a
+            href={heroCtaHref}
+            class="shrink-0 rounded-lg bg-primary px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-white transition-opacity hover:opacity-90"
+          >
+            {heroCtaLabel}
+          </a>
+        )}
+      </div>
+    </div>
+
     <!-- Orange overlay -->
     <div
       id="orange-overlay"
@@ -38,7 +81,7 @@ const { videoUrl = '/hero-video.mp4', title = '', subtitle = '', brandsLabel = '
       style="opacity: 0;"
     />
 
-    <!-- Project content -->
+    <!-- Project content (appears at end of scroll over orange) -->
     <div
       id="project-content"
       class="absolute inset-0 flex flex-col items-center justify-center"
@@ -46,9 +89,9 @@ const { videoUrl = '/hero-video.mp4', title = '', subtitle = '', brandsLabel = '
     >
       <div class="mx-auto max-w-2xl px-8 text-center text-white">
         {title && (
-          <h1 class="font-[Geist] text-[40px] font-normal leading-tight">
+          <h2 class="font-[Geist] text-[40px] font-normal leading-tight">
             {title}
-          </h1>
+          </h2>
         )}
         {subtitle && (
           <p class="mx-auto mt-6 max-w-md font-[Geist] text-sm leading-relaxed opacity-80">
@@ -80,28 +123,19 @@ const { videoUrl = '/hero-video.mp4', title = '', subtitle = '', brandsLabel = '
 <script>
   import { gsap } from 'gsap'
 
-  const wrapper = document.getElementById('video-project') as HTMLElement
-  const video   = document.getElementById('scrub-video')   as HTMLVideoElement
-  const frame   = document.getElementById('video-frame')   as HTMLElement
-  const overlay = document.getElementById('orange-overlay') as HTMLElement
-  const content = document.getElementById('project-content') as HTMLElement
+  const wrapper  = document.getElementById('video-project')   as HTMLElement
+  const video    = document.getElementById('scrub-video')     as HTMLVideoElement
+  const frame    = document.getElementById('video-frame')     as HTMLElement
+  const heroText = document.getElementById('hero-text')       as HTMLElement
+  const overlay  = document.getElementById('orange-overlay')  as HTMLElement
+  const content  = document.getElementById('project-content') as HTMLElement
 
   if (wrapper && frame && video && overlay && content) {
-    overlay.style.opacity = '0'
-    content.style.opacity = '0'
-    content.style.transform = 'translateY(60px)'
-
-    // Intro: clip-path expand on load (no scroll lock)
-    const START_INSET = window.innerWidth < 1024 ? 24 : 80
-    const intro = { inset: START_INSET }
-    frame.style.clipPath = `inset(${START_INSET}px)`
-    gsap.to(intro, {
-      inset: 0,
-      duration: 1.2,
-      delay: 0.2,
-      ease: 'power3.inOut',
-      onUpdate: () => { frame.style.clipPath = `inset(${intro.inset}px)` },
-    })
+    // Video starts small, grows to full as user scrolls (first 40% of section)
+    const START_SCALE = window.innerWidth < 1024 ? 0.65 : 0.55
+    frame.style.transform = `scale(${START_SCALE})`
+    frame.style.borderRadius = '16px'
+    frame.style.overflow = 'hidden'
 
     // iOS requires a play/pause cycle to unlock seeking
     let videoReady = false
@@ -113,8 +147,7 @@ const { videoUrl = '/hero-video.mp4', title = '', subtitle = '', brandsLabel = '
     if (video.readyState >= 1) { unlock() }
     else { video.addEventListener('loadedmetadata', unlock, { once: true }) }
 
-    // Queue-based seeking: never interrupt a seek in progress — browser gets
-    // stuck if you keep setting currentTime while it's still seeking.
+    // Queue-based seeking: never interrupt a seek in progress
     let pendingTime: number | null = null
     video.addEventListener('seeked', () => {
       if (pendingTime !== null) {
@@ -131,6 +164,17 @@ const { videoUrl = '/hero-video.mp4', title = '', subtitle = '', brandsLabel = '
 
     gsap.ticker.add(() => {
       const p = getProgress()
+
+      // Scale: grows from START_SCALE to 1 over first 40% of scroll
+      const sp = Math.min(1, p / 0.4)
+      const scale = START_SCALE + (1 - START_SCALE) * sp
+      const radius = 16 * (1 - sp)
+      frame.style.transform = `scale(${scale})`
+      frame.style.borderRadius = `${radius}px`
+
+      // Hero text: always visible, fades out as orange overlay comes in
+      const textOut = Math.max(0, Math.min(1, (p - 0.7) / 0.08))
+      if (heroText) { heroText.style.opacity = String(1 - textOut) }
 
       if (videoReady && video.duration) {
         const t = p * video.duration
