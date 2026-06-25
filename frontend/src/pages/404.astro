@@ -1,0 +1,63 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import USDZViewer from "@/components/USDZViewer.tsx";
+import { client } from "@/lib/sanity";
+
+const data = await client.fetch(
+  `*[_type == "notFoundSection" && _id == "notFoundSection"][0]{
+    title,
+    ctaLabel,
+    ctaHref
+  }`
+);
+
+const title = data?.title ?? "Page not Found";
+const ctaLabel = data?.ctaLabel ?? "go back to home";
+const ctaHref = data?.ctaHref ?? "/";
+---
+
+<Layout title="Page not Found — 1367 Studio" description="This page doesn't exist.">
+  <section class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-black" data-header-theme="light">
+
+    <!-- Text + 3D group -->
+    <div
+      class="relative flex items-center justify-center"
+      style="width: min(920px, calc(100vw - 64px));"
+    >
+      <!-- Text: centered, wraps naturally on small screens -->
+      <h1
+        class="relative z-0 text-center font-[Geist] font-normal leading-[1.04] tracking-[-0.01em] text-white"
+        style="font-size: clamp(48px, 8.33vw, 120px);"
+      >
+        {title}
+      </h1>
+
+      <!-- 3D: centered over the text -->
+      <div
+        class="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
+        style="width: clamp(120px, 16vw, 290px); height: clamp(120px, 16vw, 290px);"
+      >
+        <USDZViewer
+          src="/Endless_Tools_2026-06-09_14-23-55.usdz"
+          rotationSpeed={0.015}
+          tiltX={0} tiltY={0} tiltZ={0}
+          offsetY={0}
+          cameraAzimuth={0} cameraElevation={1.57} cameraDistance={1}
+          fov={40} scale={1}
+          lAmbient={28.5} lTopRight={29.5} lBottomLeft={32} lTopLeft={29.5}
+          lFront={30.5} lRight={30.5} lBottom={32.5}
+          client:only="react"
+        />
+      </div>
+    </div>
+
+    <!-- CTA button -->
+    <a
+      href={ctaHref}
+      class="relative z-10 mt-20 inline-flex h-[48px] items-center justify-center rounded-[8px] bg-white px-[40px] font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-primary transition-opacity hover:opacity-80"
+    >
+      {ctaLabel}
+    </a>
+
+  </section>
+</Layout>
