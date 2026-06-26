@@ -1,6 +1,6 @@
-<section class="case-hero grid min-h-[535px] bg-black text-white px-8 lg:pt-[152px] lg:pb-[72px]">
-  <span class="area-client font-geist font-normal text-sm leading-[1.04] tracking-[-0.01em]">ASR Temp</span>
-  <h1 class="font-geist font-normal text-[80px] leading-[1.04] tracking-[-0.01em]">
+<section class="case-hero flex flex-col bg-black text-white px-8 pt-[60px] pb-[40px] lg:grid lg:min-h-[535px] lg:pt-[152px] lg:pb-[72px]">
+  <span class="area-client font-[Geist] font-normal text-sm leading-[1.04] tracking-[-0.01em] mb-6 lg:mb-0">ASR Temp</span>
+  <h1 class="font-[Geist] font-normal text-[40px] md:text-[60px] lg:text-[80px] leading-[1.04] tracking-[-0.01em] mb-8 lg:mb-0">
     Temporary Staffing Platform & Custom Website
   </h1>
   <div class="area-details flex justify-between lg:pt-12 font-[Geist_Mono] font-normal text-[12px] leading-[1.2] tracking-[-0.01em] uppercase text-white">
@@ -11,16 +11,18 @@
 </section>
 
 <style>
-  .case-hero {
-    grid-template-areas:
-      "client  ."
-      ".       title"
-      ".       details";
-    grid-template-rows: auto 1fr auto;
-    grid-template-columns: 1fr 2fr;
-  }
+  @media (min-width: 1024px) {
+    .case-hero {
+      grid-template-areas:
+        "client  ."
+        ".       title"
+        ".       details";
+      grid-template-rows: auto 1fr auto;
+      grid-template-columns: 1fr 2fr;
+    }
 
-  .area-client  { grid-area: client; }
-  .area-title   { grid-area: title; align-self: end; }
-  .area-details { grid-area: details; }
+    .area-client  { grid-area: client; }
+    .area-title   { grid-area: title; align-self: end; }
+    .area-details { grid-area: details; }
+  }
 </style>
