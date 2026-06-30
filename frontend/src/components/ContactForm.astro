@@ -1,44 +1,170 @@
 ---
 // Posts to the Resend-backed endpoint at /api/contact
+interface Props {
+  submitLabel?: string;
+}
+const { submitLabel = "Submit" } = Astro.props;
 ---
 
 <form
   id="contact-form"
-  class="flex w-full max-w-lg flex-col gap-9"
+  class="flex w-full flex-col gap-4"
   method="POST"
   action="/api/contact"
 >
-  <input
-    type="text"
-    name="name"
-    placeholder="Name"
-    required
-    class="w-full appearance-none border-0 border-b border-ink/30 bg-transparent pb-3 font-[Geist] text-lg text-ink placeholder:text-ink/50 outline-none transition-colors focus:border-ink"
-  />
-  <input
-    type="email"
-    name="email"
-    placeholder="Email"
-    required
-    class="w-full appearance-none border-0 border-b border-ink/30 bg-transparent pb-3 font-[Geist] text-lg text-ink placeholder:text-ink/50 outline-none transition-colors focus:border-ink"
-  />
+  <!-- Row 1: Name + Company -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div class="relative">
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        required
+        class="h-[72px] w-full rounded-[8px] border border-[#CCCCCC] bg-transparent px-5 font-[Geist] text-[18px] leading-[1.2] tracking-[-0.01em] text-white placeholder:text-white outline-none transition-colors focus:border-white focus:shadow-[inset_0_-2px_0_0_#F43C00]"
+      />
+    </div>
+    <input
+      type="text"
+      name="company"
+      placeholder="Company Name"
+      class="h-[72px] w-full rounded-[8px] border border-[#CCCCCC] bg-transparent px-5 font-[Geist] text-[18px] leading-[1.2] tracking-[-0.01em] text-white placeholder:text-white outline-none transition-colors focus:border-white"
+    />
+  </div>
+
+  <!-- Row 2: Website + Email -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <input
+      type="url"
+      name="website"
+      placeholder="Company Website"
+      class="h-[72px] w-full rounded-[8px] border border-[#CCCCCC] bg-transparent px-5 font-[Geist] text-[18px] leading-[1.2] tracking-[-0.01em] text-white placeholder:text-white outline-none transition-colors focus:border-white"
+    />
+    <input
+      type="email"
+      name="email"
+      placeholder="Work Email"
+      required
+      class="h-[72px] w-full rounded-[8px] border border-[#CCCCCC] bg-transparent px-5 font-[Geist] text-[18px] leading-[1.2] tracking-[-0.01em] text-white placeholder:text-white outline-none transition-colors focus:border-white"
+    />
+  </div>
+
+  <!-- Row 3: How did you hear (custom dropdown) -->
+  <div class="relative" id="source-dropdown">
+    <input type="hidden" name="source" id="source-value" />
+    <button
+      type="button"
+      id="source-trigger"
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      class="h-[72px] w-full rounded-[8px] border border-[#CCCCCC] bg-transparent px-5 text-left font-[Geist] text-[18px] leading-[1.2] tracking-[-0.01em] text-white outline-none transition-colors data-[open]:border-white"
+    >
+      How did you hear about us?
+    </button>
+    <svg
+      class="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 transition-transform duration-200"
+      id="source-chevron"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <path d="M4 6l4 4 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <ul
+      id="source-list"
+      role="listbox"
+      aria-label="How did you hear about us?"
+      class="absolute left-0 right-0 top-[calc(100%+4px)] z-10 hidden overflow-hidden rounded-[8px] border border-white/20 bg-[#d43500]"
+    >
+      {[
+        { value: "referral", label: "Referral" },
+        { value: "linkedin", label: "LinkedIn" },
+        { value: "instagram", label: "Instagram" },
+        { value: "google", label: "Google" },
+        { value: "other", label: "Other" },
+      ].map((opt) => (
+        <li
+          role="option"
+          aria-selected="false"
+          data-value={opt.value}
+          class="cursor-pointer px-5 py-4 font-[Geist] text-[18px] leading-[1.2] tracking-[-0.01em] text-white transition-colors hover:bg-white/10"
+        >
+          {opt.label}
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Row 4: Message -->
   <textarea
     name="message"
-    placeholder="Message"
-    rows="3"
+    placeholder="Tell us about the project"
     required
-    class="w-full resize-none appearance-none border-0 border-b border-ink/30 bg-transparent pb-3 font-[Geist] text-lg text-ink placeholder:text-ink/50 outline-none transition-colors focus:border-ink"
+    class="h-[168px] w-full resize-none rounded-[8px] border border-[#CCCCCC] bg-transparent px-5 py-5 font-[Geist] text-[18px] leading-[1.2] tracking-[-0.01em] text-white placeholder:text-white outline-none transition-colors focus:border-white"
   ></textarea>
+
   <button
     type="submit"
-    class="mt-2 inline-flex w-fit items-center justify-center rounded-full bg-ink px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-white transition-opacity hover:opacity-80"
+    class="mt-2 inline-flex h-[48px] w-fit items-center justify-center gap-2 rounded-[8px] bg-white px-[40px] py-[19px] font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-primary transition-opacity hover:opacity-80"
   >
-    Send
+    {submitLabel}
   </button>
-  <p id="contact-status" class="text-sm text-ink/70" aria-live="polite"></p>
+
+  <p id="contact-status" class="text-sm text-white/70" aria-live="polite"></p>
 </form>
 
 <script>
+  // Custom dropdown
+  const trigger = document.getElementById("source-trigger") as HTMLButtonElement | null;
+  const list = document.getElementById("source-list") as HTMLUListElement | null;
+  const chevron = document.getElementById("source-chevron") as SVGElement | null;
+  const hidden = document.getElementById("source-value") as HTMLInputElement | null;
+
+  function closeDropdown() {
+    list?.classList.add("hidden");
+    trigger?.removeAttribute("data-open");
+    trigger?.setAttribute("aria-expanded", "false");
+    chevron?.classList.remove("rotate-180");
+  }
+
+  trigger?.addEventListener("click", () => {
+    const isOpen = !list?.classList.contains("hidden");
+    if (isOpen) {
+      closeDropdown();
+    } else {
+      list?.classList.remove("hidden");
+      trigger.setAttribute("data-open", "");
+      trigger.setAttribute("aria-expanded", "true");
+      chevron?.classList.add("rotate-180");
+    }
+  });
+
+  list?.addEventListener("click", (e) => {
+    const item = (e.target as HTMLElement).closest("[data-value]") as HTMLElement | null;
+    if (!item) return;
+    const value = item.dataset.value ?? "";
+    const label = item.textContent?.trim() ?? "";
+    if (hidden) hidden.value = value;
+    if (trigger) {
+      trigger.textContent = label;
+      trigger.setAttribute("data-filled", "");
+    }
+    list.querySelectorAll("[role=option]").forEach((el) => el.setAttribute("aria-selected", "false"));
+    item.setAttribute("aria-selected", "true");
+    closeDropdown();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!document.getElementById("source-dropdown")?.contains(e.target as Node)) {
+      closeDropdown();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDropdown();
+  });
+
+  // Contact form submit
   const form = document.getElementById("contact-form") as HTMLFormElement | null;
   const status = document.getElementById("contact-status");
 

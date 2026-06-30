@@ -1,22 +1,15 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Hero from "@/components/Hero.astro";
 import Statement from "@/components/Statement.astro";
-// import FeaturedCase from "@/components/FeaturedCase.astro";
-// import FeaturedCase2 from "@/components/FeaturedCase2.astro";
 import FeaturedCase3 from "@/components/FeaturedCase3.astro";
 import LetsBuild from "@/components/LetsBuild.astro";
 import VideoProjectSection from "@/components/VideoProjectSection.astro"
 import Testimonials from "@/components/Testimonials.astro"
+import FocusAreas from "@/components/FocusAreas.astro"
+import BuildingWorldwide from "@/components/BuildingWorldwide.astro"
 import { client } from "@/lib/sanity"
-import imageUrlBuilder from '@sanity/image-url'
 
-const builder = imageUrlBuilder(client)
-function urlFor(source: any) {
-  return builder.image(source).url()
-}
-
-const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, projectSection, ticker, testimonialsSection] = await Promise.all([
+const [hero, statement, _featuredCase, _featuredCase2, featuredCase3, letsBuild, projectSection, ticker, testimonialsSection, focusAreas, buildingWorldwide] = await Promise.all([
   client.fetch(`*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`),
   client.fetch(`*[_type == "statementSection" && _id == "statementSection"][0]{ body }`),
   client.fetch(`*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`),
@@ -26,6 +19,8 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
   client.fetch(`*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
   client.fetch(`*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`),
   client.fetch(`*[_type == "testimonialsSection"][0]{ testimonials[]{ quote, author, "avatarUrl": avatar.asset->url }, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
+  client.fetch(`*[_type == "focusAreasSection" && _id == "focusAreasSection"][0]{ label, items[]{ title, subItems, "imageUrl": image.asset->url } }`),
+  client.fetch(`*[_type == "buildingWorldwideSection" && _id == "buildingWorldwideSection"][0]{ title }`),
 ])
 
 ---
@@ -34,12 +29,16 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
   description="1367 Studio is a digital branding agency engineering distinctive brand identities, custom websites and software for ambitious businesses across Brazil, France and the UK."
 >
   <VideoProjectSection
-    videoUrl={projectSection?.videoUrl ?? '/cinematic-reflection.mp4'}
+    videoUrl={projectSection?.videoUrl ?? '/hero-video.mp4'}
+    heroTitle={hero?.title ?? "Designing the future, one pixel at a time."}
+    heroSubtitle={hero?.subtitle ?? ""}
+    heroDescription={hero?.description ?? "We build digital experiences that scale with your business."}
+    heroCtaLabel={hero?.ctaLabel ?? "BOOK A CALL"}
+    heroCtaHref={hero?.ctaHref ?? "/contact"}
     title={projectSection?.title ?? "We build ambitious digital products."}
     subtitle={projectSection?.subtitle ?? ""}
     brandsLabel={projectSection?.brandsLabel ?? ""}
     brands={projectSection?.brands ?? []}
-    marqueeItems={ticker?.items ?? []}
   />
   {/* <Hero
     title={hero?.title ?? "Designing the future, one pixel at a time."}
@@ -50,6 +49,17 @@ const [hero, statement, featuredCase, featuredCase2, featuredCase3, letsBuild, p
     videoUrl={hero?.videoUrl}
   /> */}
   <Statement body={statement?.body ?? "We don't just build websites. We engineer digital experiences and custom software that solve real problems and scale with your business."} />
+  <FocusAreas
+    label={focusAreas?.label ?? 'Focus Areas'}
+    items={focusAreas?.items ?? [
+      { title: 'Web Platforms', subItems: ['Marketing websites', 'Customer portals', 'eCommerce'] },
+      { title: 'Software Products', subItems: ['SaaS platforms', 'Business tools', 'Custom applications'] },
+      { title: 'Enterprise Systems', subItems: ['Internal tools', 'Integrations', 'Workflows'] },
+      { title: 'Cloud Infrastructure', subItems: ['Architecture', 'Deployment pipelines', 'Platform reliability'] },
+      { title: 'Mobile Applications', subItems: ['Native apps', 'Cross-platform', 'Connected experiences'] },
+    ]}
+  />
+  <BuildingWorldwide title={buildingWorldwide?.title?.replace(/\\n/g, '\n') ?? 'Building\nWorldwide'} />
   <Testimonials
     testimonials={testimonialsSection?.testimonials ?? []}
     brandsLabel={testimonialsSection?.brandsLabel ?? "Trusted by brands worldwide:"}

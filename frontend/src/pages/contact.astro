@@ -1,27 +1,88 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import ContactForm from "@/components/ContactForm.astro";
+import { client } from "@/lib/sanity";
+
+const data = await client.fetch(
+  `*[_type == "contactSection" && _id == "contactSection"][0]{
+    title,
+    connectTitle,
+    offices[]{ city, phone, address },
+    email,
+    submitLabel
+  }`
+);
+
+const title = data?.title ?? "Let's build something that matters.";
+const connectTitle = (data?.connectTitle ?? "Connect\nwith us").replace(/\\n/g, "\n");
+const offices = data?.offices ?? [
+  { city: "Marseille, France", phone: "+33 07 63 85 83 88", address: null },
+  { city: "London, UK", phone: "+33 07 63 85 83 88", address: null },
+  {
+    city: "Florianópolis, Brazil",
+    phone: "+55 48 99195-8826",
+    address: "SC-405, 4397 - Campeche,\nFlorianópolis - SC, 88065-000\nOKA SHOPPING",
+  },
+];
+const email = data?.email ?? "hello@1367studio.com";
+const submitLabel = data?.submitLabel ?? "Submit";
 ---
+
 <Layout
   title="Contact 1367 Studio | Florianópolis, Marseille & London"
   description="Get in touch with 1367 Studio about branding, custom websites and software. We work with ambitious teams across Brazil, France and the UK."
+  hideFooter
 >
-  <section class="min-h-screen bg-primary text-ink">
-    <div class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-12 px-6 py-32 lg:px-0">
-      <header class="flex flex-col gap-4">
-        <span class="font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-widest text-ink/70">
-          Get in touch
-        </span>
-        <h1 class="font-[Geist] text-4xl font-normal leading-[1.04] tracking-[-0.01em] text-ink lg:text-6xl">
-          Let's build what's next.
-        </h1>
-        <p class="max-w-xl font-[Geist] text-base leading-relaxed text-ink/70">
-          Tell us about your project, whether it's branding, a custom website,
-          or software. We'll get back to you shortly.
-        </p>
-      </header>
+  <section class="min-h-screen bg-primary" data-header-theme="light">
+    <div class="mx-auto flex min-h-screen max-w-[1440px] flex-col gap-16 px-8 py-[160px] lg:flex-row lg:gap-0 lg:px-[120px]">
 
-      <ContactForm />
+      <!-- Left: Title + Form -->
+      <div class="flex flex-1 flex-col">
+        <h1 class="mb-16 max-w-[636px] font-[Geist] text-[40px] font-normal leading-[1.04] tracking-[-0.01em] text-white lg:text-[56px]">
+          {title}
+        </h1>
+        <ContactForm submitLabel={submitLabel} />
+      </div>
+
+      <!-- Separator -->
+      <div class="hidden w-px -my-[160px] self-stretch bg-white/40 lg:mx-[120px] lg:block"></div>
+
+      <!-- Right: Connect + Addresses -->
+      <div class="flex flex-col lg:w-[216px] lg:pt-[274px]">
+        <span class="mb-[41px] block whitespace-pre-line font-[Geist] text-[24px] font-normal leading-[1.04] tracking-[-0.01em] text-white">
+          {connectTitle}
+        </span>
+
+        <div class="flex flex-col gap-8">
+          {offices.map((office: any) => (
+            <div class="flex flex-col gap-[7px]">
+              <span class="font-[Geist] text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-white">
+                {office.city}
+              </span>
+              {office.phone && (
+                <span class="font-[Geist] text-[14px] font-normal leading-[1.2] tracking-[-0.01em] text-white">
+                  {office.phone}
+                </span>
+              )}
+              {office.address && (
+                <span class="whitespace-pre-line font-[Geist] text-[14px] font-normal leading-[1.2] tracking-[-0.01em] text-white">
+                  {office.address}
+                </span>
+              )}
+            </div>
+          ))}
+
+          <div class="flex flex-col gap-[7px]">
+            <a
+              href={`mailto:${email}`}
+              class="font-[Geist] text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-white transition-opacity hover:opacity-80"
+            >
+              {email}
+            </a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 </Layout>

@@ -27,9 +27,10 @@ interface Props {
   type?: "website" | "article";
   noindex?: boolean;
   headerTheme?: 'light' | 'dark';
+  hideFooter?: boolean;
 }
 
-const { title, description, image, type, noindex, headerTheme } = Astro.props;
+const { title, description, image, type, noindex, headerTheme, hideFooter } = Astro.props;
 ---
 
 <!doctype html>
@@ -48,14 +49,16 @@ const { title, description, image, type, noindex, headerTheme } = Astro.props;
     <main>
       <slot />
     </main>
-    <Footer
-      heading={footerData?.heading ?? undefined}
-      ctaLabel={footerData?.ctaLabel ?? undefined}
-      ctaHref={footerData?.ctaHref ?? undefined}
-      navLinks={footerData?.navLinks ?? undefined}
-      locations={footerData?.locations ?? undefined}
-      logoSrc={footerData?.logo ? builder.image(footerData.logo).height(64).fit('max').auto('format').url() : undefined}
-    />
+    {!hideFooter && (
+      <Footer
+        heading={footerData?.heading ?? undefined}
+        ctaLabel={footerData?.ctaLabel ?? undefined}
+        ctaHref={footerData?.ctaHref ?? undefined}
+        navLinks={footerData?.navLinks ?? undefined}
+        locations={footerData?.locations ?? undefined}
+        logoSrc={footerData?.logo ? builder.image(footerData.logo).height(64).fit('max').auto('format').url() : undefined}
+      />
+    )}
     <script>
       import { initSmoothScroll } from "@/lib/smooth-scroll";
       import { initTextReveal } from "@/lib/text-reveal";

@@ -63,6 +63,16 @@ const deskStructure = (S: StructureBuilder) =>
                   S.editor().schemaType('featuredCase3Section').documentId('featuredCase3Section'),
                 ),
               S.listItem()
+                .title('Focus Areas Section')
+                .child(
+                  S.editor().schemaType('focusAreasSection').documentId('focusAreasSection'),
+                ),
+              S.listItem()
+                .title('Building Worldwide Section')
+                .child(
+                  S.editor().schemaType('buildingWorldwideSection').documentId('buildingWorldwideSection'),
+                ),
+              S.listItem()
                 .title("Let's Build Section")
                 .child(S.editor().schemaType('letsBuildSection').documentId('letsBuildSection')),
               S.listItem()
@@ -126,7 +136,44 @@ const deskStructure = (S: StructureBuilder) =>
       S.divider(),
 
       // -------------------------------------------------------
-      // 5. CASES & POSTS
+      // 5. CONTACT PAGE
+      // -------------------------------------------------------
+      S.listItem()
+        .title('Contact Page')
+        .child(
+          S.list()
+            .title('Contact Page')
+            .items([
+              S.listItem()
+                .title('Contact Section')
+                .child(
+                  S.editor().schemaType('contactSection').documentId('contactSection'),
+                ),
+            ]),
+        ),
+
+      S.divider(),
+
+      // -------------------------------------------------------
+      // 6. OTHER PAGES
+      // -------------------------------------------------------
+      S.listItem()
+        .title('Other Pages')
+        .child(
+          S.list()
+            .title('Other Pages')
+            .items([
+              S.listItem()
+                .title('404 — Not Found')
+                .child(
+                  S.editor().schemaType('notFoundSection').documentId('notFoundSection'),
+                ),
+            ]),
+        ),
+
+      S.divider(),
+      // -------------------------------------------------------
+      // 7. CASES & POSTS
       // -------------------------------------------------------
       S.listItem()
         .title('Cases')

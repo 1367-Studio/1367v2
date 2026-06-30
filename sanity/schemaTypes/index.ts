@@ -18,11 +18,17 @@ import stat from './objects/stat'
 import aboutHeroSection from './documents/aboutHeroSection'
 import aboutPhilosophySection from './documents/aboutPhilosophySection'
 import aboutTextRevealSection from './documents/aboutTextRevealSection'
+import buildingWorldwideSection from './documents/buildingWorldwideSection'
+import contactSection from './documents/contactSection'
+import focusAreasSection from './documents/focusAreasSection'
+import notFoundSection from './documents/notFoundSection'
+import officeItem from './objects/officeItem'
 import projectsPageSection from './documents/projectsPageSection'
 
 export const schemaTypes = [
   // documents
   aboutHeroSection,
+  buildingWorldwideSection,
   aboutPhilosophySection,
   aboutTextRevealSection,
   case_,
@@ -39,8 +45,12 @@ export const schemaTypes = [
   statementSection,
   testimonialsSection,
   tickerSection,
+  contactSection,
+  focusAreasSection,
+  notFoundSection,
   // objects
   brandLogo,
+  officeItem,
   stat,
   testimonialItem,
   seo,
