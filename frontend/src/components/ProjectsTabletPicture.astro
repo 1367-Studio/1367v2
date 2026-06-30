@@ -8,7 +8,7 @@ const { src, alt = '' } = Astro.props;
 ---
 
 {src && (
-  <section>
+  <section class="bg-white">
     <div class="px-0 py-0 md:py-[60px] md:px-[24px] lg:py-[120px] lg:px-[32px]">
       <img src={src} alt={alt} class="w-full h-full object-cover" />
     </div>
