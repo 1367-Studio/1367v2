@@ -1,0 +1,25 @@
+---
+import { client } from "@/lib/sanity";
+import FeaturedCase3 from "@/components/FeaturedCase3.astro";
+import Layout from "@/layouts/Layout.astro";
+import ProjectsHero from "@/components/ProjectsHero.astro";
+import ProjectsOverview from "@/components/ProjectsOverview.astro";
+import ProjectsTestimonial from "@/components/ProjectsTestimonial.astro";
+import ProjectsWhatWeDo from "@/components/ProjectsWhatWeDo.astro";
+
+const [featuredCase3] = await Promise.all([
+  client.fetch(`*[_type == "featuredCase3Section" && _id == "featuredCase3Section"][0]{ cases[]{ tag, title, rightText, ctaLabel, ctaHref, "bgImage": bgImage.asset->url, "manImageDesktop": manImageDesktop.asset->url, "manImageMobile": manImageMobile.asset->url } }`)])
+
+---
+
+<Layout
+  title="About 1367 Studio | Marseille & Florianópolis"
+  description="1367 Studio is a Marseille-based agency..."
+  headerTheme="dark"
+>
+  <ProjectsHero/>
+   <FeaturedCase3 cases={[featuredCase3?.cases?.[0]].filter(Boolean)} />
+  <ProjectsOverview/>
+  <ProjectsWhatWeDo/>
+  <ProjectsTestimonial/>
+</Layout>
