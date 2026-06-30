@@ -18,6 +18,7 @@ import stat from './objects/stat'
 import aboutHeroSection from './documents/aboutHeroSection'
 import aboutPhilosophySection from './documents/aboutPhilosophySection'
 import aboutTextRevealSection from './documents/aboutTextRevealSection'
+import projectsPageSection from './documents/projectsPageSection'
 
 export const schemaTypes = [
   // documents
@@ -34,6 +35,7 @@ export const schemaTypes = [
   letsBuildSection,
   post,
   projectSection,
+  projectsPageSection,
   statementSection,
   testimonialsSection,
   tickerSection,

@@ -103,8 +103,30 @@ const deskStructure = (S: StructureBuilder) =>
         ),
 
       S.divider(),
+
       // -------------------------------------------------------
-      // 4. CASES & POSTS
+      // 4. PROJECTS PAGE
+      // -------------------------------------------------------
+      S.listItem()
+        .title('Projects Page')
+        .child(
+          S.list()
+            .title('Projects Page')
+            .items([
+              S.listItem()
+                .title('Projects Page Content')
+                .child(
+                  S.editor()
+                    .schemaType('projectsPageSection')
+                    .documentId('projectsPageSection'),
+                ),
+            ]),
+        ),
+
+      S.divider(),
+
+      // -------------------------------------------------------
+      // 5. CASES & POSTS
       // -------------------------------------------------------
       S.listItem()
         .title('Cases')
