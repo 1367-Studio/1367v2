@@ -1,12 +1,30 @@
+---
+interface Props {
+  client?: string;
+  title?: string;
+  service?: string;
+  year?: number;
+  industry?: string;
+}
+
+const {
+  client = 'ASR Temp',
+  title = 'Temporary Staffing Platform & Custom Website',
+  service = 'Design and Development',
+  year = 2025,
+  industry = 'Temporary Staffing',
+} = Astro.props;
+---
+
 <section class="case-hero flex flex-col bg-black text-white px-8 pt-[60px] pb-[40px] lg:grid lg:min-h-[535px] lg:pt-[152px] lg:pb-[72px]">
-  <span class="area-client font-[Geist] font-normal text-sm leading-[1.04] tracking-[-0.01em] mb-6 lg:mb-0">ASR Temp</span>
+  <span class="area-client font-[Geist] font-normal text-sm leading-[1.04] tracking-[-0.01em] mb-6 lg:mb-0">{client}</span>
   <h1 class="font-[Geist] font-normal text-[40px] md:text-[60px] lg:text-[80px] leading-[1.04] tracking-[-0.01em] mb-8 lg:mb-0">
-    Temporary Staffing Platform & Custom Website
+    {title}
   </h1>
   <div class="area-details flex justify-between lg:pt-12 font-[Geist_Mono] font-normal text-[12px] leading-[1.2] tracking-[-0.01em] uppercase text-white">
-    <span>Design and Development</span>
-    <span>2025</span>
-    <span>Temporary Staffing</span>
+    <span>{service}</span>
+    <span>{year}</span>
+    <span>{industry}</span>
   </div>
 </section>
 

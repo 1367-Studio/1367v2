@@ -115,7 +115,28 @@ const deskStructure = (S: StructureBuilder) =>
       S.divider(),
 
       // -------------------------------------------------------
-      // 4. CONTACT PAGE
+      // 4. PROJECTS PAGE
+      // -------------------------------------------------------
+      S.listItem()
+        .title('Projects Page')
+        .child(
+          S.list()
+            .title('Projects Page')
+            .items([
+              S.listItem()
+                .title('Projects Page Content')
+                .child(
+                  S.editor()
+                    .schemaType('projectsPageSection')
+                    .documentId('projectsPageSection'),
+                ),
+            ]),
+        ),
+
+      S.divider(),
+
+      // -------------------------------------------------------
+      // 5. CONTACT PAGE
       // -------------------------------------------------------
       S.listItem()
         .title('Contact Page')
@@ -134,7 +155,7 @@ const deskStructure = (S: StructureBuilder) =>
       S.divider(),
 
       // -------------------------------------------------------
-      // 5. OTHER PAGES
+      // 6. OTHER PAGES
       // -------------------------------------------------------
       S.listItem()
         .title('Other Pages')
@@ -152,7 +173,7 @@ const deskStructure = (S: StructureBuilder) =>
 
       S.divider(),
       // -------------------------------------------------------
-      // 6. CASES & POSTS
+      // 7. CASES & POSTS
       // -------------------------------------------------------
       S.listItem()
         .title('Cases')

@@ -23,6 +23,7 @@ import contactSection from './documents/contactSection'
 import focusAreasSection from './documents/focusAreasSection'
 import notFoundSection from './documents/notFoundSection'
 import officeItem from './objects/officeItem'
+import projectsPageSection from './documents/projectsPageSection'
 
 export const schemaTypes = [
   // documents
@@ -40,6 +41,7 @@ export const schemaTypes = [
   letsBuildSection,
   post,
   projectSection,
+  projectsPageSection,
   statementSection,
   testimonialsSection,
   tickerSection,
