@@ -30,8 +30,8 @@ const [hero, statement, _featuredCase, _featuredCase2, featuredCase3, letsBuild,
 >
   <VideoProjectSection
     videoUrl={projectSection?.videoUrl ?? '/hero-video.mp4'}
-    heroTitle={hero?.title ?? "Designing the future, one pixel at a time."}
-    heroSubtitle={hero?.subtitle ?? ""}
+    heroTitle={hero?.title?.replace(/\\n/g, '\n') ?? "Designing the future, one pixel at a time."}
+    heroSubtitle={hero?.subtitle?.replace(/\\n/g, '\n') ?? ""}
     heroDescription={hero?.description ?? "We build digital experiences that scale with your business."}
     heroCtaLabel={hero?.ctaLabel ?? "BOOK A CALL"}
     heroCtaHref={hero?.ctaHref ?? "/contact"}

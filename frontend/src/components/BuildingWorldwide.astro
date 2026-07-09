@@ -56,25 +56,3 @@ const { title = 'Building\nWorldwide' } = Astro.props
     <div id="globe-cards" style="position: absolute; inset: 0; pointer-events: none;"></div>
   </div>
 </section>
-
-<!-- Three.js (r128 build bundled with the globe) + Globe engine -->
-<script is:inline src="/three.globe.js"></script>
-<script is:inline src="/globe-engine.js"></script>
-<script is:inline>
-  (function () {
-    function start() {
-      if (!window.THREE || !window.Globe) { setTimeout(start, 30); return; }
-      window.Globe.init({
-        canvas:     document.getElementById('globe-canvas'),
-        cardsLayer: document.getElementById('globe-cards'),
-        sceneEl:    document.getElementById('globe-scene'),
-      });
-      window.Globe.setConfig({ spins: 0, density: 'dense' });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', start);
-    } else {
-      start();
-    }
-  })();
-</script>

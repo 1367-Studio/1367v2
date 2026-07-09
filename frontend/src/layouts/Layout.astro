@@ -46,9 +46,14 @@ const { title, description, image, type, noindex, headerTheme, hideFooter } = As
   </head>
   <body>
     <Header theme={headerTheme}/>
-    <main>
-      <slot />
-    </main>
+    <!-- Header/Footer are persistent across Barba transitions — only the
+         container below (the page-specific content) is fetched/swapped and
+         does the small-card grow-to-reveal transition. -->
+    <div data-barba="wrapper">
+      <main data-barba="container" data-barba-namespace={Astro.url.pathname}>
+        <slot />
+      </main>
+    </div>
     {!hideFooter && (
       <Footer
         heading={footerData?.heading ?? undefined}
@@ -60,11 +65,9 @@ const { title, description, image, type, noindex, headerTheme, hideFooter } = As
       />
     )}
     <script>
-      import { initSmoothScroll } from "@/lib/smooth-scroll";
-      import { initTextReveal } from "@/lib/text-reveal";
+      import { initBarba } from "@/lib/barba";
 
-      initSmoothScroll();
-      initTextReveal();
+      initBarba();
     </script>
   </body>
 </html>

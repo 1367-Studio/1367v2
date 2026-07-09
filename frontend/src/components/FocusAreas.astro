@@ -63,58 +63,54 @@ const { label = 'Focus Areas', items = [] } = Astro.props
       ))}
     </div>
 
-    <!-- Image card (absolute, desktop only) -->
-    <div
-      id="focus-image-card"
-      class="pointer-events-none absolute hidden overflow-hidden rounded-[12px] md:block"
-      style="width:332px; height:332px; left: 50%; transform: translateX(-50%); transition: top 0.35s ease;"
-    >
+    <!-- Preloaded images, hidden — keeps them warm so the reveal has no load delay -->
+    <div class="focus-medias" aria-hidden="true">
       {items.map((item, i) => (
-        item.imageUrl && (
-          <img
-            src={item.imageUrl}
-            alt={item.title}
-            class="focus-img absolute inset-0 h-full w-full object-cover transition-opacity duration-400"
-            data-index={i}
-            style={`opacity: ${i === 0 ? 1 : 0};`}
-          />
-        )
+        item.imageUrl && <img src={item.imageUrl} alt="" data-index={i} />
       ))}
     </div>
+
+    <!-- Media container: images are created inside this on hover and follow the cursor's Y (desktop only) -->
+    <div
+      id="media-container"
+      class="pointer-events-none absolute hidden overflow-hidden rounded-[12px] md:block"
+      style="width:332px; height:332px; top: 0; left: 50%;"
+    ></div>
 
   </div>
 </section>
 
-<script>
-  const list = document.getElementById('focus-list')
-  const card = document.getElementById('focus-image-card')
-  const items = list?.querySelectorAll<HTMLElement>('.focus-item')
-  const imgs = document.querySelectorAll<HTMLElement>('.focus-img')
-  const CARD_H = 332
-
-  function setActive(index: number) {
-    items?.forEach((el, i) => {
-      const content = el.querySelector<HTMLElement>('.focus-content')
-      if (content) content.style.opacity = i === index ? '1' : '0.3'
-    })
-    imgs.forEach((img) => {
-      img.style.opacity = Number(img.dataset.index) === index ? '1' : '0'
-    })
-
-    if (card && list && items?.[index]) {
-      const listRect = list.getBoundingClientRect()
-      const rowRect = items[index].getBoundingClientRect()
-      const rowCenterY = rowRect.top + rowRect.height / 2 - listRect.top
-      card.style.top = `${rowCenterY - CARD_H / 2 + 60}px`
-    }
+<style>
+  .focus-medias img {
+    width: 1px;
+    height: 1px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
   }
 
-  setActive(0)
-
-  items?.forEach((el, i) => {
-    el.addEventListener('mouseenter', () => setActive(i))
-    el.addEventListener('click', () => setActive(i))
-  })
-
-  list?.addEventListener('mouseleave', () => setActive(0))
-</script>
+  #media-container {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  #media-container.on {
+    opacity: 1;
+  }
+  /* :global — these target <div>/<img> created client-side by the script below,
+     which never get Astro's scoped data-astro-cid attribute. */
+  :global(#media-container div) {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    transform: translate(0, -100%);
+  }
+  :global(#media-container img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(0, 90%);
+  }
+</style>

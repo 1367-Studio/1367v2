@@ -1,4 +1,6 @@
 ---
+import GravityText from './GravityText.astro'
+
 interface Location {
   city: string
   country: string
@@ -90,51 +92,9 @@ const {
     </div> <!-- end right group -->
   </div>
 
-  <!-- Endless Tools animation -->
-  <div id="footer-iframe-outer" class="lg:mx-10" style="position:relative; overflow:hidden; margin-bottom:-200px;">
-    <div id="footer-iframe-skeleton" style="position:absolute;inset:0;background:linear-gradient(90deg,#111 25%,#1a1a1a 50%,#111 75%);background-size:200% 100%;"></div>
-    <iframe
-      id="footer-iframe"
-      src="https://app.endlesstools.io/embed/8be04683-240c-40ba-b873-845f8bbb646c"
-      allowtransparency="true"
-      frameborder="0"
-      loading="lazy"
-      allow="clipboard-write; encrypted-media; gyroscope; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      aria-hidden="true"
-      style="display:block; width:100%; height:55vh; border:none; background:transparent; opacity:0; pointer-events:none;"
-    />
+  <!-- Gravity text: same "1367" pull-toward-cursor effect as the About hero. -->
+  <div class="relative h-[60vh] overflow-hidden lg:mx-10">
+    <GravityText fontSize="clamp(140px, 46vw, 720px)" class="items-center justify-center" innerClass="translate-y-4 md:translate-y-14 lg:translate-y-28" />
   </div>
 </footer>
-
-<style is:global>
-  @keyframes footer-shimmer {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  #footer-iframe-skeleton { animation: footer-shimmer 1.5s infinite; }
-</style>
-
-<script>
-  const iframe   = document.getElementById('footer-iframe') as HTMLIFrameElement | null
-  const skeleton = document.getElementById('footer-iframe-skeleton')
-  const outer    = document.getElementById('footer-iframe-outer') as HTMLElement | null
-
-  if (iframe) {
-    iframe.addEventListener('load', () => {
-      iframe.style.opacity = '1'
-      iframe.style.pointerEvents = 'auto'
-      if (skeleton) skeleton.style.display = 'none'
-    })
-  }
-
-  function applyMargins() {
-    if (!outer) return
-    outer.style.marginLeft  = window.innerWidth >= 1024 ? '40px' : '0'
-    outer.style.marginRight = window.innerWidth >= 1024 ? '40px' : '0'
-  }
-  applyMargins()
-  window.addEventListener('resize', applyMargins)
-</script>
-
 

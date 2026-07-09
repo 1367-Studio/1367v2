@@ -21,7 +21,7 @@ const { body } = Astro.props
 
   <div
     id="statement-iframe"
-    class="pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 -mt-[10px]"
+    class="pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 -mt-[24px]"
     style="position: absolute; width: min(280px, 90vw); height: min(280px, 90vw);"
   >
     <USDZViewer
@@ -37,53 +37,3 @@ const { body } = Astro.props
     />
   </div>
 </section>
-
-<script>
-  import { gsap } from 'gsap'
-  import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-  gsap.registerPlugin(ScrollTrigger)
-
-  const section = document.getElementById('statement')
-  const text    = document.getElementById('statement-text')
-  const iframe  = document.getElementById('statement-iframe')
-
-  if (section && text && iframe) {
-    // Split the paragraph into words (so it still wraps) and each word into chars
-    const words = (text.textContent ?? '').trim().split(/\s+/)
-    text.innerHTML = words
-      .map(
-        (word) =>
-          `<span class="word" style="display:inline-block">${[...word]
-            .map((ch) => `<span class="char">${ch}</span>`)
-            .join('')}</span>`
-      )
-      .join(' ')
-
-    const chars = text.querySelectorAll('.char')
-
-    // Start grey + iframe below the fold
-    gsap.set(chars, { color: 'rgba(255,255,255,0.18)' })
-    gsap.set(iframe, { yPercent: 200 })
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: '+=180%',
-        pin: true,
-        scrub: 1.2,
-        anticipatePin: 1,
-      },
-    })
-
-    // Phase 1 — each letter turns from grey to white as you scroll
-    tl.to(chars, {
-      color: 'rgba(255,255,255,1)',
-      ease: 'none',
-      stagger: { each: 0.04 },
-    })
-    // Phase 2 — iframe rises from below, clipped by the section's overflow-hidden
-    tl.to(iframe, { yPercent: -40, duration: 2, ease: 'power3.out' }, '>-0.5')
-  }
-</script>
