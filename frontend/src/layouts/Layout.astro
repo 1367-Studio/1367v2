@@ -46,24 +46,26 @@ const { title, description, image, type, noindex, headerTheme, hideFooter } = As
   </head>
   <body>
     <Header theme={headerTheme}/>
-    <!-- Header/Footer are persistent across Barba transitions — only the
-         container below (the page-specific content) is fetched/swapped and
-         does the small-card grow-to-reveal transition. -->
+    <!-- Header is persistent across Barba transitions. Footer lives INSIDE the
+         swapped container (not outside like Header) because it's conditional
+         per page (hideFooter) — if it stayed persistent, that prop would only
+         ever be evaluated on the first hard load and never again after an SPA
+         navigation, leaving a stale Footer state on later pages. -->
     <div data-barba="wrapper">
       <main data-barba="container" data-barba-namespace={Astro.url.pathname}>
         <slot />
+        {!hideFooter && (
+          <Footer
+            heading={footerData?.heading ?? undefined}
+            ctaLabel={footerData?.ctaLabel ?? undefined}
+            ctaHref={footerData?.ctaHref ?? undefined}
+            navLinks={footerData?.navLinks ?? undefined}
+            locations={footerData?.locations ?? undefined}
+            logoSrc={footerData?.logo ? builder.image(footerData.logo).height(64).fit('max').auto('format').url() : undefined}
+          />
+        )}
       </main>
     </div>
-    {!hideFooter && (
-      <Footer
-        heading={footerData?.heading ?? undefined}
-        ctaLabel={footerData?.ctaLabel ?? undefined}
-        ctaHref={footerData?.ctaHref ?? undefined}
-        navLinks={footerData?.navLinks ?? undefined}
-        locations={footerData?.locations ?? undefined}
-        logoSrc={footerData?.logo ? builder.image(footerData.logo).height(64).fit('max').auto('format').url() : undefined}
-      />
-    )}
     <script>
       import { initBarba } from "@/lib/barba";
 
