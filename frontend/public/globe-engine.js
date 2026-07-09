@@ -82,6 +82,7 @@
     curRot = 0;
   let curY = START_Y; // smoothed vertical reveal position
   let raf = null;
+  let clockInterval = null;
   const _v = new THREE.Vector3();
   const _n = new THREE.Vector3();
   const _camDir = new THREE.Vector3();
@@ -284,6 +285,10 @@
   // ── Public API ──────────────────────────────────────────────────────────────
   const Globe = {
     init(opts) {
+      // Page-transition navigations can call init() again with a fresh canvas
+      // before the previous instance is ever torn down — always destroy first.
+      Globe.destroy();
+
       canvas = opts.canvas;
       cardsLayer = opts.cardsLayer;
       sceneEl = opts.sceneEl;
@@ -319,7 +324,7 @@
 
       buildGraticule();
       buildCards();
-      setInterval(tickClocks, 1000 * 10);
+      clockInterval = setInterval(tickClocks, 1000 * 10);
       // align clocks to the minute-ish quickly too
       setTimeout(tickClocks, 1000);
 
@@ -327,6 +332,21 @@
         /* handled in frame */
       });
       frame();
+    },
+    destroy() {
+      if (raf !== null) {
+        cancelAnimationFrame(raf);
+        raf = null;
+      }
+      if (clockInterval !== null) {
+        clearInterval(clockInterval);
+        clockInterval = null;
+      }
+      if (renderer) {
+        renderer.dispose();
+        renderer = null;
+      }
+      cardEls = {};
     },
     setConfig(next) {
       const prevDensity = cfg.density;

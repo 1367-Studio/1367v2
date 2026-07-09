@@ -26,7 +26,7 @@ const {
 const total = testimonials.length
 ---
 
-<section id="testimonials-section" class="bg-white px-6 py-16 lg:px-12 lg:py-24">
+<section id="testimonials-section" class="bg-white px-6 py-16 md:flex md:min-h-screen md:flex-col md:justify-center lg:px-12 lg:py-24">
   <div class="flex flex-col gap-20 lg:flex-row lg:gap-96">
 
     <!-- Left: Testimonial carousel -->
@@ -97,41 +97,3 @@ const total = testimonials.length
 
   </div>
 </section>
-
-<script>
-  const DURATION = 6000
-
-  const section = document.getElementById('testimonials-section')
-  if (section) {
-    const slides = section.querySelectorAll<HTMLElement>('.testimonial-slide')
-    const progress = document.getElementById('testimonial-progress') as HTMLElement | null
-    let current = 0
-    let timer: ReturnType<typeof setTimeout>
-
-    function goTo(index: number) {
-      slides.forEach((s, i) => {
-        s.style.display = i === index ? '' : 'none'
-      })
-      current = index
-      startProgress()
-    }
-
-    function startProgress() {
-      if (!progress) return
-      clearTimeout(timer)
-      progress.style.transition = 'none'
-      progress.style.width = '0%'
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          progress.style.transition = `width ${DURATION}ms linear`
-          progress.style.width = '100%'
-        })
-      })
-      timer = setTimeout(() => {
-        goTo((current + 1) % slides.length)
-      }, DURATION)
-    }
-
-    if (slides.length > 0) goTo(0)
-  }
-</script>

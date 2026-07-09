@@ -1,0 +1,15 @@
+---
+interface Props {
+  fontSize: string
+  class?: string
+  innerClass?: string
+}
+
+const { fontSize, class: className = '', innerClass = '' } = Astro.props
+---
+
+<div class={`gravity-text absolute inset-0 flex ${className}`}>
+  <div class={`flex font-[Geist] font-bold leading-none tracking-[-0.03em] text-white ${innerClass}`} style={`font-size: ${fontSize};`}>
+    <span class="gravity-letter inline-block will-change-transform">1</span><span class="gravity-letter inline-block will-change-transform">3</span><span class="gravity-letter inline-block will-change-transform">6</span><span class="gravity-letter inline-block will-change-transform">7</span>
+  </div>
+</div>

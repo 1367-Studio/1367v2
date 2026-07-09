@@ -34,33 +34,3 @@ const [aboutHero, aboutText, philosophy, letsBuild] = await Promise.all([
     ctaHref={letsBuild.ctaHref ?? "/contact"}
   />
 </Layout>
-
-<style is:global>
-  @keyframes about-shimmer {
-    0%   { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  #about-iframe-skeleton { animation: about-shimmer 1.5s infinite; }
-</style>
-
-<script>
-  const iframe   = document.getElementById('about-iframe') as HTMLIFrameElement | null
-  const skeleton = document.getElementById('about-iframe-skeleton')
-  const outer    = document.getElementById('about-iframe-outer') as HTMLElement | null
-
-  if (iframe) {
-    iframe.addEventListener('load', () => {
-      iframe.style.opacity = '1'
-      iframe.style.pointerEvents = 'auto'
-      if (skeleton) skeleton.style.display = 'none'
-    })
-  }
-
-  function applyMargins() {
-    if (!outer) return
-    outer.style.marginLeft  = window.innerWidth >= 1024 ? '40px' : '0'
-    outer.style.marginRight = window.innerWidth >= 1024 ? '40px' : '0'
-  }
-  applyMargins()
-  window.addEventListener('resize', applyMargins)
-</script>
