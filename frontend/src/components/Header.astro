@@ -139,13 +139,14 @@ const {theme = 'light'} = Astro.props
   #site-header.is-scrolled #header-pill {
     max-width: 682px;
     width: calc(100% - 32px);
+    height: 72px;
     border-radius: 8px;
-    background: linear-gradient(180deg, rgba(20, 20, 20, 0.25) 0%, rgba(90, 90, 90, 0.35) 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    /* Figma: fill #000 @ 32%, Frost 27 -> backdrop blur, no stroke */
+    background: rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     margin-top: 16px;
-    padding: 16px 32px;
+    padding: 0 32px;
   }
 
   /* Pill always has white text */

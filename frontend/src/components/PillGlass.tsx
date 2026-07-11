@@ -58,14 +58,18 @@ export default function PillGlass({ threshold = 80 }: { threshold?: number }) {
         <LiquidGlass
           width={size.w}
           height={size.h}
-          radius={12}
-          strength={0.08}
-          chromaticAberration={0.18}
+          radius={8}
+          /* Figma "Glass": Refraction 96, Depth 52, Dispersion 0, Splay 80,
+             Light -45deg / 80%. Frost is handled by the CSS backdrop blur. */
+          strength={0.2}
+          depth={14}
+          chromaticAberration={0}
+          splay={0.8}
+          specular={1.4}
+          specularAngle={-45}
           blur={0}
-          depth={8}
-          glow={0.08}
-          edgeHighlight={0.3}
-          specular={1}
+          glow={0.1}
+          edgeHighlight={0.35}
           shadow={false}
           quality={512}
           style={{ position: "absolute", inset: 0 }}
@@ -75,7 +79,7 @@ export default function PillGlass({ threshold = 80 }: { threshold?: number }) {
               width: "100%",
               height: "100%",
               background:
-                "linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(150,150,150,0.16) 100%)",
+                "linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 55%)",
             }}
           />
         </LiquidGlass>
