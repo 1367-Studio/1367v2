@@ -1,6 +1,7 @@
 ---
 import { client } from '../lib/sanity'
 import { Menu, X } from '@lucide/astro';
+import PillGlass from './PillGlass';
 
 const header = await client.fetch(`
   *[_type == "header" && _id == "header"][0]{
@@ -45,6 +46,7 @@ const {theme = 'light'} = Astro.props
   class="fixed top-0 left-0 right-0 z-50 flex justify-center"
 >
   <div id="header-pill" class="flex w-full items-center justify-between px-8 py-5">
+    <div class="pill-glass"><PillGlass client:idle /></div>
     <nav class="hidden gap-12 cursor-pointer md:flex">
       {leftLinks?.map((item: any) => (
         <a href={item.href} class="header-link font-[Geist] text-[14px] font-normal leading-[1.12] tracking-[-0.01em] text-center opacity-100 transition-all duration-200 hover:opacity-60">{item.label}</a>
@@ -102,8 +104,22 @@ const {theme = 'light'} = Astro.props
 
   #site-header[data-theme="light"] { --hc: #ffffff; }
 
+  /* Liquid-glass layer sits behind the nav; nav content stays on top. */
+  .pill-glass {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 0;
+    pointer-events: none;
+  }
+  #header-pill > :not(.pill-glass) {
+    position: relative;
+    z-index: 1;
+  }
+
   /* Pill transitions */
   #header-pill {
+    position: relative;
     max-width: 1160px;
     border-radius: 0px;
     background-color: transparent;

@@ -24,6 +24,7 @@
     "astro": "^5.3.0",
     "gsap": "^3.12.7",
     "lenis": "^1.1.20",
+    "liquid-glass-web-react": "^0.1.1",
     "resend": "^4.1.2",
     "split-type": "^0.3.4",
     "styled-components": "^6.4.2",
