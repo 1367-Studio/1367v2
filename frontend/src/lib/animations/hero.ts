@@ -25,7 +25,7 @@ export function initHero(): void {
   const skipIntro = hasBarbaTransitioned()
 
   frame.style.transform = `scale(${skipIntro ? 1 : START_SCALE})`
-  frame.style.borderRadius = skipIntro ? '0px' : '16px'
+  frame.style.borderRadius = '0px'
   frame.style.overflow = 'hidden'
 
   const SPRING = { mass: 1, stiffness: 115.2, damping: 24 }
@@ -52,7 +52,6 @@ export function initHero(): void {
   const applyFrameSize = (pos: number) => {
     const clamped = Math.min(1, Math.max(0, pos))
     frame.style.transform = `scale(${START_SCALE + (1 - START_SCALE) * clamped})`
-    frame.style.borderRadius = `${16 * (1 - clamped)}px`
   }
 
   // Damped harmonic oscillator step response, mirrors the Figma spring params.

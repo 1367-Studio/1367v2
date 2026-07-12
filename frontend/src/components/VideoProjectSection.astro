@@ -1,50 +1,55 @@
 ---
 interface Brand {
-  name: string
-  logoUrl: string
-  alt: string
+  name: string;
+  logoUrl: string;
+  alt: string;
 }
 
 interface Props {
-  videoUrl?: string
-  heroTitle?: string
-  heroSubtitle?: string
-  heroDescription?: string
-  heroCtaLabel?: string
-  heroCtaHref?: string
-  title?: string
-  subtitle?: string
-  brandsLabel?: string
-  brands?: Brand[]
+  videoUrl?: string;
+  heroTitle?: string;
+  heroSubtitle?: string;
+  heroDescription?: string;
+  heroCtaLabel?: string;
+  heroCtaHref?: string;
+  title?: string;
+  subtitle?: string;
+  brandsLabel?: string;
+  brands?: Brand[];
 }
 
 const {
-  videoUrl = '/hero-video.mp4',
-  heroTitle = '',
-  heroSubtitle = '',
-  heroDescription = '',
-  heroCtaLabel = '',
-  heroCtaHref = '/contact',
-  title = '',
-  subtitle = '',
-  brandsLabel = '',
+  videoUrl = "/hero-video.mp4",
+  heroTitle = "",
+  heroSubtitle = "",
+  heroDescription = "",
+  heroCtaLabel = "",
+  heroCtaHref = "/contact",
+  title = "",
+  subtitle = "",
+  brandsLabel = "",
   brands = [],
-} = Astro.props
+} = Astro.props;
 ---
 
 <section id="video-project" style="height: 500vh; background: #fff;">
-  <div id="video-project-inner" class="sticky top-0 h-screen w-full overflow-hidden bg-white">
-
+  <div
+    id="video-project-inner"
+    class="sticky top-0 h-screen w-full overflow-hidden bg-white"
+  >
     <!-- Video layer -->
-    <div id="video-frame" class="absolute inset-0" style="transform: scale(0.55); border-radius: 16px; overflow: hidden;">
+    <div
+      id="video-frame"
+      class="absolute inset-0"
+      style="transform: scale(0.55); overflow: hidden;"
+    >
       <video
         id="scrub-video"
         src={videoUrl}
         muted
         playsinline
         preload="auto"
-        class="h-full w-full object-cover"
-      />
+        class="h-full w-full object-cover"></video>
     </div>
 
     <!-- Hero text — bottom row. Text uses difference blend; button is isolated. -->
@@ -52,25 +57,47 @@ const {
       id="hero-text"
       class="absolute bottom-6 left-6 right-6 flex flex-col gap-6 lg:bottom-10 lg:left-10 lg:right-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8"
     >
-      <h1 class="font-[Geist] text-[32px] font-normal leading-[1.04]" style="mix-blend-mode: difference;">
-        {heroTitle && <span class="block whitespace-pre-line text-white">{heroTitle}</span>}
-        {heroSubtitle && <span class="block whitespace-pre-line text-white opacity-40">{heroSubtitle}</span>}
+      <h1
+        class="font-[Geist] text-[32px] font-normal leading-[1.04]"
+        style="mix-blend-mode: difference;"
+      >
+        {
+          heroTitle && (
+            <span class="block whitespace-pre-line text-white">
+              {heroTitle}
+            </span>
+          )
+        }
+        {
+          heroSubtitle && (
+            <span class="block whitespace-pre-line text-white opacity-40">
+              {heroSubtitle}
+            </span>
+          )
+        }
       </h1>
 
       <div class="flex items-end gap-6">
-        {heroDescription && (
-          <p class="max-w-[216px] font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-white opacity-70" style="mix-blend-mode: difference;">
-            {heroDescription}
-          </p>
-        )}
-        {heroCtaLabel && (
-          <a
-            href={heroCtaHref}
-            class="shrink-0 rounded-lg bg-primary px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-white transition-opacity hover:opacity-90"
-          >
-            {heroCtaLabel}
-          </a>
-        )}
+        {
+          heroDescription && (
+            <p
+              class="max-w-[216px] font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-white opacity-70"
+              style="mix-blend-mode: difference;"
+            >
+              {heroDescription}
+            </p>
+          )
+        }
+        {
+          heroCtaLabel && (
+            <a
+              href={heroCtaHref}
+              class="shrink-0 rounded-lg bg-primary px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-white transition-opacity hover:opacity-90"
+            >
+              {heroCtaLabel}
+            </a>
+          )
+        }
       </div>
     </div>
 
@@ -79,7 +106,8 @@ const {
       id="orange-overlay"
       class="absolute inset-0 bg-primary"
       style="opacity: 0;"
-    />
+    >
+    </div>
 
     <!-- Project content (appears at end of scroll over orange) -->
     <div
@@ -88,34 +116,41 @@ const {
       style="opacity: 0; transform: translateY(60px);"
     >
       <div class="mx-auto max-w-2xl px-8 text-center text-white">
-        {title && (
-          <h2 class="font-[Geist] text-[40px] font-normal leading-tight">
-            {title}
-          </h2>
-        )}
-        {subtitle && (
-          <p class="mx-auto mt-6 max-w-md font-[Geist] text-sm leading-relaxed opacity-80">
-            {subtitle}
-          </p>
-        )}
-        {brandsLabel && (
-          <p class="mt-16 font-[Geist_Mono] text-xs uppercase tracking-widest opacity-60">
-            {brandsLabel}
-          </p>
-        )}
-        {brands.length > 0 && (
-          <div class="mt-6 flex items-center justify-center gap-10">
-            {brands.map((brand) => (
-              <img
-                src={brand.logoUrl}
-                alt={brand.alt ?? brand.name}
-                class="h-6 w-auto opacity-90"
-              />
-            ))}
-          </div>
-        )}
+        {
+          title && (
+            <h2 class="font-[Geist] text-[40px] font-normal leading-tight">
+              {title}
+            </h2>
+          )
+        }
+        {
+          subtitle && (
+            <p class="mx-auto mt-6 max-w-md font-[Geist] text-sm leading-relaxed opacity-80">
+              {subtitle}
+            </p>
+          )
+        }
+        {
+          brandsLabel && (
+            <p class="mt-16 font-[Geist_Mono] text-xs uppercase tracking-widest opacity-60">
+              {brandsLabel}
+            </p>
+          )
+        }
+        {
+          brands.length > 0 && (
+            <div class="mt-6 flex items-center justify-center gap-10">
+              {brands.map((brand) => (
+                <img
+                  src={brand.logoUrl}
+                  alt={brand.alt ?? brand.name}
+                  class="h-6 w-auto opacity-90"
+                />
+              ))}
+            </div>
+          )
+        }
       </div>
     </div>
-
   </div>
 </section>
