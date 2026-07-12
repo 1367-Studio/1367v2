@@ -35,6 +35,22 @@
   color-scheme: light;
 }
 
+/* Project rule: never show the browser's default blue focus ring / tap
+   highlight on any element, in any focus state. Intentional focus styling
+   (e.g. the contact inputs' border) uses `border`, not `outline`, so it is
+   unaffected. */
+*:focus,
+*:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-tap-highlight-color: transparent;
+}
+
 html {
   /* Lenis handles smooth scrolling — keep native smooth off */
   scroll-behavior: auto;
