@@ -114,17 +114,17 @@ export function initHero(): void {
 
     const p = getProgress()
 
-    // Hero text exits as soon as scrubbing starts: each side slides out to its
-    // own edge and fades, clearing the man before the video scrubs.
+    // Hero text exits as soon as scrubbing starts: both groups slide down off
+    // the bottom edge and fade, clearing the man before the video scrubs.
     const rawExit = Math.max(0, Math.min(1, p / 0.12))
     const exit = 1 - Math.pow(1 - rawExit, 3) // easeOutCubic
     if (headline) {
       headline.style.opacity = String(1 - exit)
-      headline.style.transform = `translate3d(${-160 * exit}px, 0, 0)`
+      headline.style.transform = `translate3d(0, ${140 * exit}px, 0)`
     }
     if (aside) {
       aside.style.opacity = String(1 - exit)
-      aside.style.transform = `translate3d(${160 * exit}px, 0, 0)`
+      aside.style.transform = `translate3d(0, ${140 * exit}px, 0)`
     }
 
     if (videoReady && video.duration) {
