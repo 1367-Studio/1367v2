@@ -31,7 +31,10 @@ export function initStatement(): void {
 
   const letters = text.querySelectorAll('.letter span')
 
-  gsap.set(letters, { rotate: -80, transformOrigin: '50% 120%' })
+  // Letters start flat and invisible, then fade in as they rotate upright.
+  // The fade avoids scattered "flat sliver" glyphs mid-scrub (the clip-path is
+  // a full-box no-op), which the tight line-height would otherwise crowd.
+  gsap.set(letters, { rotate: -80, opacity: 0, transformOrigin: '50% 120%' })
   gsap.set(iframe, { yPercent: 200 })
 
   const tl = gsap.timeline({
@@ -47,6 +50,7 @@ export function initStatement(): void {
 
   tl.to(letters, {
     rotate: 0,
+    opacity: 1,
     duration: 0.6,
     ease: 'back.out(1.1)',
     stagger: { each: 0.02 },
