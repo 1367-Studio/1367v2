@@ -16,6 +16,16 @@
       dx: 8,
       dy: -30,
     },
+        {
+      id: "paris",
+      city: "Paris",
+      country: "France",
+      tz: "Europe/Paris",
+      lat: 48.8566,
+      lon: 2.3522,
+      dx: 30,
+      dy: 30,
+    },
     {
       id: "marseille",
       city: "Marseille",

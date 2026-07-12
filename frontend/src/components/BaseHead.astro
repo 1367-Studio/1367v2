@@ -51,7 +51,7 @@ const jsonLd = {
       "@id": `${siteOrigin.origin}/#organization`,
       name: SITE_NAME,
       url: siteOrigin.origin,
-      logo: new URL("/favicon.svg", siteOrigin).href,
+      logo: new URL("/favicon.png", siteOrigin).href,
       image: ogImage,
       description: DEFAULT_DESCRIPTION,
       // Real HQ data (matches the footer). Other locations can be added once
@@ -119,7 +119,7 @@ const jsonLd = {
   )
 }
 
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/svg+xml" href="/favicon.png" />
 
 {/* Open Graph */}
 <meta property="og:type" content={type} />
