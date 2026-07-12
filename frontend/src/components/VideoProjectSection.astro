@@ -58,7 +58,8 @@ const {
       class="absolute bottom-6 left-6 right-6 flex flex-col gap-6 lg:bottom-10 lg:left-10 lg:right-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8"
     >
       <h1
-        class="font-[Geist] text-[32px] font-normal leading-[1.04]"
+        id="hero-headline"
+        class="font-[Geist] text-[32px] font-normal leading-[1.04] will-change-[transform,opacity]"
         style="mix-blend-mode: difference;"
       >
         {
@@ -77,13 +78,10 @@ const {
         }
       </h1>
 
-      <div class="flex items-end gap-6">
+      <div id="hero-aside" class="flex items-end gap-6 will-change-[transform,opacity]">
         {
           heroDescription && (
-            <p
-              class="max-w-[216px] font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-white opacity-70"
-              style="mix-blend-mode: difference;"
-            >
+            <p class="max-w-[216px] font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-[#4d4d4d]">
               {heroDescription}
             </p>
           )

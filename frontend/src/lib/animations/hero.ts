@@ -15,7 +15,8 @@ export function initHero(): void {
   const wrapper  = document.getElementById('video-project')   as HTMLElement | null
   const video    = document.getElementById('scrub-video')     as HTMLVideoElement | null
   const frame    = document.getElementById('video-frame')     as HTMLElement | null
-  const heroText = document.getElementById('hero-text')       as HTMLElement | null
+  const headline = document.getElementById('hero-headline')   as HTMLElement | null
+  const aside    = document.getElementById('hero-aside')      as HTMLElement | null
   const overlay  = document.getElementById('orange-overlay')  as HTMLElement | null
   const content  = document.getElementById('project-content') as HTMLElement | null
 
@@ -113,8 +114,18 @@ export function initHero(): void {
 
     const p = getProgress()
 
-    const textOut = Math.max(0, Math.min(1, (p - 0.7) / 0.08))
-    if (heroText) { heroText.style.opacity = String(1 - textOut) }
+    // Hero text exits as soon as scrubbing starts: each side slides out to its
+    // own edge and fades, clearing the man before the video scrubs.
+    const rawExit = Math.max(0, Math.min(1, p / 0.12))
+    const exit = 1 - Math.pow(1 - rawExit, 3) // easeOutCubic
+    if (headline) {
+      headline.style.opacity = String(1 - exit)
+      headline.style.transform = `translate3d(${-160 * exit}px, 0, 0)`
+    }
+    if (aside) {
+      aside.style.opacity = String(1 - exit)
+      aside.style.transform = `translate3d(${160 * exit}px, 0, 0)`
+    }
 
     if (videoReady && video.duration) {
       const t = p * video.duration
