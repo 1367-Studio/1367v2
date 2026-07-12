@@ -1,16 +1,16 @@
 ---
 interface Props {
-  title: string
-  subtitle?: string
-  description: string
-  ctaLabel: string
-  ctaHref: string
-  videoUrl?: string
+  title: string;
+  subtitle?: string;
+  description: string;
+  ctaLabel: string;
+  ctaHref: string;
+  videoUrl?: string;
 }
 
-import HeroScene from './HeroScene.tsx'
+import HeroScene from "./HeroScene.tsx";
 
-const { title, subtitle, description, ctaLabel, ctaHref } = Astro.props
+const { title, subtitle, description, ctaLabel, ctaHref } = Astro.props;
 ---
 
 <section class="relative h-screen w-full overflow-hidden bg-[#0f0f0f]">
@@ -19,17 +19,30 @@ const { title, subtitle, description, ctaLabel, ctaHref } = Astro.props
   </div>
 
   {/* Gradient at bottom for text readability */}
-  <div class="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-[#0f0f0f]/80 to-transparent lg:h-64" />
+  <div
+    class="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-[#0f0f0f]/80 to-transparent lg:h-64"
+  >
+  </div>
 
   {/* Bottom content row */}
-  <div class="absolute bottom-6 left-6 right-6 flex flex-col gap-6 lg:bottom-10 lg:left-10 lg:right-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
+  <div
+    class="absolute bottom-6 left-6 right-6 flex flex-col gap-6 lg:bottom-10 lg:left-10 lg:right-10 lg:flex-row lg:items-end lg:justify-between lg:gap-8"
+  >
     <h1 class="font-[Geist] text-[32px] font-normal leading-[1.04]">
       <span class="block text-white lg:whitespace-nowrap">{title}</span>
-      {subtitle && <span class="block text-white/40 lg:whitespace-nowrap">{subtitle}</span>}
+      {
+        subtitle && (
+          <span class="block text-white/40 lg:whitespace-nowrap">
+            {subtitle}
+          </span>
+        )
+      }
     </h1>
 
     <div class="flex items-end gap-6">
-      <p class="max-w-[216px] font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-white/80">
+      <p
+        class="max-w-[216px] font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-white/80"
+      >
         {description}
       </p>
 
