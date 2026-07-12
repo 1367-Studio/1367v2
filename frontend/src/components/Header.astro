@@ -117,36 +117,31 @@ const {theme = 'light'} = Astro.props
     z-index: 1;
   }
 
-  /* Pill transitions */
+  /* Pill transitions. Default (Figma "First Fold"): 1144x72, radius 8,
+     16px from top, transparent. Only width/background/frost change on scroll. */
   #header-pill {
     position: relative;
-    max-width: 1160px;
-    border-radius: 0px;
+    max-width: 1144px;
+    width: calc(100% - 32px);
+    height: 72px;
+    border-radius: 8px;
     background-color: transparent;
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
-    margin-top: 0px;
-    padding: 20px 32px;
+    margin-top: 16px;
+    padding: 0 31.72px 0 33px;
     transition:
       max-width 0.4s ease,
-      border-radius 0.4s ease,
       background 0.3s ease,
-      backdrop-filter 0.3s ease,
-      margin-top 0.4s ease,
-      padding 0.3s ease;
+      backdrop-filter 0.3s ease;
   }
 
   #site-header.is-scrolled #header-pill {
     max-width: 682px;
-    width: calc(100% - 32px);
-    height: 72px;
-    border-radius: 8px;
     /* Figma: fill #000 @ 32%, Frost 27 -> backdrop blur, no stroke */
     background: rgba(0, 0, 0, 0.32);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    margin-top: 16px;
-    padding: 0 32px;
   }
 
   /* Pill always has white text */
