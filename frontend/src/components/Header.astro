@@ -1,91 +1,198 @@
 ---
-import { client } from '../lib/sanity'
-import { Menu, X } from '@lucide/astro';
-import PillGlass from './PillGlass';
+import { client } from "../lib/sanity";
+import { Menu, X } from "@lucide/astro";
+import PillGlass from "./PillGlass";
 
 const header = await client.fetch(`
   *[_type == "header" && _id == "header"][0]{
     "logoUrl": logo.asset->url,
-    navigation
+    navigation,
+    menuPrimary,
+    menuSecondary,
+    menuImages[]{
+      href,
+      "url": image.asset->url,
+      "alt": image.alt
+    }
   }
-`)
+`);
 
-const logoUrl = header?.logoUrl
+const logoUrl = header?.logoUrl;
 
 // Fallback destinations for known nav labels when Sanity has no href yet.
 // Items that resolve to no destination are dropped so we never emit dead links.
 // (Projects / About reappear automatically once they have a real href in Sanity.)
 const HREF_FALLBACKS: Record<string, string> = {
-  contact: '/contact',
-  'contact us': '/contact',
-  'get in touch': '/contact',
-  about: '/about',
-  'about us': '/about',
-  projects: '/projects',
-}
+  contact: "/contact",
+  "contact us": "/contact",
+  "get in touch": "/contact",
+  about: "/about",
+  "about us": "/about",
+  projects: "/projects",
+};
 
 const navItems = (header?.navigation ?? [])
   .map((item: any) => ({
     ...item,
     href: item?.href || HREF_FALLBACKS[item?.label?.toLowerCase()?.trim()],
   }))
-  .filter((item: any) => item.href)
+  .filter((item: any) => item.href);
 
-const leftLinks = navItems.filter((item: any) => item.position === 'left')
-const rightLinks = navItems.filter((item: any) => item.position === 'right')
-const allLinks = [...leftLinks, ...rightLinks]
+const leftLinks = navItems.filter((item: any) => item.position === "left");
+const rightLinks = navItems.filter((item: any) => item.position === "right");
+
+// Menu panel content. Falls back to the header nav (and no images) until the
+// dedicated menu fields are filled in inside Sanity Studio.
+const menuPrimary = (
+  header?.menuPrimary?.length ? header.menuPrimary : navItems
+).filter((item: any) => item?.label && item?.href);
+const menuSecondary = (header?.menuSecondary ?? []).filter(
+  (item: any) => item?.label && item?.href,
+);
+const menuImages = (header?.menuImages ?? []).filter((item: any) => item?.url);
 
 interface Props {
-  theme?: 'light'| 'dark'
+  theme?: "light" | "dark";
 }
-const {theme = 'light'} = Astro.props
+const { theme = "light" } = Astro.props;
 ---
 
 <header
   id="site-header"
   class="fixed top-0 left-0 right-0 z-50 flex justify-center"
 >
-  <div id="header-pill" class="flex w-full items-center justify-between px-8 py-5">
+  <div
+    id="header-pill"
+    class="flex w-full items-center justify-between px-8 py-5"
+  >
     <div class="pill-glass"><PillGlass client:idle /></div>
-    <nav class="hidden gap-12 cursor-pointer md:flex">
-      {leftLinks?.map((item: any) => (
-        <a href={item.href} class="header-link font-[Geist] text-[14px] font-normal leading-[1.12] tracking-[-0.01em] text-center opacity-100 transition-all duration-200 hover:opacity-60">{item.label}</a>
-      ))}
+
+    <nav class="pill-item hidden gap-12 cursor-pointer md:flex">
+      {
+        leftLinks?.map((item: any) => (
+          <a
+            href={item.href}
+            class="header-link font-[Geist] text-[14px] font-normal leading-[1.12] tracking-[-0.01em] text-center opacity-100 transition-all duration-200 hover:opacity-60"
+          >
+            {item.label}
+          </a>
+        ))
+      }
     </nav>
 
-    <a href="/" class="shrink-0">
-      {logoUrl
-        ? <img src={logoUrl} alt="1367 Studio" class="header-logo" style="height:16px;width:50px;object-fit:contain;" />
-        : <span class="header-link font-bold">1367</span>
+    <a href="/" class="pill-item shrink-0">
+      {
+        logoUrl ? (
+          <img
+            src={logoUrl}
+            alt="1367 Studio"
+            class="header-logo"
+            style="height:16px;width:50px;object-fit:contain;"
+          />
+        ) : (
+          <span class="header-link font-bold">1367</span>
+        )
       }
     </a>
 
-    <div class="hidden items-center gap-12 md:flex">
+    <div class="pill-item hidden items-center gap-12 md:flex">
       <nav class="flex gap-12 cursor-pointer items-center">
-        {rightLinks?.map((item: any) => (
-          <a href={item.href} class="header-link font-[Geist] text-[14px] font-normal leading-[1.12] tracking-[-0.01em] text-center opacity-100 transition-all duration-200 hover:opacity-60">{item.label}</a>
-        ))}
+        {
+          rightLinks?.map((item: any) => (
+            <a
+              href={item.href}
+              class="header-link font-[Geist] text-[14px] font-normal leading-[1.12] tracking-[-0.01em] text-center opacity-100 transition-all duration-200 hover:opacity-60"
+            >
+              {item.label}
+            </a>
+          ))
+        }
       </nav>
-      <button id="menu-btn-desktop" type="button" class="header-link transition-opacity hover:opacity-60">
+      <button
+        id="menu-btn-desktop"
+        type="button"
+        class="header-link cursor-pointer transition-opacity hover:opacity-60"
+      >
         <Menu id="icon-menu-desktop" size={16} />
         <X id="icon-close-desktop" size={16} class="hidden" />
       </button>
     </div>
 
     <!-- hamburger button (mobile) -->
-    <button id="menu-btn" class="header-link md:hidden relative z-50">
+    <button
+      id="menu-btn"
+      class="pill-item header-link md:hidden cursor-pointer relative z-50"
+    >
       <Menu id="icon-menu" size={16} />
       <X id="icon-close" size={16} class="hidden" />
     </button>
   </div>
 
-  <!-- popup menu -->
-  <div
-    id="mobile-menu" class="absolute top-[52px] right-8 mt-2 min-w-[160px] bg-black/80 backdrop-blur-md rounded-xl flex flex-col py-3 opacity-0 scale-95 pointer-events-none transition-all duration-200 origin-top-right md:hidden">
-    {allLinks?.map((item: any) => ( <a href={item.href} class="px-5 py-2.5 font-[Geist] text-[14px] text-white opacity-80 hover:opacity-100 transition-opacity">
-    {item.label}
-  </a>
-))}
+  <!-- menu panel -->
+  <div id="menu-panel" aria-hidden="true">
+    <!-- The frosted surface is its own layer so it can scale out of the pill
+         independently of the contents, which stay at full size throughout. -->
+    <div class="menu-bg"></div>
+
+    <div class="menu-fade menu-topbar">
+      <span class="menu-eyebrow">Explore</span>
+      <button
+        id="menu-close"
+        type="button"
+        aria-label="Close menu"
+        class="menu-close cursor-pointer transition-opacity hover:opacity-60"
+      >
+        <X size={20} />
+      </button>
+    </div>
+
+    <nav class="menu-primary">
+      {
+        menuPrimary.map((item: any) => (
+          <a href={item.href} class="menu-primary-link">
+            <span class="menu-mask">
+              <span class="menu-line">
+                {/* Two copies: on hover both roll up by exactly one line, so
+                    the duplicate lands where the original was. */}
+                <span class="menu-word">{item.label}</span>
+                <span class="menu-word" aria-hidden="true">
+                  {item.label}
+                </span>
+              </span>
+            </span>
+          </a>
+        ))
+      }
+    </nav>
+
+    {
+      menuSecondary.length > 0 && (
+        <nav class="menu-secondary">
+          {menuSecondary.map((item: any) => (
+            <a href={item.href} class="menu-secondary-link">
+              <span class="menu-mask">
+                <span class="menu-line">{item.label}</span>
+              </span>
+            </a>
+          ))}
+        </nav>
+      )
+    }
+
+    {
+      menuImages.length > 0 && (
+        <div class="menu-images">
+          {menuImages.map((item: any) => {
+            const Tag = item.href ? "a" : "div";
+            return (
+              <Tag href={item.href} class="menu-fade menu-image">
+                <img src={item.url} alt={item.alt ?? ""} loading="lazy" />
+              </Tag>
+            );
+          })}
+        </div>
+      )
+    }
   </div>
 </header>
 
@@ -93,7 +200,9 @@ const {theme = 'light'} = Astro.props
   #site-header {
     opacity: 0;
     transform: translateY(-12px);
-    transition: transform 0.4s ease, opacity 0.5s ease;
+    transition:
+      transform 0.4s ease,
+      opacity 0.5s ease;
     --hc: #000000;
   }
 
@@ -102,7 +211,9 @@ const {theme = 'light'} = Astro.props
     transform: translateY(0);
   }
 
-  #site-header[data-theme="light"] { --hc: #ffffff; }
+  #site-header[data-theme="light"] {
+    --hc: #ffffff;
+  }
 
   /* Liquid-glass layer sits behind the nav; nav content stays on top. */
   .pill-glass {
@@ -130,8 +241,12 @@ const {theme = 'light'} = Astro.props
     -webkit-backdrop-filter: blur(0px);
     margin-top: 16px;
     padding: 0 31.72px 0 33px;
+    /* Collapse/expand rides the same power3.inOut curve as the panel. */
     transition:
-      max-width 0.4s ease,
+      max-width 0.6s cubic-bezier(0.65, 0, 0.35, 1),
+      width 0.6s cubic-bezier(0.65, 0, 0.35, 1),
+      height 0.6s cubic-bezier(0.65, 0, 0.35, 1),
+      padding 0.6s cubic-bezier(0.65, 0, 0.35, 1),
       background 0.3s ease,
       backdrop-filter 0.3s ease;
   }
@@ -145,13 +260,18 @@ const {theme = 'light'} = Astro.props
   }
 
   /* Pill always has white text */
-  #site-header.is-scrolled { --hc: #ffffff; }
-  #site-header.is-scrolled .header-logo { filter: brightness(0) invert(1) !important; }
-
+  #site-header.is-scrolled {
+    --hc: #ffffff;
+  }
+  #site-header.is-scrolled .header-logo {
+    filter: brightness(0) invert(1) !important;
+  }
 
   .header-link {
     color: var(--hc);
-    transition: color 0.3s ease, opacity 0.2s ease;
+    transition:
+      color 0.3s ease,
+      opacity 0.2s ease;
   }
 
   .header-logo {
@@ -163,100 +283,465 @@ const {theme = 'light'} = Astro.props
     filter: brightness(0) invert(1);
   }
 
-  #mobile-menu.is-open {
-    opacity: 1;
-    transform: scale(1);
+  /* ---- Menu panel ---------------------------------------------------- */
+
+  /* Same panel at every breakpoint — the design is identical on mobile and
+     desktop, it just goes full-bleed once the viewport is narrower than it. */
+  /* Figma: 472 x 611, top 16, radius 16, 1px bottom stroke. Every offset
+     below is measured off that frame, so the panel lands at 611px tall. */
+  #menu-panel {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    width: calc(100% - 32px);
+    max-width: 472px;
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    z-index: 60;
+
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+
+    transform: translateX(-50%);
+
+    /* Closed state. GSAP drives open/close from here, but this keeps the panel
+       hidden before the script runs and if JS never lands. */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  #menu-panel.is-open {
     pointer-events: auto;
+  }
+
+  /* Grows out of the pill it replaces, so the origin is the top edge — the
+     panel appears to unfold downward from the header. */
+  .menu-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+    transform-origin: center top;
+    background: rgba(20, 20, 20, 0.88);
+    /* Figma Glass "Frost 27", same mapping the scrolled pill already uses. */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* The panel carries its own close button, so the pill steps aside entirely
+     while the menu is open — matching the design, where no header is visible. */
+  #site-header.menu-open #header-pill {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Eyebrow + X sit on a shared centre line 37px down from the panel's top. */
+  .menu-topbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 23px;
+  }
+
+  .menu-eyebrow {
+    font-family: Geist, sans-serif;
+    font-size: 10px;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  /* Icon centre lands 42px in from the panel's right edge. */
+  .menu-close {
+    position: absolute;
+    right: 24px;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    transition: opacity 0.2s ease;
+  }
+  .menu-close:hover {
+    opacity: 0.6;
+  }
+
+  .menu-primary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 19.5px;
+    padding-top: 56px;
+  }
+
+  /* Links slide up from under their own edge rather than fading in. The
+     padding keeps descenders ("g" in Get in touch) clear of the mask edge.
+     The height is pinned to a single line so the hover duplicate stacked
+     below stays clipped out of sight until it's rolled up. */
+  .menu-mask {
+    display: block;
+    overflow: hidden;
+    height: 1.3em;
+    padding-bottom: 0.1em;
+  }
+  /* Secondary links run on a 1.25 line-height, so their mask is that bit taller. */
+  .menu-secondary-link .menu-mask {
+    height: 1.35em;
+  }
+  .menu-line {
+    display: block;
+    will-change: transform;
+  }
+  .menu-word {
+    display: block;
+    will-change: transform;
+  }
+
+  .menu-primary-link {
+    font-family: Geist, sans-serif;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    transition: color 0.5s ease;
+  }
+
+  /* Hovering one link recedes the others, so the hovered one leads. */
+  @media (hover: hover) {
+    .menu-primary:hover .menu-primary-link {
+      color: rgba(255, 255, 255, 0.4);
+    }
+    .menu-primary:hover .menu-primary-link:hover {
+      color: #ffffff;
+    }
+    .menu-secondary:hover .menu-secondary-link {
+      color: rgba(255, 255, 255, 0.35);
+    }
+    .menu-secondary:hover .menu-secondary-link:hover {
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  .menu-secondary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding-top: 42px;
+  }
+
+  .menu-secondary-link {
+    font-family: Geist, sans-serif;
+    font-size: 14px;
+    line-height: 1.25;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.75);
+    transition: color 0.5s ease;
+  }
+
+  .menu-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 70px;
+  }
+
+  .menu-image {
+    display: block;
+    overflow: hidden;
+    border-radius: 6px;
+    aspect-ratio: 1 / 1;
+  }
+
+  .menu-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  a.menu-image:hover img {
+    transform: scale(1.05);
+  }
+
+  /* ---- Mobile ---------------------------------------------------------
+     A different frame, not a squeezed version of the desktop one: the panel
+     goes full-screen, the X sits alone at the top with EXPLORE dropped well
+     below it, and the thumbnail row runs off the right edge as a scroller.
+     Offsets measured off the mobile mockup at a 390px viewport. */
+  @media (max-width: 767px) {
+    #menu-panel {
+      top: 0;
+      left: 0;
+      transform: none;
+      width: 100%;
+      max-width: none;
+      height: 100dvh;
+      max-height: none;
+      padding: 0 8px 8px;
+      overflow: hidden;
+    }
+
+    .menu-bg {
+      border-radius: 0;
+      border-bottom: none;
+    }
+
+    /* The X breaks out of the topbar and pins to the panel's top-right. */
+    .menu-topbar {
+      position: static;
+      padding-top: 141px;
+    }
+    .menu-close {
+      top: 24px;
+      right: 32px;
+    }
+
+    .menu-primary {
+      padding-top: 63px;
+      gap: 44px;
+    }
+
+    .menu-secondary {
+      padding-top: 59px;
+      gap: 18px;
+    }
+
+    /* Fixed-width squares that overrun the viewport, so the third peeks off
+       the right edge and the row scrolls. */
+    .menu-images {
+      margin-top: auto;
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: 143px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .menu-images::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #menu-panel,
+    .menu-mask,
+    .menu-fade {
+      transition: none !important;
+    }
   }
 </style>
 
 <script>
-  const header = document.getElementById('site-header')!
-  const menu = document.getElementById('mobile-menu')!
+  import { gsap } from "gsap";
+
+  const header = document.getElementById("site-header")!;
+  const menu = document.getElementById("menu-panel")!;
+  const menuBg = menu.querySelector<HTMLElement>(".menu-bg")!;
+  const menuLines = Array.from(
+    menu.querySelectorAll<HTMLElement>(".menu-line"),
+  );
+  const menuFades = Array.from(
+    menu.querySelectorAll<HTMLElement>(".menu-fade"),
+  );
+  const closeBtn = document.getElementById("menu-close")!;
 
   const btns = [
     {
-      btn: document.getElementById('menu-btn')!,
-      iconMenu: document.getElementById('icon-menu')!,
-      iconClose: document.getElementById('icon-close')!,
+      btn: document.getElementById("menu-btn")!,
+      iconMenu: document.getElementById("icon-menu")!,
+      iconClose: document.getElementById("icon-close")!,
     },
     {
-      btn: document.getElementById('menu-btn-desktop')!,
-      iconMenu: document.getElementById('icon-menu-desktop')!,
-      iconClose: document.getElementById('icon-close-desktop')!,
+      btn: document.getElementById("menu-btn-desktop")!,
+      iconMenu: document.getElementById("icon-menu-desktop")!,
+      iconClose: document.getElementById("icon-close-desktop")!,
     },
-  ]
+  ];
 
   // Entrada: aguarda um frame para a transition capturar a mudança
   requestAnimationFrame(() => {
-    setTimeout(() => header.classList.add('is-visible'), 200)
-  })
+    setTimeout(() => header.classList.add("is-visible"), 200);
+  });
 
   // Adaptive color: detecta o bg atrás do header automaticamente
   function isBlack(color: string): boolean {
-    const m = color.match(/\d+/g)
-    if (!m || m.length < 3) return false
-    const [r, g, b] = m.map(Number)
-    return r < 30 && g < 30 && b < 30
+    const m = color.match(/\d+/g);
+    if (!m || m.length < 3) return false;
+    const [r, g, b] = m.map(Number);
+    return r < 30 && g < 30 && b < 30;
   }
 
   // Scroll → pill state
-  const SCROLL_THRESHOLD = 80
+  const SCROLL_THRESHOLD = 80;
   function updateScrollState() {
     if (window.scrollY > SCROLL_THRESHOLD) {
-      header.classList.add('is-scrolled')
+      header.classList.add("is-scrolled");
     } else {
-      header.classList.remove('is-scrolled')
+      header.classList.remove("is-scrolled");
     }
-    updateHeaderTheme()
+    updateHeaderTheme();
   }
 
   function updateHeaderTheme() {
     // Pill always white — skip detection
-    if (header.classList.contains('is-scrolled')) return
+    if (header.classList.contains("is-scrolled")) return;
 
-    const cy = header.getBoundingClientRect().bottom + 4
-    const cx = window.innerWidth / 2
-    const elements = document.elementsFromPoint(cx, cy)
+    const cy = header.getBoundingClientRect().bottom + 4;
+    const cx = window.innerWidth / 2;
+    const elements = document.elementsFromPoint(cx, cy);
 
     for (const el of elements) {
-      if (header.contains(el) || el === header) continue
-      if (el === document.body || el === document.documentElement) continue
-      const forced = (el as HTMLElement).dataset?.headerTheme
-      if (forced) { header.setAttribute('data-theme', forced); return }
-      const bg = getComputedStyle(el).backgroundColor
-      if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
-        header.setAttribute('data-theme', isBlack(bg) ? 'light' : 'dark')
-        return
+      if (header.contains(el) || el === header) continue;
+      if (el === document.body || el === document.documentElement) continue;
+      const forced = (el as HTMLElement).dataset?.headerTheme;
+      if (forced) {
+        header.setAttribute("data-theme", forced);
+        return;
+      }
+      const bg = getComputedStyle(el).backgroundColor;
+      if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") {
+        header.setAttribute("data-theme", isBlack(bg) ? "light" : "dark");
+        return;
       }
     }
-    const bodyBg = getComputedStyle(document.body).backgroundColor
-    header.setAttribute('data-theme', isBlack(bodyBg) ? 'light' : 'dark')
+    const bodyBg = getComputedStyle(document.body).backgroundColor;
+    header.setAttribute("data-theme", isBlack(bodyBg) ? "light" : "dark");
   }
 
-  updateScrollState()
-  window.addEventListener('scroll', updateScrollState, { passive: true })
+  updateScrollState();
+  window.addEventListener("scroll", updateScrollState, { passive: true });
 
   function syncIcons(isOpen: boolean) {
     btns.forEach(({ iconMenu, iconClose }) => {
-      iconMenu.classList.toggle('hidden', isOpen)
-      iconClose.classList.toggle('hidden', !isOpen)
-    })
+      iconMenu.classList.toggle("hidden", isOpen);
+      iconClose.classList.toggle("hidden", !isOpen);
+    });
   }
 
-  // popup toggle — both mobile and desktop buttons
-  btns.forEach(({ btn }) => {
-    btn?.addEventListener('click', () => {
-      const isOpen = menu.classList.toggle('is-open')
-      syncIcons(isOpen)
-    })
-  })
+  // ---- Menu open / close ------------------------------------------------
 
-  // close when clicking elsewhere
-  document.addEventListener('click', (e) => {
-    if (!header.contains(e.target as Node)) {
-      menu.classList.remove('is-open')
-      syncIcons(false)
-    }
-  })
+  // Weighty rather than snappy: no overshoot, no spring, one curve throughout.
+  const EASE = "power3.inOut";
+  let isOpen = false;
+  let tl: gsap.core.Timeline | null = null;
+
+  function openMenu() {
+    if (isOpen) return;
+    isOpen = true;
+
+    menu.classList.add("is-open");
+    menu.setAttribute("aria-hidden", "false");
+    header.classList.add("menu-open");
+    syncIcons(true);
+
+    tl?.kill();
+    tl = gsap.timeline();
+    tl.set(menu, { autoAlpha: 1 })
+      // The frosted surface unfolds out of the pill.
+      .fromTo(menuBg, { scale: 0 }, { scale: 1, duration: 0.5, ease: EASE }, 0)
+      // Links slide up inside their masks on a tight cascade. No fade — the
+      // clipped edge is what sells it.
+      .fromTo(
+        menuLines,
+        { yPercent: 150 },
+        { yPercent: 0, duration: 0.8, stagger: 0.02, ease: EASE },
+        0,
+      )
+      // Only the things that can't be masked (eyebrow, thumbnails) fade.
+      .fromTo(
+        menuFades,
+        { autoAlpha: 0 },
+        { autoAlpha: 1, duration: 0.5, ease: EASE },
+        0.3,
+      );
+  }
+
+  function closeMenu() {
+    if (!isOpen) return;
+    isOpen = false;
+
+    header.classList.remove("menu-open");
+    syncIcons(false);
+
+    // Clicking a link closes the panel while the cursor is still on it, so no
+    // mouseleave ever fires — clear the roll by hand or it reopens rolled up.
+    gsap.set(menu.querySelectorAll(".menu-word"), {
+      yPercent: 0,
+      overwrite: true,
+    });
+
+    tl?.kill();
+    tl = gsap.timeline({
+      onComplete: () => {
+        menu.classList.remove("is-open");
+        menu.setAttribute("aria-hidden", "true");
+      },
+    });
+    // Dismissal is blunter than the open: no stagger, and it eases out rather
+    // than in-out, so it gets out of the way immediately.
+    tl.to(
+      menuLines,
+      { yPercent: 150, duration: 0.5, ease: "power3.out", overwrite: true },
+      0,
+    )
+      .to(
+        menuFades,
+        { autoAlpha: 0, duration: 0.5, ease: "power3.out", overwrite: true },
+        0,
+      )
+      .to(menuBg, { scale: 0, duration: 0.5, ease: EASE, overwrite: true }, 0)
+      .set(menu, { autoAlpha: 0 });
+  }
+
+  function toggleMenu() {
+    isOpen ? closeMenu() : openMenu();
+  }
+
+  btns.forEach(({ btn }) => btn?.addEventListener("click", toggleMenu));
+  closeBtn.addEventListener("click", closeMenu);
+
+  // Click outside the panel dismisses it (the buttons handle their own toggle).
+  document.addEventListener("click", (e) => {
+    const target = e.target as Node;
+    if (!isOpen) return;
+    if (menu.contains(target)) return;
+    if (btns.some(({ btn }) => btn?.contains(target))) return;
+    closeMenu();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+
+  // Navigating away (Barba keeps this header alive across pages) must not
+  // leave the panel hanging open over the new page.
+  menu
+    .querySelectorAll("a")
+    .forEach((link) => link.addEventListener("click", closeMenu));
+
+  // ---- Link roll --------------------------------------------------------
+
+  // Each label is doubled inside its mask. Rolling both copies up by exactly
+  // one line swaps the duplicate into the original's place. Pointer devices
+  // only — on touch there's no mouseleave, so the roll would stick.
+  if (window.matchMedia("(hover: hover)").matches) {
+    menu.querySelectorAll<HTMLElement>(".menu-primary-link").forEach((link) => {
+      const words = link.querySelectorAll<HTMLElement>(".menu-word");
+      const roll = (yPercent: number) =>
+        gsap.to(words, {
+          yPercent,
+          duration: 0.5,
+          ease: "power3.out",
+          overwrite: true,
+        });
+
+      link.addEventListener("mouseenter", () => roll(-100));
+      link.addEventListener("mouseleave", () => roll(0));
+    });
+  }
 </script>

@@ -20,6 +20,32 @@ function unlockScroll() {
 }
 
 /**
+ * Frosted scrim that sits between the outgoing page and the incoming card, so
+ * the old content reads as blurred glass instead of a legible second page.
+ */
+function createGlass(): HTMLElement {
+  // Drop any scrim left behind by a transition that got interrupted.
+  document.querySelectorAll('[data-barba-glass]').forEach((el) => el.remove())
+
+  const glass = document.createElement('div')
+  glass.setAttribute('data-barba-glass', '')
+  Object.assign(glass.style, {
+    position: 'fixed',
+    inset: '0',
+    zIndex: '9998',
+    opacity: '0',
+    pointerEvents: 'none',
+    // Pure defocus — no tint. The page underneath keeps its own colour and
+    // just goes out of focus, which is what makes it read as glass rather
+    // than as a dimmed overlay.
+    backdropFilter: 'blur(32px)',
+    WebkitBackdropFilter: 'blur(32px)',
+  } as Partial<CSSStyleDeclaration>)
+  document.body.appendChild(glass)
+  return glass
+}
+
+/**
  * Runs the small-card spring-grow (same damped-oscillator math as the hero
  * intro) on `el`, calling `onDone` once it settles at full scale.
  */
@@ -85,12 +111,15 @@ export function initBarba(): void {
           return new Promise<void>((resolve) => {
             const el = next.container as HTMLElement
 
+            const glass = createGlass()
+
             lockScroll()
             el.style.position = 'fixed'
             el.style.inset = '0'
             el.style.zIndex = '9999'
             el.style.overflow = 'hidden'
             el.style.transformOrigin = '50% 50%'
+            el.style.boxShadow = '0 24px 64px rgba(0, 0, 0, 0.18)'
             gsap.set(el, {
               scale: smallScale(),
               yPercent: 100,
@@ -98,8 +127,10 @@ export function initBarba(): void {
             })
 
             gsap.timeline()
-              // Phase A — slides up from below with a fade, lands small & centered.
-              .to(el, { yPercent: 0, opacity: 1, duration: 0.7, ease: 'power3.out' })
+              // Phase A — the scrim frosts over the old page while the incoming
+              // card slides up from below with a fade, landing small & centered.
+              .to(glass, { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0)
+              .to(el, { yPercent: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0)
               // The 800ms pause from the Figma prototype before the spring kicks in.
               .to({}, { duration: 0.8 })
               .call(() => {
@@ -109,8 +140,10 @@ export function initBarba(): void {
                   el.style.zIndex = ''
                   el.style.overflow = ''
                   el.style.transformOrigin = ''
+                  el.style.boxShadow = ''
                   gsap.set(el, { clearProps: 'transform,opacity' })
 
+                  glass.remove()
                   current.container.remove()
                   window.scrollTo(0, 0)
                   unlockScroll()
