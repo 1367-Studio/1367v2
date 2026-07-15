@@ -3,36 +3,72 @@ import Layout from "@/layouts/Layout.astro";
 import Statement from "@/components/Statement.astro";
 import FeaturedCase3 from "@/components/FeaturedCase3.astro";
 import LetsBuild from "@/components/LetsBuild.astro";
-import VideoProjectSection from "@/components/VideoProjectSection.astro"
-import Testimonials from "@/components/Testimonials.astro"
-import FocusAreas from "@/components/FocusAreas.astro"
-import BuildingWorldwide from "@/components/BuildingWorldwide.astro"
-import { client } from "@/lib/sanity"
+import VideoProjectSection from "@/components/VideoProjectSection.astro";
+import Testimonials from "@/components/Testimonials.astro";
+import FocusAreas from "@/components/FocusAreas.astro";
+import BuildingWorldwide from "@/components/BuildingWorldwide.astro";
+import { client } from "@/lib/sanity";
 
-const [hero, statement, _featuredCase, _featuredCase2, featuredCase3, letsBuild, projectSection, ticker, testimonialsSection, focusAreas, buildingWorldwide] = await Promise.all([
-  client.fetch(`*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`),
-  client.fetch(`*[_type == "statementSection" && _id == "statementSection"][0]{ body }`),
-  client.fetch(`*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`),
-  client.fetch(`*[_type == "featuredCase2Section" && _id == "featuredCase2Section"][0]{ tag, title, description, ctaLabel, ctaHref, panelTitle, items[]{ "iconSrc": icon.asset->url, "imageSrc": image.asset->url, title, subtitle } }`),
-  client.fetch(`*[_type == "featuredCase3Section" && _id == "featuredCase3Section"][0]{ cases[]{ tag, title, rightText, ctaLabel, ctaHref, "bgImage": bgImage.asset->url, "manImageDesktop": manImageDesktop.asset->url, "manImageMobile": manImageMobile.asset->url } }`),
-  client.fetch(`*[_type == "letsBuildSection" && _id == "letsBuildSection"][0]{ title, description, ctaLabel, ctaHref }`),
-  client.fetch(`*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
-  client.fetch(`*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`),
-  client.fetch(`*[_type == "testimonialsSection"][0]{ testimonials[]{ quote, author, "avatarUrl": avatar.asset->url }, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`),
-  client.fetch(`*[_type == "focusAreasSection" && _id == "focusAreasSection"][0]{ label, items[]{ title, subItems, "imageUrl": image.asset->url } }`),
-  client.fetch(`*[_type == "buildingWorldwideSection" && _id == "buildingWorldwideSection"][0]{ title }`),
-])
-
+const [
+  hero,
+  statement,
+  _featuredCase,
+  _featuredCase2,
+  featuredCase3,
+  letsBuild,
+  projectSection,
+  ticker,
+  testimonialsSection,
+  focusAreas,
+  buildingWorldwide,
+] = await Promise.all([
+  client.fetch(
+    `*[_type == "heroSection" && _id == "heroSection"][0]{ title, subtitle, description, ctaLabel, ctaHref, "videoUrl": video.asset->url }`,
+  ),
+  client.fetch(
+    `*[_type == "statementSection" && _id == "statementSection"][0]{ body }`,
+  ),
+  client.fetch(
+    `*[_type == "featuredCaseSection" && _id == "featuredCaseSection"][0]{ tag, title, description, ctaLabel, ctaHref, image, cardTitle, cardSubtitle, cardCta }`,
+  ),
+  client.fetch(
+    `*[_type == "featuredCase2Section" && _id == "featuredCase2Section"][0]{ tag, title, description, ctaLabel, ctaHref, panelTitle, items[]{ "iconSrc": icon.asset->url, "imageSrc": image.asset->url, title, subtitle } }`,
+  ),
+  client.fetch(
+    `*[_type == "featuredCase3Section" && _id == "featuredCase3Section"][0]{ cases[]{ tag, title, rightText, ctaLabel, ctaHref, "bgImage": bgImage.asset->url, "manImageDesktop": manImageDesktop.asset->url, "manImageMobile": manImageMobile.asset->url } }`,
+  ),
+  client.fetch(
+    `*[_type == "letsBuildSection" && _id == "letsBuildSection"][0]{ title, description, ctaLabel, ctaHref }`,
+  ),
+  client.fetch(
+    `*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`,
+  ),
+  client.fetch(
+    `*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`,
+  ),
+  client.fetch(
+    `*[_type == "testimonialsSection"][0]{ testimonials[]{ quote, author, "avatarUrl": avatar.asset->url }, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`,
+  ),
+  client.fetch(
+    `*[_type == "focusAreasSection" && _id == "focusAreasSection"][0]{ label, items[]{ title, subItems, "imageUrl": image.asset->url } }`,
+  ),
+  client.fetch(
+    `*[_type == "buildingWorldwideSection" && _id == "buildingWorldwideSection"][0]{ title }`,
+  ),
+]);
 ---
+
 <Layout
   title="1367 Studio | Digital Branding & Custom Software in Florianópolis, Marseille & London"
   description="1367 Studio is a digital branding agency engineering distinctive brand identities, custom websites and software for ambitious businesses across Brazil, France and the UK."
 >
   <VideoProjectSection
-    videoUrl={projectSection?.videoUrl ?? '/hero-video.mp4'}
-    heroTitle={hero?.title?.replace(/\\n/g, '\n') ?? "Designing the future, one pixel at a time."}
-    heroSubtitle={hero?.subtitle?.replace(/\\n/g, '\n') ?? ""}
-    heroDescription={hero?.description ?? "We build digital experiences that scale with your business."}
+    videoUrl={projectSection?.videoUrl ?? "/hero-video.mp4"}
+    heroTitle={hero?.title?.replace(/\\n/g, "\n") ??
+      "Designing the future, one pixel at a time."}
+    heroSubtitle={hero?.subtitle?.replace(/\\n/g, "\n") ?? ""}
+    heroDescription={hero?.description ??
+      "We build digital experiences that scale with your business."}
     heroCtaLabel={hero?.ctaLabel ?? "BOOK A CALL"}
     heroCtaHref={hero?.ctaHref ?? "/contact"}
     title={projectSection?.title ?? "We build ambitious digital products."}
@@ -40,32 +76,61 @@ const [hero, statement, _featuredCase, _featuredCase2, featuredCase3, letsBuild,
     brandsLabel={projectSection?.brandsLabel ?? ""}
     brands={projectSection?.brands ?? []}
   />
-  {/* <Hero
+  {
+    /* <Hero
     title={hero?.title ?? "Designing the future, one pixel at a time."}
     subtitle={hero?.subtitle ?? ""}
     description={hero?.description ?? "We build digital experiences that scale with your business."}
     ctaLabel={hero?.ctaLabel ?? "BOOK A CALL"}
     ctaHref={hero?.ctaHref ?? "/contact"}
     videoUrl={hero?.videoUrl}
-  /> */}
-  <Statement body={statement?.body ?? "We don't just build websites. We engineer digital experiences and custom software that solve real problems and scale with your business."} />
+  /> */
+  }
+  <Statement
+    body={statement?.body ??
+      "We don't just build websites. We engineer digital experiences and custom software that solve real problems and scale with your business."}
+  />
   <FocusAreas
-    label={focusAreas?.label ?? 'Focus Areas'}
+    label={focusAreas?.label ?? "Focus Areas"}
     items={focusAreas?.items ?? [
-      { title: 'Web Platforms', subItems: ['Marketing websites', 'Customer portals', 'eCommerce'] },
-      { title: 'Software Products', subItems: ['SaaS platforms', 'Business tools', 'Custom applications'] },
-      { title: 'Enterprise Systems', subItems: ['Internal tools', 'Integrations', 'Workflows'] },
-      { title: 'Cloud Infrastructure', subItems: ['Architecture', 'Deployment pipelines', 'Platform reliability'] },
-      { title: 'Mobile Applications', subItems: ['Native apps', 'Cross-platform', 'Connected experiences'] },
+      {
+        title: "Web Platforms",
+        subItems: ["Marketing websites", "Customer portals", "eCommerce"],
+      },
+      {
+        title: "Software Products",
+        subItems: ["SaaS platforms", "Business tools", "Custom applications"],
+      },
+      {
+        title: "Enterprise Systems",
+        subItems: ["Internal tools", "Integrations", "Workflows"],
+      },
+      {
+        title: "Cloud Infrastructure",
+        subItems: [
+          "Architecture",
+          "Deployment pipelines",
+          "Platform reliability",
+        ],
+      },
+      {
+        title: "Mobile Applications",
+        subItems: ["Native apps", "Cross-platform", "Connected experiences"],
+      },
     ]}
   />
-  <BuildingWorldwide title={buildingWorldwide?.title?.replace(/\\n/g, '\n') ?? 'Building\nWorldwide'} />
+  <BuildingWorldwide
+    title={buildingWorldwide?.title?.replace(/\\n/g, "\n") ??
+      "Building\nWorldwide"}
+  />
   <Testimonials
     testimonials={testimonialsSection?.testimonials ?? []}
-    brandsLabel={testimonialsSection?.brandsLabel ?? "Trusted by brands worldwide:"}
+    brandsLabel={testimonialsSection?.brandsLabel ??
+      "Trusted by brands worldwide:"}
     brands={testimonialsSection?.brands ?? []}
   />
-  {/* <FeaturedCase
+  {
+    /* <FeaturedCase
     tag={featuredCase?.tag}
     title={featuredCase?.title ?? "Temporary Staffing Platform & Custom Website"}
     description={featuredCase?.description ?? "We supported ADD Temp in the design and development of a complete digital platform dedicated to temporary workforce management. To create a centralized hub to efficiently manage applicants, job offers and client relations, while delivering a smooth and modern user experience."}
@@ -75,8 +140,10 @@ const [hero, statement, _featuredCase, _featuredCase2, featuredCase3, letsBuild,
     cardTitle={featuredCase?.cardTitle ?? "Offre d'emploi Macon, VRD (H/F), Nimes (30)"}
     cardSubtitle={featuredCase?.cardSubtitle ?? "Sous la responsabilité du chef de chantier, vous aurez pour mission : Sécurisation du chantier"}
     cardCta={featuredCase?.cardCta ?? "Voir offre"}
-  /> */}
-  {/* <FeaturedCase2
+  /> */
+  }
+  {
+    /* <FeaturedCase2
     tag={featuredCase2?.tag}
     title={featuredCase2?.title ?? ""}
     description={featuredCase2?.description}
@@ -84,7 +151,8 @@ const [hero, statement, _featuredCase, _featuredCase2, featuredCase3, letsBuild,
     ctaHref={featuredCase2?.ctaHref ?? "/contact"}
     panelTitle={featuredCase2?.panelTitle}
     items={featuredCase2?.items ?? []}
-  /> */}
+  /> */
+  }
   <FeaturedCase3 cases={featuredCase3?.cases ?? []} />
   <LetsBuild
     title={letsBuild.title}

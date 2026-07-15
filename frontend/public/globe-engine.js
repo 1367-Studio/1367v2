@@ -46,6 +46,16 @@
       dx: 0,
       dy: 0,
     },
+        {
+      id: "vancouver",
+      city: "Vancouver",
+      country: "Canada",
+      tz: "America/Vancouver",
+      lat: 49.246292,
+      lon: -123.116226,
+      dx: 0,
+      dy: 0,
+    },
   ];
 
   const DEG = Math.PI / 180;

@@ -1,50 +1,62 @@
 ---
-import GravityText from './GravityText.astro'
+import GravityText from "./GravityText.astro";
 
 interface Location {
-  city: string
-  country: string
-  phone?: string
-  address?: string
+  city: string;
+  country: string;
+  phone?: string;
+  address?: string;
 }
 
 interface NavLink {
-  label: string
-  href: string
+  label: string;
+  href: string;
 }
 
 interface Props {
-  heading?: string
-  ctaLabel?: string
-  ctaHref?: string
-  navLinks?: NavLink[]
-  locations?: Location[]
-  logoSrc?: string
+  heading?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  navLinks?: NavLink[];
+  locations?: Location[];
+  logoSrc?: string;
 }
 
 const {
   heading = "Let's design\nwhat's next.",
-  ctaLabel = 'CONTACT US',
-  ctaHref = '/contact',
+  ctaLabel = "CONTACT US",
+  ctaHref = "/contact",
   navLinks = [
-    { label: 'About us', href: '/about' },
-    { label: 'Get in touch', href: '/contact' },
+    { label: "About us", href: "/about" },
+    { label: "Get in touch", href: "/contact" },
   ],
   locations = [
-    { city: 'Marseille', country: 'France', phone: '+33 07 63 85 83 88' },
-    { city: 'London', country: 'UK', phone: '+33 07 63 85 83 88' },
-    { city: 'Florianópolis', country: 'Brazil', phone: '48 99195-8826', address: 'SC-405, 4397 - Campeche,\nFlorianópolis - SC, 88065-000\nOKA SHOPPING' },
+    { city: "Marseille", country: "France", phone: "+33 07 63 85 83 88" },
+    { city: "Vancouver", country: "Canada", phone: "+33 07 63 85 83 88" },
+    { city: "Marseille", country: "France", phone: "+33 07 63 85 83 88" },
+    { city: "London", country: "UK", phone: "+33 07 63 85 83 88" },
+    {
+      city: "Florianópolis",
+      country: "Brazil",
+      phone: "48 99195-8826",
+      address:
+        "SC-405, 4397 - Campeche,\nFlorianópolis - SC, 88065-000\nOKA SHOPPING",
+    },
   ],
   logoSrc,
-} = Astro.props
+} = Astro.props;
 ---
 
 <footer id="site-footer" class="relative overflow-hidden bg-primary">
   <!-- Top content -->
-  <div class="relative z-20 flex flex-col gap-10 px-6 pt-12 pb-0 lg:flex-row lg:items-start lg:px-12 lg:pt-16 lg:gap-0">
+  <div
+    class="relative z-20 flex flex-col gap-10 px-6 pt-12 pb-0 lg:flex-row lg:items-start lg:px-12 lg:pt-16 lg:gap-0"
+  >
     <!-- Left: logo + heading + CTA -->
     <div class="flex flex-col gap-10 lg:w-[58%]">
-      <h2 class="font-[Geist] text-[28px] lg:text-[40px] font-normal leading-[1.04] tracking-[-0.01em] text-white whitespace-pre-line">
+      <h2
+        class="font-[Geist] text-[28px] lg:text-[40px] font-normal leading-[1.04] tracking-[-0.01em] text-white whitespace-pre-line"
+      >
         {heading}
       </h2>
       <a
@@ -57,44 +69,52 @@ const {
 
     <!-- Right group: nav + locations -->
     <div class="flex flex-col gap-10 lg:flex-1 lg:flex-row lg:justify-between">
+      <!-- Center: nav links -->
+      <nav class="flex flex-col gap-7 lg:pt-2">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class="font-[Geist] text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-white transition-opacity hover:opacity-60"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
 
-    <!-- Center: nav links -->
-    <nav class="flex flex-col gap-7 lg:pt-2">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class="font-[Geist] text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-white transition-opacity hover:opacity-60"
-        >
-          {link.label}
-        </a>
-      ))}
-    </nav>
-
-    <!-- Right: locations -->
-    <div class="flex flex-col gap-11 lg:pt-2">
-      {locations.map((loc) => (
-        <div>
-          <p class="font-[Geist] text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-white">
-            {loc.city}, {loc.country}
-          </p>
-          {loc.phone && (
-            <p class="mt-2 font-[Geist] text-[14px] font-normal leading-[1.2] tracking-[-0.01em] text-white">{loc.phone}</p>
-          )}
-          {loc.address && (
-            <p class="mt-2 font-[Geist] text-[14px] font-normal leading-[1.2] tracking-[-0.01em] text-white whitespace-pre-line">
-              {loc.address}
-            </p>
-          )}
-        </div>
-      ))}
+      <!-- Right: locations -->
+      <div class="flex flex-col gap-11 lg:pt-2">
+        {
+          locations.map((loc) => (
+            <div>
+              <p class="font-[Geist] text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-white">
+                {loc.city}, {loc.country}
+              </p>
+              {loc.phone && (
+                <p class="mt-2 font-[Geist] text-[14px] font-normal leading-[1.2] tracking-[-0.01em] text-white">
+                  {loc.phone}
+                </p>
+              )}
+              {loc.address && (
+                <p class="mt-2 font-[Geist] text-[14px] font-normal leading-[1.2] tracking-[-0.01em] text-white whitespace-pre-line">
+                  {loc.address}
+                </p>
+              )}
+            </div>
+          ))
+        }
+      </div>
     </div>
-
-    </div> <!-- end right group -->
+    <!-- end right group -->
   </div>
 
   <!-- Gravity text: same "1367" pull-toward-cursor effect as the About hero. -->
   <div class="relative h-[60vh] overflow-hidden lg:mx-10">
-    <GravityText fontSize="clamp(140px, 46vw, 720px)" class="items-center justify-center" innerClass="translate-y-4 md:translate-y-14 lg:translate-y-28" />
+    <GravityText
+      fontSize="clamp(140px, 46vw, 720px)"
+      class="items-center justify-center"
+      innerClass="translate-y-4 md:translate-y-14 lg:translate-y-28"
+    />
   </div>
 </footer>
-
