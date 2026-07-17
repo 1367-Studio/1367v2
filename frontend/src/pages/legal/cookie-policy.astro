@@ -1,0 +1,45 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LegalPage from "@/components/LegalPage.astro";
+import LetsBuild from "@/components/LetsBuild.astro";
+import { client } from "@/lib/sanity";
+
+const [data, letsBuild] = await Promise.all([
+  client.fetch(
+    `*[_type == "cookiesSection" && _id == "cookiesSection"][0]{
+      title,
+      intro,
+      lastUpdated,
+      sections[]{ heading, body },
+      cookies[]{ name, provider, category, purpose, duration },
+      seo{ title, description }
+    }`
+  ),
+  client.fetch(
+    `*[_type == "letsBuildSection" && _id == "letsBuildSection"][0]{ title, description, ctaLabel, ctaHref }`
+  ),
+]);
+
+const title = data?.title ?? "Cookie Policy";
+---
+
+<Layout
+  title={data?.seo?.title ?? `${title} | 1367 Studio`}
+  description={data?.seo?.description ??
+    "Which cookies 1367 Studio sets, what they do, and how to manage your consent."}
+  headerTheme="light"
+>
+  <LegalPage
+    title={title}
+    intro={data?.intro}
+    lastUpdated={data?.lastUpdated}
+    sections={data?.sections ?? []}
+    cookies={data?.cookies ?? []}
+  />
+  <LetsBuild
+    title={letsBuild?.title ?? "Let's build something that matters."}
+    description={letsBuild?.description}
+    ctaLabel={letsBuild?.ctaLabel}
+    ctaHref={letsBuild?.ctaHref ?? "/contact"}
+  />
+</Layout>

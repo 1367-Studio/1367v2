@@ -46,10 +46,14 @@ const { label = 'Focus Areas', items = [] } = Astro.props
 
             <!-- Desktop: row layout -->
             <div class="hidden w-full items-end md:flex">
-              <h2 class="w-[75%] font-[Geist] text-[clamp(28px,3.33vw,48px)] font-normal leading-[1.1] tracking-[-0.01em] text-black">
+              <h2 class="w-[58%] font-[Geist] text-[clamp(28px,3.33vw,48px)] font-normal leading-[1.1] tracking-[-0.01em] text-black xl:w-[75%]">
                 {item.title}
               </h2>
-              <div class="flex w-[25%] items-center gap-6 pb-[6px]">
+              {/* Fixed 3-column grid, not flex: auto-width flex items let each
+                  column's x-position drift with the length of the label before
+                  it, so columns never line up row to row. Below xl the columns
+                  need more than 25% or the longest labels overflow their cell. */}
+              <div class="grid w-[42%] grid-cols-3 items-center gap-6 pb-[6px] xl:w-[25%]">
                 {item.subItems.map((sub) => (
                   <span class="font-[Geist_Mono] text-[11px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-[#666]">
                     {sub}

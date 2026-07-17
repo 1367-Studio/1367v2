@@ -1,5 +1,5 @@
 ---
-import GravityText from "./GravityText.astro";
+import WordmarkScene from "./WordmarkScene.tsx";
 
 interface Location {
   city: string;
@@ -27,7 +27,10 @@ const {
   ctaLabel = "CONTACT US",
   ctaHref = "/contact",
   navLinks = [
+    { label: "Projects", href: "/projects" },
     { label: "About us", href: "/about" },
+    { label: "Privacy Policy", href: "/legal/privacy-policy" },
+    { label: "Legal Notice", href: "/legal/mentions-legales" },
     { label: "Get in touch", href: "/contact" },
   ],
   locations = [
@@ -61,7 +64,7 @@ const {
       </h2>
       <a
         href={ctaHref}
-        class="inline-flex w-fit items-center justify-center rounded-lg bg-white px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-primary"
+        class="inline-flex h-[44px] w-fit items-center justify-center rounded-[8px] bg-white px-8 font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-primary"
       >
         {ctaLabel}
       </a>
@@ -109,12 +112,11 @@ const {
     <!-- end right group -->
   </div>
 
-  <!-- Gravity text: same "1367" pull-toward-cursor effect as the About hero. -->
-  <div class="relative h-[60vh] overflow-hidden lg:mx-10">
-    <GravityText
-      fontSize="clamp(140px, 46vw, 720px)"
-      class="items-center justify-center"
-      innerClass="translate-y-4 md:translate-y-14 lg:translate-y-28"
-    />
+  <!-- "1367" progressive-blur scene. The wordmark is drawn inside the WebGL
+       scene, which is why there is no text node here. unicorn-wrapper makes the
+       inline astro-island fill the box (see global.css). -->
+  <div class="unicorn-wrapper relative h-[60vh] overflow-hidden lg:mx-10">
+    <WordmarkScene client:only="react" />
   </div>
+
 </footer>

@@ -172,8 +172,38 @@ const deskStructure = (S: StructureBuilder) =>
         ),
 
       S.divider(),
+
       // -------------------------------------------------------
-      // 7. CASES & POSTS
+      // 7. LEGAL
+      // -------------------------------------------------------
+      S.listItem()
+        .title('Legal')
+        .child(
+          S.list()
+            .title('Legal')
+            .items([
+              S.listItem()
+                .title('Mentions Légales')
+                .child(
+                  S.editor()
+                    .schemaType('mentionsLegalesSection')
+                    .documentId('mentionsLegalesSection'),
+                ),
+              S.listItem()
+                .title('Terms & Conditions')
+                .child(S.editor().schemaType('termsSection').documentId('termsSection')),
+              S.listItem()
+                .title('Privacy Policy')
+                .child(S.editor().schemaType('privacySection').documentId('privacySection')),
+              S.listItem()
+                .title('Cookie Policy')
+                .child(S.editor().schemaType('cookiesSection').documentId('cookiesSection')),
+            ]),
+        ),
+
+      S.divider(),
+      // -------------------------------------------------------
+      // 8. CASES & POSTS
       // -------------------------------------------------------
       S.listItem()
         .title('Cases')

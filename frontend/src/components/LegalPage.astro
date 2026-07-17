@@ -1,0 +1,262 @@
+---
+/**
+ * Shared shell for every /legal/* page.
+ *
+ * Content is plain text from Sanity (no Portable Text in this project), so the
+ * body of each section is parsed here: a blank-line-separated chunk becomes a
+ * paragraph, and consecutive lines starting with "- " collapse into one list.
+ */
+export interface LegalSection {
+  heading?: string;
+  body?: string;
+}
+
+export interface CookieItem {
+  name?: string;
+  provider?: string;
+  category?: string;
+  purpose?: string;
+  duration?: string;
+}
+
+interface Props {
+  title: string;
+  intro?: string;
+  lastUpdated?: string;
+  sections?: LegalSection[];
+  cookies?: CookieItem[];
+}
+
+const { title, intro, lastUpdated, sections = [], cookies = [] } = Astro.props;
+
+type Block = { type: "p"; text: string } | { type: "ul"; items: string[] };
+
+function parseBody(body?: string): Block[] {
+  if (!body) return [];
+  const blocks: Block[] = [];
+  let para: string[] = [];
+  let list: string[] = [];
+
+  const flushPara = () => {
+    if (para.length) {
+      // Kept as one paragraph so tightly-related lines (an address, a company
+      // number) stay visually grouped instead of drifting apart.
+      blocks.push({ type: "p", text: para.join("\n") });
+      para = [];
+    }
+  };
+
+  const flushList = () => {
+    if (list.length) {
+      blocks.push({ type: "ul", items: list });
+      list = [];
+    }
+  };
+
+  for (const raw of body.split("\n")) {
+    const line = raw.trim();
+    if (!line) {
+      flushList();
+      flushPara();
+      continue;
+    }
+    if (line.startsWith("- ")) {
+      flushPara();
+      list.push(line.slice(2).trim());
+      continue;
+    }
+    flushList();
+    para.push(line);
+  }
+  flushList();
+  flushPara();
+  return blocks;
+}
+
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+// Anchors must stay unique even if an editor repeats a heading.
+const seen = new Set<string>();
+const items = sections
+  .filter((section) => section?.heading)
+  .map((section, index) => {
+    const base = slugify(section.heading!) || `section-${index + 1}`;
+    let id = base;
+    let suffix = 2;
+    while (seen.has(id)) id = `${base}-${suffix++}`;
+    seen.add(id);
+
+    return {
+      id,
+      heading: section.heading!,
+      number: String(index + 1).padStart(2, "0"),
+      blocks: parseBody(section.body),
+    };
+  });
+
+const CATEGORY_LABELS: Record<string, string> = {
+  necessary: "Strictly necessary",
+  analytics: "Analytics",
+  marketing: "Marketing",
+  preferences: "Preferences",
+};
+
+const cookieRows = cookies.filter((cookie) => cookie?.name);
+---
+
+<section
+  class="relative bg-black px-6 pb-24 pt-[140px] lg:px-10 lg:pb-32 lg:pt-[200px]"
+  data-header-theme="light"
+>
+  <div class="mx-auto max-w-[1440px]">
+    <!-- Page head -->
+    <header class="border-b border-white/10 pb-12 lg:pb-16">
+      {
+        lastUpdated && (
+          <p class="mb-8 font-[Geist_Mono] text-[12px] font-medium uppercase leading-[1.12] tracking-[-0.01em] text-primary">
+            Last updated: {lastUpdated}
+          </p>
+        )
+      }
+      <h1
+        class="max-w-[16ch] font-geist font-normal leading-[1.04] tracking-[-0.01em] text-white"
+        style="font-size: clamp(40px, 6vw, 96px);"
+      >
+        {title}
+      </h1>
+      {
+        intro && (
+          <p class="mt-8 max-w-[640px] whitespace-pre-line font-geist text-base leading-relaxed text-white/70">
+            {intro}
+          </p>
+        )
+      }
+    </header>
+
+    <div class="flex flex-col gap-16 pt-12 lg:flex-row lg:gap-20 lg:pt-20">
+      <!-- Index -->
+      {
+        items.length > 0 && (
+          <nav aria-label="On this page" class="lg:w-[280px] lg:shrink-0">
+            <div class="lg:sticky lg:top-[120px]">
+              <p class="mb-6 font-[Geist_Mono] text-[12px] font-medium uppercase leading-[1.12] tracking-[-0.01em] text-muted">
+                Index
+              </p>
+              <ul class="flex flex-col gap-3">
+                {items.map((item) => (
+                  <li>
+                    <a
+                      href={`#${item.id}`}
+                      class="group flex gap-3 font-geist text-sm leading-snug text-white/50 transition-colors hover:text-white"
+                    >
+                      <span class="font-[Geist_Mono] text-[12px] leading-[1.5] text-muted transition-colors group-hover:text-primary">
+                        {item.number}
+                      </span>
+                      <span>{item.heading}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
+        )
+      }
+
+      <!-- Content -->
+      <div class="min-w-0 flex-1">
+        {
+          items.length === 0 && (
+            <p class="font-geist text-base text-white/50">
+              This page has not been filled in yet.
+            </p>
+          )
+        }
+
+        <div class="flex flex-col gap-14 lg:gap-20">
+          {
+            items.map((item) => (
+              <article id={item.id} class="scroll-mt-[120px]">
+                <div class="mb-6 flex items-baseline gap-4">
+                  <span class="font-[Geist_Mono] text-[12px] font-medium uppercase leading-[1.12] tracking-[-0.01em] text-primary">
+                    {item.number}
+                  </span>
+                  <h2 class="font-geist text-2xl font-normal leading-[1.12] tracking-[-0.01em] text-white lg:text-[32px]">
+                    {item.heading}
+                  </h2>
+                </div>
+
+                <div class="flex max-w-[720px] flex-col gap-4">
+                  {item.blocks.map((block) =>
+                    block.type === "p" ? (
+                      <p class="whitespace-pre-line font-geist text-base leading-relaxed text-white/70">
+                        {block.text}
+                      </p>
+                    ) : (
+                      <ul class="flex flex-col gap-2 pl-1">
+                        {block.items.map((entry) => (
+                          <li class="flex gap-3 font-geist text-base leading-relaxed text-white/70">
+                            <span aria-hidden="true" class="mt-[10px] h-[3px] w-[3px] shrink-0 rounded-full bg-primary" />
+                            <span>{entry}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ),
+                  )}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <!-- Cookie table (cookie policy only) -->
+        {
+          cookieRows.length > 0 && (
+            <div class="mt-16 lg:mt-20">
+              <div class="overflow-x-auto">
+                <table class="w-full min-w-[720px] border-collapse text-left">
+                  <thead>
+                    <tr class="border-b border-white/20">
+                      {["Name", "Provider", "Category", "Purpose", "Duration"].map((head) => (
+                        <th class="pb-4 pr-6 font-[Geist_Mono] text-[12px] font-medium uppercase leading-[1.12] tracking-[-0.01em] text-muted">
+                          {head}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cookieRows.map((cookie) => (
+                      <tr class="border-b border-white/10 align-top">
+                        <td class="py-5 pr-6 font-[Geist_Mono] text-[13px] leading-relaxed text-white">
+                          {cookie.name}
+                        </td>
+                        <td class="py-5 pr-6 font-geist text-sm leading-relaxed text-white/70">
+                          {cookie.provider}
+                        </td>
+                        <td class="py-5 pr-6 font-geist text-sm leading-relaxed text-white/70">
+                          {cookie.category ? (CATEGORY_LABELS[cookie.category] ?? cookie.category) : ""}
+                        </td>
+                        <td class="py-5 pr-6 font-geist text-sm leading-relaxed text-white/70">
+                          {cookie.purpose}
+                        </td>
+                        <td class="py-5 font-geist text-sm leading-relaxed text-white/70">
+                          {cookie.duration}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

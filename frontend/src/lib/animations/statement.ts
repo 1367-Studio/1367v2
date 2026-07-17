@@ -1,40 +1,30 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { buildMaskedLines } from '@/lib/reveal-lines'
 
 gsap.registerPlugin(ScrollTrigger)
 
 /**
- * Statement section: pinned scrub timeline. Phase 1 — each letter rotates
- * upright out of a clipped mask (mwg_effect058 style). Phase 2 — the USDZ
- * viewer rises into view. ScrollTriggers created here are cleaned up
- * centrally via `ScrollTrigger.getAll().forEach(t => t.kill())` on page leave.
+ * Statement section: pinned scrub timeline. Phase 1 — each line slides up out
+ * of its clipping mask, the same reveal the hero copy uses. Phase 2 — the USDZ
+ * viewer rises into view. ScrollTriggers created here are cleaned up centrally
+ * via `ScrollTrigger.getAll().forEach(t => t.kill())` on page leave.
  */
-export function initStatement(): void {
+export async function initStatement(): Promise<void> {
   const section = document.getElementById('statement')
   const text    = document.getElementById('statement-text')
   const iframe  = document.getElementById('statement-iframe')
 
   if (!section || !text || !iframe) return
 
-  const words = (text.textContent ?? '').trim().split(/\s+/)
-  text.innerHTML = words
-    .map((word) => {
-      const letters = [...word]
-        .map(
-          (ch) =>
-            `<span class="letter" style="display:inline-block;clip-path:polygon(0 0,0 100%,100% 100%,100% 0)"><span style="display:inline-block">${ch}</span></span>`
-        )
-        .join('')
-      return `<span class="word" style="display:inline-block">${letters}</span>`
-    })
-    .join(' ')
+  // Splitting measures where the text wraps — see entry-reveal for why this
+  // must not race the webfont.
+  await document.fonts.ready
 
-  const letters = text.querySelectorAll('.letter span')
+  const lines = buildMaskedLines(text)
+  if (lines.length === 0) return
 
-  // Letters start flat and invisible, then fade in as they rotate upright.
-  // The fade avoids scattered "flat sliver" glyphs mid-scrub (the clip-path is
-  // a full-box no-op), which the tight line-height would otherwise crowd.
-  gsap.set(letters, { rotate: -80, opacity: 0, transformOrigin: '50% 120%' })
+  gsap.set(lines, { yPercent: 100 })
   gsap.set(iframe, { yPercent: 200 })
 
   const tl = gsap.timeline({
@@ -48,12 +38,14 @@ export function initStatement(): void {
     },
   })
 
-  tl.to(letters, {
-    rotate: 0,
-    opacity: 1,
+  tl.to(lines, {
+    yPercent: 0,
     duration: 0.6,
-    ease: 'back.out(1.1)',
-    stagger: { each: 0.02 },
+    ease: 'power4.out',
+    stagger: { each: 0.08 },
   })
   tl.to(iframe, { yPercent: -40, duration: 2, ease: 'power3.out' }, '>-0.5')
+
+  // The split ran after the other triggers were measured, so re-measure.
+  ScrollTrigger.refresh()
 }

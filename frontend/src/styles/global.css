@@ -85,6 +85,28 @@ body {
   overflow: hidden;
 }
 
+/* Line reveal: the mask is stationary and clips, the line moves inside it.
+   These must stay two separate elements — a line cannot clip itself while it
+   is the thing being animated.
+
+   The padding/negative-margin pair is load-bearing: at the tight line-heights
+   this site uses (leading-[1.04]) glyph descenders fall *outside* the line box,
+   so a clip at the line box shears the tails off g/p/y. The line pads itself to
+   make room, and the mask pulls that padding back out of the layout so line
+   rhythm and total height are unchanged. Because yPercent is relative to the
+   line's own (now padded) height, 100% still parks it exactly out of sight. */
+.reveal-mask {
+  display: block;
+  overflow: clip;
+  margin-bottom: -0.2em;
+}
+
+.reveal-line {
+  display: block;
+  padding-bottom: 0.2em;
+  will-change: transform;
+}
+
 /* astro-island is inline by default — fix for full-bleed components like UnicornScene */
 .unicorn-wrapper astro-island {
   display: block;

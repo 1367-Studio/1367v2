@@ -24,6 +24,12 @@ import focusAreasSection from './documents/focusAreasSection'
 import notFoundSection from './documents/notFoundSection'
 import officeItem from './objects/officeItem'
 import projectsPageSection from './documents/projectsPageSection'
+import mentionsLegalesSection from './documents/mentionsLegalesSection'
+import termsSection from './documents/termsSection'
+import privacySection from './documents/privacySection'
+import cookiesSection from './documents/cookiesSection'
+import legalSection from './objects/legalSection'
+import cookieItem from './objects/cookieItem'
 
 export const schemaTypes = [
   // documents
@@ -48,8 +54,14 @@ export const schemaTypes = [
   contactSection,
   focusAreasSection,
   notFoundSection,
+  mentionsLegalesSection,
+  termsSection,
+  privacySection,
+  cookiesSection,
   // objects
   brandLogo,
+  cookieItem,
+  legalSection,
   officeItem,
   stat,
   testimonialItem,

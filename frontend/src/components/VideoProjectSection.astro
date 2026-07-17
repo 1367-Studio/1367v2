@@ -62,16 +62,19 @@ const {
         class="font-[Geist] text-[32px] font-normal leading-[1.04] will-change-[transform,opacity]"
         style="mix-blend-mode: difference;"
       >
+        {/* data-reveal-entry is per-span, not on the <h1>: SplitType rebuilds the
+            DOM of whatever it splits, so splitting the h1 would flatten the
+            two spans and lose the subtitle's opacity. */}
         {
           heroTitle && (
-            <span class="block whitespace-pre-line text-white">
+            <span data-reveal-entry class="block whitespace-pre-line text-white">
               {heroTitle}
             </span>
           )
         }
         {
           heroSubtitle && (
-            <span class="block whitespace-pre-line text-white opacity-40">
+            <span data-reveal-entry class="block whitespace-pre-line text-white opacity-40">
               {heroSubtitle}
             </span>
           )
@@ -81,7 +84,10 @@ const {
       <div id="hero-aside" class="flex items-end gap-6 will-change-[transform,opacity]">
         {
           heroDescription && (
-            <p class="max-w-[216px] font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-[#4d4d4d]">
+            <p
+              data-reveal-entry
+              class="max-w-[216px] font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em] text-[#4d4d4d]"
+            >
               {heroDescription}
             </p>
           )
@@ -90,7 +96,7 @@ const {
           heroCtaLabel && (
             <a
               href={heroCtaHref}
-              class="shrink-0 rounded-lg bg-primary px-8 py-3 font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-white transition-opacity hover:opacity-90"
+              class="inline-flex h-[48px] shrink-0 items-center justify-center rounded-[8px] bg-primary px-[40px] font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-white transition-opacity hover:opacity-90"
             >
               {heroCtaLabel}
             </a>

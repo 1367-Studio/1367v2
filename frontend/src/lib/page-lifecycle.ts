@@ -3,6 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { initSmoothScroll, destroySmoothScroll } from '@/lib/smooth-scroll'
 import { initTextReveal } from '@/lib/text-reveal'
 import { initHero, destroyHero } from '@/lib/animations/hero'
+import { initEntryReveal, destroyEntryReveal } from '@/lib/animations/entry-reveal'
 import { initStatement } from '@/lib/animations/statement'
 import { initFocusAreas } from '@/lib/animations/focus-areas'
 import { initGlobe, destroyGlobe } from '@/lib/animations/globe'
@@ -34,7 +35,8 @@ export function initPage(): void {
   initSmoothScroll()
   initTextReveal()
   initHero()
-  initStatement()
+  void initEntryReveal()
+  void initStatement()
   initFocusAreas()
   void initGlobe()
   initTestimonials()
@@ -51,6 +53,7 @@ export function destroyPage(): void {
   destroySmoothScroll()
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
   destroyHero()
+  destroyEntryReveal()
   destroyTestimonials()
   destroyGlobe()
   destroyGravityText()

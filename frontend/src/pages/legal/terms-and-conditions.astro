@@ -1,0 +1,43 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LegalPage from "@/components/LegalPage.astro";
+import LetsBuild from "@/components/LetsBuild.astro";
+import { client } from "@/lib/sanity";
+
+const [data, letsBuild] = await Promise.all([
+  client.fetch(
+    `*[_type == "termsSection" && _id == "termsSection"][0]{
+      title,
+      intro,
+      lastUpdated,
+      sections[]{ heading, body },
+      seo{ title, description }
+    }`
+  ),
+  client.fetch(
+    `*[_type == "letsBuildSection" && _id == "letsBuildSection"][0]{ title, description, ctaLabel, ctaHref }`
+  ),
+]);
+
+const title = data?.title ?? "Terms & Conditions";
+---
+
+<Layout
+  title={data?.seo?.title ?? `${title} | 1367 Studio`}
+  description={data?.seo?.description ??
+    "The terms and conditions governing services provided by 1367 Studio."}
+  headerTheme="light"
+>
+  <LegalPage
+    title={title}
+    intro={data?.intro}
+    lastUpdated={data?.lastUpdated}
+    sections={data?.sections ?? []}
+  />
+  <LetsBuild
+    title={letsBuild?.title ?? "Let's build something that matters."}
+    description={letsBuild?.description}
+    ctaLabel={letsBuild?.ctaLabel}
+    ctaHref={letsBuild?.ctaHref ?? "/contact"}
+  />
+</Layout>
