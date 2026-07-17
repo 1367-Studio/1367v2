@@ -31,18 +31,27 @@ export function markBarbaTransitioned(): void {
  * the ones whose markup is actually present in the current container do
  * anything.
  */
-export function initPage(): void {
+export async function initPage(): Promise<void> {
   initSmoothScroll()
   initTextReveal()
   initHero()
-  void initEntryReveal()
-  void initStatement()
+  const entryRevealDone = initEntryReveal()
+  const statementDone = initStatement()
   initFocusAreas()
   void initGlobe()
   initTestimonials()
-  initFeaturedCaseStack()
   initContactForm()
   initGravityText()
+
+  // Statement pins itself (`pin: true`) once its fonts/text-split are ready,
+  // which inserts a spacer that pushes everything below it further down the
+  // page. The cases stack below reads that final layout with plain
+  // `getBoundingClientRect` math (`top top` / `bottom bottom`), so it has to
+  // be created *after* the pin exists — GSAP's own `ScrollTrigger.refresh()`
+  // does not retroactively fix a stacked-scroll trigger that was created
+  // before a later pin-spacer landed, so it must not race it.
+  await Promise.all([entryRevealDone, statementDone])
+  initFeaturedCaseStack()
 }
 
 /**
