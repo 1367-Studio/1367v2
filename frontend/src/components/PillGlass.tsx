@@ -58,18 +58,23 @@ export default function PillGlass({ threshold = 80 }: { threshold?: number }) {
         <LiquidGlass
           width={size.w}
           height={size.h}
+          /* Matches #header-pill's own border-radius; the lens has to agree
+             with the box it refracts or the corners tear. */
           radius={8}
-          /* Figma "Glass": Refraction 96, Depth 52, Dispersion 0, Splay 80,
-             Light -45deg / 80%. Frost is handled by the CSS backdrop blur. */
-          strength={0.2}
-          depth={14}
-          chromaticAberration={0}
-          splay={0.8}
-          specular={1.4}
-          specularAngle={-45}
+          /* Tuned to the reference glass rather than the older Figma "Glass"
+             spec, which set Dispersion 0 — that is chromaticAberration 0, and
+             it is what flattened the edges. The colour separation at the rim is
+             the effect. Frost stays on the CSS backdrop blur. */
+          strength={0.1}
+          depth={10}
+          curvature={0.4}
+          chromaticAberration={0.2}
+          splay={1}
+          specular={1}
+          specularAngle={45}
           blur={0}
           glow={0.1}
-          edgeHighlight={0.35}
+          edgeHighlight={0.59}
           shadow={false}
           quality={512}
           style={{ position: "absolute", inset: 0 }}
