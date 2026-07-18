@@ -112,10 +112,12 @@ const {
     <!-- end right group -->
   </div>
 
-  <!-- "1367" progressive-blur scene. The wordmark is drawn inside the WebGL
-       scene, which is why there is no text node here. unicorn-wrapper makes the
-       inline astro-island fill the box (see global.css). -->
-  <div class="unicorn-wrapper relative h-[60vh] overflow-hidden lg:mx-10">
+  <!-- "1367" scene, full-bleed inside the footer. The wordmark is drawn inside
+       the WebGL scene, which is why there is no text node here. No side margin —
+       it spans the full footer width so it reads as part of the footer, not a
+       boxed-in container. unicorn-wrapper makes the inline astro-island fill the
+       box (see global.css). -->
+  <div class="unicorn-wrapper relative mt-16 h-[60vh] overflow-hidden lg:mt-[170px]">
     <WordmarkScene client:only="react" />
   </div>
 

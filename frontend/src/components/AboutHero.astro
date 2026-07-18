@@ -1,36 +1,39 @@
 ---
-import WordmarkScene from './WordmarkScene.tsx'
+import WordmarkScene from "./WordmarkScene.tsx";
 
 interface Props {
-  leftText: string
-  rightText?: string
+  leftText: string;
+  rightText?: string;
 }
 
-const {
-  leftText,
-  rightText,
-} = Astro.props
+const { leftText, rightText } = Astro.props;
 ---
 
-
-
 <section class="relative w-full overflow-hidden h-screen bg-black text-white">
-      <div class="relative z-10 flex flex-col gap-8 pt-[40px] px-6 py-12 md:px-8 lg:block">
-        <!-- Left text -->
-        <p class="relative lg:absolute lg:left-8 lg:top-[80px] max-w-[440px] font-geist font-normal text-base md:text-lg lg:text-2xl leading-snug lg:leading-[1.04] tracking-tight lg:tracking-[-0.01em]">
-        {leftText}
-        </p>
+  <div
+    class="relative z-10 flex flex-col gap-8 pt-[40px] px-6 py-12 md:px-8 lg:block"
+  >
+    <!-- Left text -->
+    <p
+      class="relative lg:absolute lg:left-8 lg:top-[80px] max-w-[440px] font-geist font-normal text-base md:text-lg lg:text-2xl leading-snug lg:leading-[1.04] tracking-tight lg:tracking-[-0.01em]"
+    >
+      {leftText}
+    </p>
 
-        <!-- Right text -->
-        <p class="relative self-end lg:absolute lg:right-8 lg:top-[200px] max-w-[220px] font-[Geist_Mono] font-normal text-xs leading-[1.2] tracking-[-0.01em] uppercase">
-          {rightText}
-        </p>
-    </div>
+    <!-- Right text -->
+    <p
+      class="relative self-end lg:absolute lg:right-8 lg:top-[200px] max-w-[220px] font-[Geist_Mono] font-normal text-xs leading-[1.2] tracking-[-0.01em] uppercase"
+    >
+      {rightText}
+    </p>
+  </div>
 
-    <!-- "1367" progressive-blur scene, same one the footer uses. The wordmark is
+  <!-- "1367" progressive-blur scene, same one the footer uses. The wordmark is
          drawn inside the WebGL scene, which is why there is no text node here.
          Bottom-anchored so it sits where the gravity text used to. -->
-    <div class="unicorn-wrapper absolute inset-x-0 bottom-0 h-[60vh] overflow-hidden px-6 md:px-8">
-      <WordmarkScene client:only="react" />
-    </div>
+  <div
+    class="unicorn-wrapper absolute inset-x-0 bottom-0 h-[60vh] overflow-hidden"
+  >
+    <WordmarkScene client:only="react" />
+  </div>
 </section>
