@@ -54,13 +54,13 @@ const validCases = cases.filter(c => c.bgImage)
         >
           <div class="absolute bottom-[40%] left-10 text-white max-w-[255px] leading-[104%] flex flex-col gap-3">
             {c.tag && (
-              <span class="text-xs font-semibold font-[Geist_Mono] uppercase tracking-widest block">{c.tag}</span>
+              <div data-case-reveal class="text-xs font-semibold font-[Geist_Mono] uppercase tracking-widest block">{c.tag}</div>
             )}
-            <h2 class="text-2xl font-normal font-geist">{c.title}</h2>
+            <h2 data-case-reveal class="text-2xl font-normal font-geist">{c.title}</h2>
           </div>
           <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-center max-w-[280px] lg:bottom-[30%] lg:right-10 lg:left-auto lg:translate-x-0 lg:text-left lg:max-w-[220px] flex flex-col gap-19">
             {c.rightText && (
-              <p class="text-sm text-white leading-relaxed">{c.rightText}</p>
+              <p data-case-reveal class="text-sm text-white leading-relaxed">{c.rightText}</p>
             )}
             {c.ctaLabel && c.ctaHref && (
               <a href={c.ctaHref} class="text-xs uppercase tracking-widest font-semibold text-white hover:text-white/60 transition-colors">

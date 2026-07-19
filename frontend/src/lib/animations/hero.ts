@@ -1,5 +1,6 @@
 import { gsap } from 'gsap'
 import { hasBarbaTransitioned } from '@/lib/page-lifecycle'
+import { buildMaskedLines } from '@/lib/reveal-lines'
 
 const destroyers: Array<() => void> = []
 
@@ -96,6 +97,21 @@ export function initHero(): void {
     return scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0
   }
 
+  // Project-content reveal: split the title + description into masked lines and
+  // drive them from the same end-of-scroll progress (cp) below, so they rise
+  // out of their clipping masks like the Statement section, instead of the
+  // whole block sliding up as one. Split only after fonts are ready — measuring
+  // line wraps against the fallback face bakes in the wrong breaks.
+  let contentLines: HTMLElement[] = []
+  document.fonts.ready.then(() => {
+    const targets = content.querySelectorAll<HTMLElement>('[data-reveal-content]')
+    contentLines = Array.from(targets).flatMap((el) => buildMaskedLines(el))
+    // Park every line just below its mask until cp drives it up.
+    contentLines.forEach((line) => {
+      line.style.transform = 'translateY(100%)'
+    })
+  })
+
   let lastTs: number | null = null
 
   const tick = () => {
@@ -138,8 +154,24 @@ export function initHero(): void {
 
     overlay.style.opacity = String(Math.max(0, Math.min(1, (p - 0.78) / 0.22)))
     const cp = Math.max(0, Math.min(1, (p - 0.9) / 0.1))
-    content.style.opacity   = String(cp)
-    content.style.transform = `translateY(${(1 - cp) * 60}px)`
+    if (contentLines.length > 0) {
+      // Block fades in fast; the masked lines do the staggered rise.
+      content.style.opacity = String(Math.min(1, cp / 0.2))
+      content.style.transform = ''
+      const n = contentLines.length
+      const span = 0.6 // portion of cp each line spends rising
+      const spread = 1 - span
+      contentLines.forEach((line, i) => {
+        const start = n > 1 ? (i / (n - 1)) * spread : 0
+        const lp = Math.max(0, Math.min(1, (cp - start) / span))
+        const eased = 1 - Math.pow(1 - lp, 3) // easeOutCubic
+        line.style.transform = `translateY(${(1 - eased) * 100}%)`
+      })
+    } else {
+      // Fallback until fonts resolve and the split lands: original block slide.
+      content.style.opacity = String(cp)
+      content.style.transform = `translateY(${(1 - cp) * 60}px)`
+    }
   }
 
   gsap.ticker.add(tick)
