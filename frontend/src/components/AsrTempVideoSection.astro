@@ -1,0 +1,119 @@
+---
+interface VideoItem {
+  src: string
+  poster?: string
+}
+
+interface Props {
+  layout: 'two' | 'one' | 'stack' | 'videoSvg'
+  videos: VideoItem[]
+  svgSrc?: string
+}
+
+const { layout, videos = [], svgSrc } = Astro.props
+---
+
+{layout === 'two' && (
+  <section class="flex flex-col md:flex-row w-full gap-4">
+    {videos.slice(0, 2).map((v) => (
+      <div class="w-full md:w-1/2">
+        <video
+          src={v.src}
+          poster={v.poster}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          class="w-full h-[869px] object-cover rounded-[8px]"
+        />
+      </div>
+    ))}
+  </section>
+)}
+
+{layout === 'one' && videos[0] && (
+  <section class="w-full">
+    <video
+      src={videos[0].src}
+      poster={videos[0].poster}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      class="w-full h-[869px] object-cover rounded-[8px]"
+    />
+  </section>
+)}
+
+{layout === 'videoSvg' && videos[0] && (
+  <section class="flex flex-col md:flex-row w-full gap-4">
+    <div class="w-full md:w-1/2">
+      <video
+        src={videos[0].src}
+        poster={videos[0].poster}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        class="w-full h-[869px] object-cover rounded-[8px]"
+      />
+    </div>
+    {svgSrc && (
+      <div class="w-full md:w-1/2 flex items-center justify-center">
+        <img src={svgSrc} alt="" class="w-full h-auto rounded-[8px]" />
+      </div>
+    )}
+  </section>
+)}
+
+{layout === 'stack' && (
+  <section class="flex flex-col md:flex-row w-full gap-4">
+    {videos[0] && (
+      <div class="w-full md:w-1/2">
+        <video
+          src={videos[0].src}
+          poster={videos[0].poster}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          class="w-full h-auto rounded-[8px]"
+        />
+      </div>
+    )}
+    <div class="w-full md:w-1/2 flex flex-col gap-4">
+      {videos[1] && (
+        <div class="w-full">
+          <video
+            src={videos[1].src}
+            poster={videos[1].poster}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            class="w-full h-auto rounded-[8px]"
+          />
+        </div>
+      )}
+      {videos[2] && (
+        <div class="w-full">
+          <video
+            src={videos[2].src}
+            poster={videos[2].poster}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            class="w-full h-auto rounded-[8px]"
+          />
+        </div>
+      )}
+    </div>
+  </section>
+)}

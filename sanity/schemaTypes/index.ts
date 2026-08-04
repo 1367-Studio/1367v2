@@ -24,6 +24,7 @@ import focusAreasSection from './documents/focusAreasSection'
 import notFoundSection from './documents/notFoundSection'
 import officeItem from './objects/officeItem'
 import projectsPageSection from './documents/projectsPageSection'
+import asrTempProjectSection from './documents/asrTempProjectSection'
 import mentionsLegalesSection from './documents/mentionsLegalesSection'
 import termsSection from './documents/termsSection'
 import privacySection from './documents/privacySection'
@@ -48,6 +49,7 @@ export const schemaTypes = [
   post,
   projectSection,
   projectsPageSection,
+  asrTempProjectSection,
   statementSection,
   testimonialsSection,
   tickerSection,

@@ -1,6 +1,6 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { buildMaskedLines } from '@/lib/reveal-lines'
+import { buildMaskedLines, waitForFonts } from '@/lib/reveal-lines'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -37,13 +37,14 @@ export function initFeaturedCaseStack(): void {
   const N = imageSlides.length
 
   // Split each case's tag/title/description into masked lines. Deferred until
-  // fonts are ready — measuring line wraps against the fallback face bakes in
-  // the wrong breaks. Parked hidden; the ScrollTrigger below drives them.
+  // each slide's own fonts are ready (see waitForFonts) — measuring line wraps
+  // against the fallback face bakes in the wrong breaks. Parked hidden; the
+  // ScrollTrigger below drives them.
   const caseLines: HTMLElement[][] = textSlides.map(() => [])
-  document.fonts.ready.then(() => {
-    textSlides.forEach((slide, i) => {
-      const targets = slide.querySelectorAll<HTMLElement>('[data-case-reveal]')
-      caseLines[i] = Array.from(targets).flatMap((el) => buildMaskedLines(el))
+  textSlides.forEach((slide, i) => {
+    const targets = Array.from(slide.querySelectorAll<HTMLElement>('[data-case-reveal]'))
+    Promise.all(targets.map((el) => waitForFonts(el))).then(() => {
+      caseLines[i] = targets.flatMap((el) => buildMaskedLines(el))
       applyLineReveal(caseLines[i], 0)
     })
   })
