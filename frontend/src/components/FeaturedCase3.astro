@@ -1,6 +1,7 @@
 ---
 interface Case {
   bgImage?: string
+  bgVideo?: string
   manImageDesktop?: string
   manImageMobile?: string
   tag?: string
@@ -15,7 +16,7 @@ interface Props {
 }
 
 const { cases } = Astro.props
-const validCases = cases.filter(c => c.bgImage)
+const validCases = cases.filter(c => c.bgImage || c.bgVideo)
 ---
 
 <div data-cases-wrapper style={`height: ${validCases.length * 100}dvh`}>
@@ -30,7 +31,20 @@ const validCases = cases.filter(c => c.bgImage)
           data-case-images={i}
         >
           <div class="absolute inset-0 z-[1]">
-            <img src={c.bgImage} alt="background" class="w-full h-full object-cover object-center" />
+            {c.bgVideo ? (
+              <video
+                src={c.bgVideo}
+                poster={c.bgImage}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                class="w-full h-full object-cover object-center"
+              />
+            ) : (
+              <img src={c.bgImage} alt="background" class="w-full h-full object-cover object-center" />
+            )}
           </div>
           {(c.manImageDesktop || c.manImageMobile) && (
             <div class="absolute inset-0 z-[2]">

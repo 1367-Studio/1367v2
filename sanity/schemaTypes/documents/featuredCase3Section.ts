@@ -18,9 +18,15 @@ export default {
             {name: 'title', title: 'Title', type: 'string'},
             {
               name: 'bgImage',
-              title: 'Background Image',
+              title: 'Background Image (poster/fallback)',
               type: 'image',
               options: {hotspot: true},
+            },
+            {
+              name: 'bgVideo',
+              title: 'Background Video (overrides image when set)',
+              type: 'file',
+              options: {accept: 'video/*'},
             },
             {
               name: 'manImageDesktop',
