@@ -1,6 +1,29 @@
 import SplitType from 'split-type'
 
 /**
+ * Ensures the font an element will actually render with is loaded, by
+ * requesting it directly instead of relying on `document.fonts.ready`.
+ *
+ * `document.fonts.ready` only ever resolves once per document. Barba swaps
+ * page content without a real navigation, so on any transition after the
+ * first, that promise is already settled — `.then()` fires immediately,
+ * before the browser has necessarily started loading a font this new page
+ * needs but the previous one didn't. `buildMaskedLines` would then measure
+ * line wraps against the fallback face. Requesting the element's own
+ * computed font directly sidesteps that: it resolves once *that* font is
+ * actually ready, on every navigation, not just the first.
+ */
+export async function waitForFonts(el: HTMLElement): Promise<void> {
+  const style = getComputedStyle(el)
+  const spec = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
+  try {
+    await document.fonts.load(spec)
+  } catch {
+    // Best effort — fall through and measure with whatever's available.
+  }
+}
+
+/**
  * Splits an element into lines, each wrapped in its own clipping mask, ready to
  * be slid up from underneath (see `.reveal-mask` / `.reveal-line` in global.css).
  *

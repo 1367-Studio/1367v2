@@ -136,6 +136,27 @@ const deskStructure = (S: StructureBuilder) =>
       S.divider(),
 
       // -------------------------------------------------------
+      // 4b. ASR TEMP PROJECT PAGE
+      // -------------------------------------------------------
+      S.listItem()
+        .title('ASR Temp Project Page')
+        .child(
+          S.list()
+            .title('ASR Temp Project Page')
+            .items([
+              S.listItem()
+                .title('Video Sections')
+                .child(
+                  S.editor()
+                    .schemaType('asrTempProjectSection')
+                    .documentId('asrTempProjectSection'),
+                ),
+            ]),
+        ),
+
+      S.divider(),
+
+      // -------------------------------------------------------
       // 5. CONTACT PAGE
       // -------------------------------------------------------
       S.listItem()

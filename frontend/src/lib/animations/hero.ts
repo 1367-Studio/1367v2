@@ -1,6 +1,6 @@
 import { gsap } from 'gsap'
 import { hasBarbaTransitioned } from '@/lib/page-lifecycle'
-import { buildMaskedLines } from '@/lib/reveal-lines'
+import { buildMaskedLines, waitForFonts } from '@/lib/reveal-lines'
 
 const destroyers: Array<() => void> = []
 
@@ -100,12 +100,13 @@ export function initHero(): void {
   // Project-content reveal: split the title + description into masked lines and
   // drive them from the same end-of-scroll progress (cp) below, so they rise
   // out of their clipping masks like the Statement section, instead of the
-  // whole block sliding up as one. Split only after fonts are ready — measuring
-  // line wraps against the fallback face bakes in the wrong breaks.
+  // whole block sliding up as one. Split only once each target's own font is
+  // ready (see waitForFonts) — measuring line wraps against the fallback face
+  // bakes in the wrong breaks.
   let contentLines: HTMLElement[] = []
-  document.fonts.ready.then(() => {
-    const targets = content.querySelectorAll<HTMLElement>('[data-reveal-content]')
-    contentLines = Array.from(targets).flatMap((el) => buildMaskedLines(el))
+  const revealTargets = Array.from(content.querySelectorAll<HTMLElement>('[data-reveal-content]'))
+  Promise.all(revealTargets.map((el) => waitForFonts(el))).then(() => {
+    contentLines = revealTargets.flatMap((el) => buildMaskedLines(el))
     // Park every line just below its mask until cp drives it up.
     contentLines.forEach((line) => {
       line.style.transform = 'translateY(100%)'
