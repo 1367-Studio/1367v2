@@ -25,7 +25,7 @@ const { layout, videos = [], svgSrc } = Astro.props
           loop
           playsinline
           preload="metadata"
-          class="w-full h-[869px] object-cover rounded-[8px]"
+          class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
         />
       </div>
     ))}
@@ -42,7 +42,7 @@ const { layout, videos = [], svgSrc } = Astro.props
       loop
       playsinline
       preload="metadata"
-      class="w-full h-[869px] object-cover rounded-[8px]"
+      class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
     />
   </section>
 )}
@@ -58,7 +58,7 @@ const { layout, videos = [], svgSrc } = Astro.props
         loop
         playsinline
         preload="metadata"
-        class="w-full h-[869px] object-cover rounded-[8px]"
+        class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
       />
     </div>
     {svgSrc && (
