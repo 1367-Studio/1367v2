@@ -35,7 +35,7 @@ const [
     `*[_type == "featuredCase2Section" && _id == "featuredCase2Section"][0]{ tag, title, description, ctaLabel, ctaHref, panelTitle, items[]{ "iconSrc": icon.asset->url, "imageSrc": image.asset->url, title, subtitle } }`,
   ),
   client.fetch(
-    `*[_type == "featuredCase3Section" && _id == "featuredCase3Section"][0]{ cases[]{ tag, title, rightText, ctaLabel, ctaHref, "bgImage": bgImage.asset->url, "manImageDesktop": manImageDesktop.asset->url, "manImageMobile": manImageMobile.asset->url } }`,
+    `*[_type == "featuredCase3Section" && _id == "featuredCase3Section"][0]{ cases[]{ tag, title, rightText, ctaLabel, ctaHref, "bgImage": bgImage.asset->url, "bgVideo": bgVideo.asset->url, "manImageDesktop": manImageDesktop.asset->url, "manImageMobile": manImageMobile.asset->url } }`,
   ),
   client.fetch(
     `*[_type == "letsBuildSection" && _id == "letsBuildSection"][0]{ title, description, ctaLabel, ctaHref }`,
