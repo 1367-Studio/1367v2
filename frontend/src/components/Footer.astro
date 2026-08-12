@@ -35,15 +35,11 @@ const {
   ],
   locations = [
     { city: "Marseille", country: "France", phone: "+33 07 63 85 83 88" },
-    { city: "Vancouver", country: "Canada", phone: "+33 07 63 85 83 88" },
     { city: "Marseille", country: "France", phone: "+33 07 63 85 83 88" },
-    { city: "London", country: "UK", phone: "+33 07 63 85 83 88" },
     {
       city: "Florianópolis",
       country: "Brazil",
-      phone: "48 99195-8826",
-      address:
-        "SC-405, 4397 - Campeche,\nFlorianópolis - SC, 88065-000\nOKA SHOPPING",
+      phone: "+33 07 63 85 83 88",
     },
   ],
   logoSrc,
@@ -117,8 +113,9 @@ const {
        it spans the full footer width so it reads as part of the footer, not a
        boxed-in container. unicorn-wrapper makes the inline astro-island fill the
        box (see global.css). -->
-  <div class="unicorn-wrapper relative mt-16 h-[60vh] overflow-hidden lg:mt-[170px]">
+  <div
+    class="unicorn-wrapper relative mt-16 h-[60vh] overflow-hidden lg:mt-[170px]"
+  >
     <WordmarkScene client:only="react" />
   </div>
-
 </footer>
