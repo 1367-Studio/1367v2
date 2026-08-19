@@ -1,0 +1,37 @@
+{
+  "https://cdn.sanity.io/images/ydpqen8a/production/d23126cd04223114d70ae3243e4de3acae8164db-3478x606.svg": {
+    "src": "/logos/d23126cd04223114d70ae3243e4de3acae8164db-3478x606.svg",
+    "width": 161,
+    "height": 28,
+    "offsetX": 6.5,
+    "offsetY": -5
+  },
+  "https://cdn.sanity.io/images/ydpqen8a/production/19f40bcbd0234b908919f6b039872740c61e2a07-174x42.svg": {
+    "src": "/logos/19f40bcbd0234b908919f6b039872740c61e2a07-174x42.svg",
+    "width": 139,
+    "height": 32,
+    "offsetX": 0.5,
+    "offsetY": -2.7
+  },
+  "https://cdn.sanity.io/images/ydpqen8a/production/2e3d0daabc120ddadbd091854b024da605b202d1-174x42.svg": {
+    "src": "/logos/2e3d0daabc120ddadbd091854b024da605b202d1-174x42.svg",
+    "width": 194,
+    "height": 23,
+    "offsetX": -11.7,
+    "offsetY": -2.8
+  },
+  "https://cdn.sanity.io/images/ydpqen8a/production/cf76beb4102a7aa40feed62bec3f24e6d153c08e-174x42.svg": {
+    "src": "/logos/cf76beb4102a7aa40feed62bec3f24e6d153c08e-174x42.svg",
+    "width": 60,
+    "height": 61,
+    "offsetX": 0.6,
+    "offsetY": 0.1
+  },
+  "https://cdn.sanity.io/images/ydpqen8a/production/8e644efd0da890175659f7ec2d043c2493a65fee-174x42.svg": {
+    "src": "/logos/8e644efd0da890175659f7ec2d043c2493a65fee-174x42.svg",
+    "width": 105,
+    "height": 41,
+    "offsetX": -0.4,
+    "offsetY": 4
+  }
+}

@@ -1,4 +1,6 @@
 ---
+import { getLogoDimensions } from '@/lib/logo-metrics'
+
 interface Testimonial {
   quote: string
   author: string
@@ -24,6 +26,14 @@ const {
 } = Astro.props
 
 const total = testimonials.length
+
+// logo-soup normalization: square logos render near the old fixed 42px,
+// wide wordmarks shrink so every logo carries the same visual weight
+const LOGO_BASE_SIZE = 48
+const brandsWithDims = brands.map((brand) => ({
+  ...brand,
+  dims: getLogoDimensions(brand.logoUrl, LOGO_BASE_SIZE),
+}))
 ---
 
 <section id="testimonials-section" class="bg-white px-6 py-16 md:flex md:min-h-screen md:flex-col md:justify-center lg:px-12 lg:py-24">
@@ -78,9 +88,16 @@ const total = testimonials.length
       </p>
       <div class="p-0">
         <div class="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-14">
-          {brands.map((brand) => (
+          {brandsWithDims.map((brand) => (
             <div class="flex items-center justify-start">
-              {brand.logoUrl ? (
+              {brand.logoUrl && brand.dims ? (
+                <img
+                  src={brand.dims.src}
+                  alt={brand.alt || brand.name}
+                  class="max-w-full object-contain"
+                  style={`width: ${brand.dims.width}px; height: ${brand.dims.height}px; transform: translateY(${brand.dims.offsetY}px);`}
+                />
+              ) : brand.logoUrl ? (
                 <img
                   src={brand.logoUrl}
                   alt={brand.alt || brand.name}

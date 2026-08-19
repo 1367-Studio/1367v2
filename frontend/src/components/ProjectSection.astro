@@ -1,4 +1,6 @@
 ---
+import { getLogoDimensions } from '@/lib/logo-metrics'
+
 interface Brand {
   name: string
   logoUrl: string
@@ -13,6 +15,13 @@ interface Props {
 }
 
 const { title, subtitle, brandsLabel, brands = [] } = Astro.props
+
+// logo-soup normalization at the scale of the old fixed h-6 (24px) strip
+const LOGO_BASE_SIZE = 28
+const brandsWithDims = brands.map((brand) => ({
+  ...brand,
+  dims: getLogoDimensions(brand.logoUrl, LOGO_BASE_SIZE),
+}))
 ---
 
 <section class="bg-primary px-8 py-40 text-center text-white">
@@ -35,11 +44,14 @@ const { title, subtitle, brandsLabel, brands = [] } = Astro.props
 
     {/* Logos */}
     <div class="mt-6 flex items-center justify-center gap-10">
-      {brands.map((brand) => (
+      {brandsWithDims.map((brand) => (
         <img
-          src={brand.logoUrl}
+          src={brand.dims?.src ?? brand.logoUrl}
           alt={brand.alt ?? brand.name}
-          class="h-6 w-auto opacity-90"
+          class={brand.dims ? 'opacity-90' : 'h-6 w-auto opacity-90'}
+          style={brand.dims
+            ? `width: ${brand.dims.width}px; height: ${brand.dims.height}px; transform: translateY(${brand.dims.offsetY}px);`
+            : undefined}
         />
       ))}
     </div>
