@@ -6,6 +6,7 @@ import ProjectsOverview from "@/components/ProjectsOverview.astro";
 import ProjectsTabletPicture from "@/components/ProjectsTabletPicture.astro";
 import ProjectsWhatWeDo from "@/components/ProjectsWhatWeDo.astro";
 import ProjectsTestimonial from "@/components/ProjectsTestimonial.astro";
+import LetsBuild from "@/components/LetsBuild.astro";
 import { client } from "@/lib/sanity";
 
 const { slug } = Astro.params;
@@ -17,6 +18,8 @@ const project = await client.fetch(
     "seoTitle": seo.title,
     "seoDescription": seo.description,
     heroClient, heroTitle, heroService, heroYear, heroIndustry,
+    "heroImageSrc": heroImage.asset->url,
+    "heroImageAlt": heroImage.alt,
     sections[]{
       layout,
       videos[]{
@@ -53,19 +56,17 @@ const description =
     industry={project.heroIndustry ?? undefined}
     excerpt={project.heroExcerpt ?? project.excerpt}
   />
-  <div
-    class="bg-white flex flex-col gap-4 px-6 lg:px-8 pb-4 pt-[60px] lg:pt-[152px]"
-  >
-    {
-      sections.map((section: any) => (
-        <ProjectVideoSection
-          layout={section.layout}
-          videos={section.videos ?? []}
-          svgSrc={section.svgSrc}
+  {
+    project.heroImageSrc && (
+      <div class="bg-black px-6 pb-6 lg:px-8 lg:pb-12">
+        <img
+          src={project.heroImageSrc}
+          alt={project.heroImageAlt || project.title}
+          class="w-full h-auto rounded-[8px]"
         />
-      ))
-    }
-  </div>
+      </div>
+    )
+  }
   {
     (project.overviewTitle || project.overviewBody) && (
       <ProjectsOverview
@@ -86,6 +87,21 @@ const description =
       />
     )
   }
+
+  <div
+    class="bg-white flex flex-col gap-4 px-6 lg:px-8 pb-4 pt-[60px] lg:pt-[152px] pb-[60px] lg:pb-[120px]"
+  >
+    {
+      sections.map((section: any) => (
+        <ProjectVideoSection
+          layout={section.layout}
+          videos={section.videos ?? []}
+          svgSrc={section.svgSrc}
+        />
+      ))
+    }
+  </div>
+
   {
     project.testimonialQuote && (
       <ProjectsTestimonial
@@ -94,4 +110,8 @@ const description =
       />
     )
   }
-</Layout>
+  <LetsBuild
+    title="Let's build something great together."
+    description="We work with ambitious teams to create brands, websites, and software that help organizations move forward."
+  /></Layout
+>

@@ -75,6 +75,14 @@ export default {
       type: 'string',
     },
     {
+      name: 'heroImage',
+      title: 'Hero — Image',
+      description: 'Full-width image shown right below the hero.',
+      type: 'image',
+      options: {hotspot: true},
+      fields: [{name: 'alt', title: 'Alt text', type: 'string'}],
+    },
+    {
       name: 'sections',
       title: 'Video Sections',
       description:

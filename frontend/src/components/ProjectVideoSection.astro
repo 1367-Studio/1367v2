@@ -21,6 +21,7 @@ const { layout, videos = [], svgSrc } = Astro.props
           src={v.src}
           poster={v.poster}
           autoplay
+          data-autoplay-in-view
           muted
           loop
           playsinline
@@ -38,6 +39,7 @@ const { layout, videos = [], svgSrc } = Astro.props
       src={videos[0].src}
       poster={videos[0].poster}
       autoplay
+      data-autoplay-in-view
       muted
       loop
       playsinline
@@ -54,6 +56,7 @@ const { layout, videos = [], svgSrc } = Astro.props
         src={videos[0].src}
         poster={videos[0].poster}
         autoplay
+        data-autoplay-in-view
         muted
         loop
         playsinline
@@ -77,6 +80,7 @@ const { layout, videos = [], svgSrc } = Astro.props
           src={videos[0].src}
           poster={videos[0].poster}
           autoplay
+          data-autoplay-in-view
           muted
           loop
           playsinline
@@ -92,6 +96,7 @@ const { layout, videos = [], svgSrc } = Astro.props
             src={videos[1].src}
             poster={videos[1].poster}
             autoplay
+            data-autoplay-in-view
             muted
             loop
             playsinline
@@ -106,6 +111,7 @@ const { layout, videos = [], svgSrc } = Astro.props
             src={videos[2].src}
             poster={videos[2].poster}
             autoplay
+            data-autoplay-in-view
             muted
             loop
             playsinline
@@ -117,3 +123,34 @@ const { layout, videos = [], svgSrc } = Astro.props
     </div>
   </section>
 )}
+
+<script>
+  // Autoplay handles the initial start; this observer just pauses videos
+  // once they're off-screen and resumes them on scroll-back, so a page
+  // with several 60fps/high-bitrate clips doesn't decode all of them at
+  // once (which shows up as dropped-frame stutter). One observer, shared
+  // across every ProjectVideoSection instance on the page.
+  const win = window as Window & { __lazyVideoObserverInit?: boolean };
+
+  if (!win.__lazyVideoObserverInit) {
+    win.__lazyVideoObserverInit = true;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.15 },
+    );
+
+    document
+      .querySelectorAll("video[data-autoplay-in-view]")
+      .forEach((video) => observer.observe(video));
+  }
+</script>
