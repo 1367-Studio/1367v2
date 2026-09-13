@@ -1,34 +1,18 @@
 export default {
   name: 'projectsPageSection',
-  title: 'Projects Page',
+  title: 'Project Index',
   type: 'document',
   fields: [
-    // Hero
-    { name: 'heroClient',   title: 'Hero — Client Name',  type: 'string' },
-    { name: 'heroTitle',    title: 'Hero — Title',         type: 'string' },
-    { name: 'heroService',  title: 'Hero — Service',       type: 'string' },
-    { name: 'heroYear',     title: 'Hero — Year',          type: 'number' },
-    { name: 'heroIndustry', title: 'Hero — Industry',      type: 'string' },
-
-    // Overview
-    { name: 'overviewTitle', title: 'Overview — Title', type: 'string' },
-    { name: 'overviewBody',  title: 'Overview — Body',  type: 'text', rows: 5 },
-
-    // What We Did
-    { name: 'whatWeDidTitle', title: 'What We Did — Title', type: 'string' },
-    { name: 'whatWeDidBody',  title: 'What We Did — Body',  type: 'text', rows: 5 },
-
-    // Testimonial
-    { name: 'testimonialQuote',  title: 'Testimonial — Quote',  type: 'text', rows: 4 },
-    { name: 'testimonialAuthor', title: 'Testimonial — Author', type: 'string' },
-
-    // Tablet Picture
+    // Header
+    { name: 'title',       title: 'Title (e.g. "Projects That Make an Impact")', type: 'text', rows: 2 },
+    { name: 'description', title: 'Description',                                type: 'text', rows: 3 },
     {
-      name: 'tabletImage',
-      title: 'Tablet Image',
-      type: 'image',
-      options: { hotspot: true },
-      fields: [{ name: 'alt', title: 'Alt text', type: 'string' }],
+      name: 'featuredProjects',
+      title: 'Grid — Projects',
+      description:
+        'Pick which Project Pages show up on the /projects grid, and drag to set their order. Create the project first (under Project Pages), then add it here.',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'project'}]}],
     },
   ],
 }

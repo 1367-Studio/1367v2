@@ -1,0 +1,97 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ProjectVideoSection from "@/components/ProjectVideoSection.astro";
+import ProjectsHero from "@/components/ProjectsHero.astro";
+import ProjectsOverview from "@/components/ProjectsOverview.astro";
+import ProjectsTabletPicture from "@/components/ProjectsTabletPicture.astro";
+import ProjectsWhatWeDo from "@/components/ProjectsWhatWeDo.astro";
+import ProjectsTestimonial from "@/components/ProjectsTestimonial.astro";
+import { client } from "@/lib/sanity";
+
+const { slug } = Astro.params;
+
+const project = await client.fetch(
+  `*[_type == "project" && slug.current == $slug][0]{
+    title,
+    excerpt,
+    "seoTitle": seo.title,
+    "seoDescription": seo.description,
+    heroClient, heroTitle, heroService, heroYear, heroIndustry,
+    sections[]{
+      layout,
+      videos[]{
+        "src": video.asset->url,
+        "poster": poster.asset->url
+      },
+      "svgSrc": svg.asset->url
+    },
+    overviewTitle, overviewBody,
+    "tabletImageSrc": tabletImage.asset->url,
+    "tabletImageAlt": tabletImage.alt,
+    whatWeDidTitle, whatWeDidBody,
+    testimonialQuote, testimonialAuthor
+  }`,
+  { slug },
+);
+
+if (!project) {
+  return Astro.rewrite("/404");
+}
+
+const sections = project.sections ?? [];
+const title = project.seoTitle ?? `${project.title} — 1367 Studio`;
+const description =
+  project.seoDescription ?? `Case study: ${project.title}, by 1367 Studio.`;
+---
+
+<Layout title={title} description={description} headerTheme="dark">
+  <ProjectsHero
+    client={project.heroClient ?? project.title}
+    title={project.heroTitle ?? project.title}
+    service={project.heroService ?? undefined}
+    year={project.heroYear ?? undefined}
+    industry={project.heroIndustry ?? undefined}
+    excerpt={project.heroExcerpt ?? project.excerpt}
+  />
+  <div
+    class="bg-white flex flex-col gap-4 px-6 lg:px-8 pb-4 pt-[60px] lg:pt-[152px]"
+  >
+    {
+      sections.map((section: any) => (
+        <ProjectVideoSection
+          layout={section.layout}
+          videos={section.videos ?? []}
+          svgSrc={section.svgSrc}
+        />
+      ))
+    }
+  </div>
+  {
+    (project.overviewTitle || project.overviewBody) && (
+      <ProjectsOverview
+        title={project.overviewTitle}
+        body={project.overviewBody}
+      />
+    )
+  }
+  <ProjectsTabletPicture
+    src={project.tabletImageSrc}
+    alt={project.tabletImageAlt}
+  />
+  {
+    (project.whatWeDidTitle || project.whatWeDidBody) && (
+      <ProjectsWhatWeDo
+        title={project.whatWeDidTitle}
+        body={project.whatWeDidBody}
+      />
+    )
+  }
+  {
+    project.testimonialQuote && (
+      <ProjectsTestimonial
+        quote={project.testimonialQuote}
+        author={project.testimonialAuthor}
+      />
+    )
+  }
+</Layout>

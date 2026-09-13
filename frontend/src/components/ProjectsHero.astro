@@ -5,30 +5,38 @@ interface Props {
   service?: string;
   year?: number;
   industry?: string;
+  excerpt?: string;
 }
 
-const {
-  client = 'ASR Temp',
-  title = 'Temporary Staffing Platform & Custom Website',
-  service = 'Design and Development',
-  year = 2025,
-  industry = 'Temporary Staffing',
-} = Astro.props;
+const { client, title, service, year, industry, excerpt } = Astro.props;
+const hasDetails = service || year || industry;
 ---
 
-<section class="case-hero flex flex-col bg-black text-white px-8 pt-[60px] pb-[40px] lg:grid lg:min-h-[535px] lg:pt-[152px] lg:pb-[72px]">
-  <span class="area-client font-[Geist] font-normal text-sm leading-[1.04] tracking-[-0.01em] mb-6 lg:mb-0">{client}</span>
+<section
+  class="case-hero flex flex-col bg-black text-white px-8 pt-[60px] pb-[40px] lg:grid lg:min-h-[535px] lg:pt-[152px] lg:pb-[72px]"
+>
+  {
+    client && (
+      <span class="area-client font-[Geist] font-normal text-sm leading-[1.04] tracking-[-0.01em] mb-6 lg:mb-0">
+        {client}
+      </span>
+    )
+  }
   <h1
     data-reveal-entry
     class="font-[Geist] font-normal text-[40px] md:text-[60px] lg:text-[80px] leading-[1.04] tracking-[-0.01em] mb-8 lg:mb-0"
   >
-    {title}
+    {excerpt}
   </h1>
-  <div class="area-details flex justify-between lg:pt-12 font-[Geist_Mono] font-normal text-[12px] leading-[1.2] tracking-[-0.01em] uppercase text-white">
-    <span>{service}</span>
-    <span>{year}</span>
-    <span>{industry}</span>
-  </div>
+  {
+    hasDetails && (
+      <div class="area-details flex justify-between lg:pt-12 font-[Geist_Mono] font-normal text-[12px] leading-[1.2] tracking-[-0.01em] uppercase text-white">
+        {service && <span>{service}</span>}
+        {year && <span>{year}</span>}
+        {industry && <span>{industry}</span>}
+      </div>
+    )
+  }
 </section>
 
 <style>
@@ -42,8 +50,15 @@ const {
       grid-template-columns: 1fr 2fr;
     }
 
-    .area-client  { grid-area: client; }
-    .area-title   { grid-area: title; align-self: end; }
-    .area-details { grid-area: details; }
+    .area-client {
+      grid-area: client;
+    }
+    .area-title {
+      grid-area: title;
+      align-self: end;
+    }
+    .area-details {
+      grid-area: details;
+    }
   }
 </style>

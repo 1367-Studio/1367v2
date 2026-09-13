@@ -5,15 +5,22 @@ interface Props {
 }
 
 const {
-  title = 'Turning uncertainty into exhilaration for everyday golfers.',
-  body = 'Golf instruction is a crowded market. Quick fixes, pricey gear, and pro lessons leave players overwhelmed, unsure where to turn.',
+  title = "Turning uncertainty into exhilaration for everyday golfers.",
+  body = "Golf instruction is a crowded market. Quick fixes, pricey gear, and pro lessons leave players overwhelmed, unsure where to turn.",
 } = Astro.props;
 ---
 
-<section class="case-hero flex flex-col bg-white text-black px-8 pt-[60px] pb-[40px] lg:grid lg:min-h-[535px] lg:pt-[120px] lg:pb-[84px]">
+<section
+  class="case-hero flex flex-col bg-white text-black px-8 pt-[60px] pb-[40px] lg:grid lg:min-h-[535px] lg:pt-[120px] lg:pb-[84px]"
+>
   <div class="area-line h-[1px] bg-black"></div>
-  <span class="area-client pt-6 font-[Geist] font-normal text-[24px] lg:text-[32px] leading-[1.2] tracking-[-0.01em] mb-6 lg:mb-0 lg:max-w-[76px]">Project overview</span>
-  <h2 class="area-title pt-6 font-[Geist] font-normal text-[32px] lg:text-[48px] leading-[1.2] tracking-[-0.01em] text-black mb-6 lg:mb-0">
+  <span
+    class="area-client pt-6 font-[Geist] font-normal text-[24px] lg:text-[32px] leading-[1.2] tracking-[-0.01em] mb-6 lg:mb-0 lg:max-w-[76px]"
+    >Project overview</span
+  >
+  <h2
+    class="area-title pt-6 font-[Geist] font-normal text-[32px] lg:text-[48px] leading-[1.2] tracking-[-0.01em] text-black mb-6 lg:mb-0"
+  >
     {title}
   </h2>
   <p class="area-text text-[#666666]">{body}</p>
@@ -30,9 +37,20 @@ const {
       grid-template-columns: 50% 40% 10%;
     }
 
-    .area-line   { grid-area: line; }
-    .area-client { grid-area: client; padding-top: 36px; }
-    .area-title  { grid-area: title; padding-top: 36px; }
-    .area-text   { grid-area: text; padding-top: 2rem; }
+    .area-line {
+      grid-area: line;
+    }
+    .area-client {
+      grid-area: client;
+      padding-top: 36px;
+    }
+    .area-title {
+      grid-area: title;
+      padding-top: 36px;
+    }
+    .area-text {
+      grid-area: text;
+      padding-top: 2rem;
+    }
   }
 </style>

@@ -115,42 +115,26 @@ const deskStructure = (S: StructureBuilder) =>
       S.divider(),
 
       // -------------------------------------------------------
-      // 4. PROJECTS PAGE
+      // 4. PROJECTS
       // -------------------------------------------------------
       S.listItem()
-        .title('Projects Page')
+        .title('Projects')
         .child(
           S.list()
-            .title('Projects Page')
+            .title('Projects')
             .items([
               S.listItem()
-                .title('Projects Page Content')
+                .title('Project Index (/projects)')
                 .child(
                   S.editor()
                     .schemaType('projectsPageSection')
                     .documentId('projectsPageSection'),
                 ),
-            ]),
-        ),
-
-      S.divider(),
-
-      // -------------------------------------------------------
-      // 4b. ASR TEMP PROJECT PAGE
-      // -------------------------------------------------------
-      S.listItem()
-        .title('ASR Temp Project Page')
-        .child(
-          S.list()
-            .title('ASR Temp Project Page')
-            .items([
+              S.divider(),
               S.listItem()
-                .title('Video Sections')
-                .child(
-                  S.editor()
-                    .schemaType('asrTempProjectSection')
-                    .documentId('asrTempProjectSection'),
-                ),
+                .title('Project Pages (/projects/...)')
+                .schemaType('project')
+                .child(S.documentTypeList('project').title('Project Pages')),
             ]),
         ),
 

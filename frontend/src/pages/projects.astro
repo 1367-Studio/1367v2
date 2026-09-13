@@ -2,21 +2,27 @@
 import { client } from "@/lib/sanity";
 import FeaturedCase3 from "@/components/FeaturedCase3.astro";
 import Layout from "@/layouts/Layout.astro";
-import ProjectsHero from "@/components/ProjectsHero.astro";
+import ProjectsGrid from "@/components/ProjectsGrid.astro";
 import ProjectsOverview from "@/components/ProjectsOverview.astro";
 import ProjectsTabletPicture from "@/components/ProjectsTabletPicture.astro";
 import ProjectsTestimonial from "@/components/ProjectsTestimonial.astro";
 import ProjectsWhatWeDo from "@/components/ProjectsWhatWeDo.astro";
+import LetsBuild from "@/components/LetsBuild.astro";
 
 const [page, featuredCase3] = await Promise.all([
   client.fetch(`
     *[_type == "projectsPageSection" && _id == "projectsPageSection"][0]{
-      heroClient, heroTitle, heroService, heroYear, heroIndustry,
-      overviewTitle, overviewBody,
-      whatWeDidTitle, whatWeDidBody,
-      testimonialQuote, testimonialAuthor,
-      "tabletImageSrc": tabletImage.asset->url,
-      "tabletImageAlt": tabletImage.alt
+      title,
+      description,
+      "featuredProjects": featuredProjects[]->{
+        title,
+        excerpt,
+        ctaLabel,
+        "slug": slug.current,
+        "coverImageUrl": coverImage.asset->url,
+        "coverImageAlt": coverImage.alt,
+        "coverVideoUrl": coverVideo.asset->url
+      },
     }
   `),
   client.fetch(`
@@ -36,28 +42,13 @@ const [page, featuredCase3] = await Promise.all([
   description="Case studies from 1367 Studio — branding, websites and software for ambitious teams."
   headerTheme="dark"
 >
-  <ProjectsHero
-    client={page?.heroClient}
-    title={page?.heroTitle}
-    service={page?.heroService}
-    year={page?.heroYear}
-    industry={page?.heroIndustry}
+  <ProjectsGrid
+    heading={page?.title}
+    subtitle={page?.description}
+    projects={(page?.featuredProjects ?? []).filter(Boolean)}
   />
-  <FeaturedCase3 cases={[featuredCase3?.cases?.[0]].filter(Boolean)} />
-  <ProjectsOverview
-    title={page?.overviewTitle}
-    body={page?.overviewBody}
-  />
-  <ProjectsTabletPicture
-    src={page?.tabletImageSrc}
-    alt={page?.tabletImageAlt}
-  />
-  <ProjectsWhatWeDo
-    title={page?.whatWeDidTitle}
-    body={page?.whatWeDidBody}
-  />
-  <ProjectsTestimonial
-    quote={page?.testimonialQuote}
-    author={page?.testimonialAuthor}
+  <LetsBuild
+    title="Let's build something great together."
+    description="We work with ambitious teams to create brands, websites, and software that help organizations move forward."
   />
 </Layout>

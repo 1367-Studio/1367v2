@@ -24,7 +24,8 @@ import focusAreasSection from './documents/focusAreasSection'
 import notFoundSection from './documents/notFoundSection'
 import officeItem from './objects/officeItem'
 import projectsPageSection from './documents/projectsPageSection'
-import asrTempProjectSection from './documents/asrTempProjectSection'
+import project from './documents/project'
+import videoSection from './objects/videoSection'
 import mentionsLegalesSection from './documents/mentionsLegalesSection'
 import termsSection from './documents/termsSection'
 import privacySection from './documents/privacySection'
@@ -47,9 +48,9 @@ export const schemaTypes = [
   heroSection,
   letsBuildSection,
   post,
+  project,
   projectSection,
   projectsPageSection,
-  asrTempProjectSection,
   statementSection,
   testimonialsSection,
   tickerSection,
@@ -67,5 +68,6 @@ export const schemaTypes = [
   officeItem,
   stat,
   testimonialItem,
+  videoSection,
   seo,
 ]
