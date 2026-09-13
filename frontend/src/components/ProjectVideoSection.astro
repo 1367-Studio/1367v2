@@ -1,7 +1,9 @@
 ---
 interface VideoItem {
-  src: string
+  src?: string
   poster?: string
+  imageSrc?: string
+  imageAlt?: string
 }
 
 interface Props {
@@ -17,17 +19,27 @@ const { layout, videos = [], svgSrc } = Astro.props
   <section class="flex flex-col md:flex-row w-full gap-4">
     {videos.slice(0, 2).map((v) => (
       <div class="w-full md:w-1/2">
-        <video
-          src={v.src}
-          poster={v.poster}
-          autoplay
-          data-autoplay-in-view
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
-        />
+        {v.src ? (
+          <video
+            src={v.src}
+            poster={v.poster}
+            autoplay
+            data-autoplay-in-view
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
+          />
+        ) : (
+          v.imageSrc && (
+            <img
+              src={v.imageSrc}
+              alt={v.imageAlt || ''}
+              class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
+            />
+          )
+        )}
       </div>
     ))}
   </section>
@@ -35,23 +47,7 @@ const { layout, videos = [], svgSrc } = Astro.props
 
 {layout === 'one' && videos[0] && (
   <section class="w-full">
-    <video
-      src={videos[0].src}
-      poster={videos[0].poster}
-      autoplay
-      data-autoplay-in-view
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
-    />
-  </section>
-)}
-
-{layout === 'videoSvg' && videos[0] && (
-  <section class="flex flex-col md:flex-row w-full gap-4">
-    <div class="w-full md:w-1/2">
+    {videos[0].src ? (
       <video
         src={videos[0].src}
         poster={videos[0].poster}
@@ -63,6 +59,42 @@ const { layout, videos = [], svgSrc } = Astro.props
         preload="metadata"
         class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
       />
+    ) : (
+      videos[0].imageSrc && (
+        <img
+          src={videos[0].imageSrc}
+          alt={videos[0].imageAlt || ''}
+          class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
+        />
+      )
+    )}
+  </section>
+)}
+
+{layout === 'videoSvg' && videos[0] && (
+  <section class="flex flex-col md:flex-row w-full gap-4">
+    <div class="w-full md:w-1/2">
+      {videos[0].src ? (
+        <video
+          src={videos[0].src}
+          poster={videos[0].poster}
+          autoplay
+          data-autoplay-in-view
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
+        />
+      ) : (
+        videos[0].imageSrc && (
+          <img
+            src={videos[0].imageSrc}
+            alt={videos[0].imageAlt || ''}
+            class="w-full h-auto md:h-[869px] md:object-cover rounded-[8px]"
+          />
+        )
+      )}
     </div>
     {svgSrc && (
       <div class="w-full md:w-1/2 flex items-center justify-center">
@@ -76,48 +108,78 @@ const { layout, videos = [], svgSrc } = Astro.props
   <section class="flex flex-col md:flex-row w-full gap-4">
     {videos[0] && (
       <div class="w-full md:w-1/2">
-        <video
-          src={videos[0].src}
-          poster={videos[0].poster}
-          autoplay
-          data-autoplay-in-view
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          class="w-full h-auto rounded-[8px]"
-        />
+        {videos[0].src ? (
+          <video
+            src={videos[0].src}
+            poster={videos[0].poster}
+            autoplay
+            data-autoplay-in-view
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            class="w-full h-auto rounded-[8px]"
+          />
+        ) : (
+          videos[0].imageSrc && (
+            <img
+              src={videos[0].imageSrc}
+              alt={videos[0].imageAlt || ''}
+              class="w-full h-auto rounded-[8px]"
+            />
+          )
+        )}
       </div>
     )}
     <div class="w-full md:w-1/2 flex flex-col gap-4">
       {videos[1] && (
         <div class="w-full">
-          <video
-            src={videos[1].src}
-            poster={videos[1].poster}
-            autoplay
-            data-autoplay-in-view
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            class="w-full h-auto rounded-[8px]"
-          />
+          {videos[1].src ? (
+            <video
+              src={videos[1].src}
+              poster={videos[1].poster}
+              autoplay
+              data-autoplay-in-view
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              class="w-full h-auto rounded-[8px]"
+            />
+          ) : (
+            videos[1].imageSrc && (
+              <img
+                src={videos[1].imageSrc}
+                alt={videos[1].imageAlt || ''}
+                class="w-full h-auto rounded-[8px]"
+              />
+            )
+          )}
         </div>
       )}
       {videos[2] && (
         <div class="w-full">
-          <video
-            src={videos[2].src}
-            poster={videos[2].poster}
-            autoplay
-            data-autoplay-in-view
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            class="w-full h-auto rounded-[8px]"
-          />
+          {videos[2].src ? (
+            <video
+              src={videos[2].src}
+              poster={videos[2].poster}
+              autoplay
+              data-autoplay-in-view
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              class="w-full h-auto rounded-[8px]"
+            />
+          ) : (
+            videos[2].imageSrc && (
+              <img
+                src={videos[2].imageSrc}
+                alt={videos[2].imageAlt || ''}
+                class="w-full h-auto rounded-[8px]"
+              />
+            )
+          )}
         </div>
       )}
     </div>

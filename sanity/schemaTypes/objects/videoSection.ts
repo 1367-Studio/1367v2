@@ -20,34 +20,52 @@ export default {
     },
     {
       name: 'videos',
-      title: 'Videos (in order)',
+      title: 'Media (in order)',
       description:
-        '"Two videos side by side" needs 2. "Single video" needs 1. "One video + two stacked" needs 3 (main first, then the two stacked ones). "Video + SVG" needs 1 (the video that goes on the left).',
+        'Each slot is a video OR a static image — fill in one or the other. "Two videos side by side" needs 2. "Single video" needs 1. "One video + two stacked" needs 3 (main first, then the two stacked ones). "Video + SVG" needs 1 (the media that goes on the left).',
       type: 'array',
       of: [
         {
           type: 'object',
           name: 'videoItem',
-          title: 'Video',
+          title: 'Media',
           fields: [
             {
               name: 'video',
               title: 'Video',
+              description: 'Leave empty if using a static Image instead.',
               type: 'file',
               options: {accept: 'video/*'},
-              validation: (Rule: any) => Rule.required(),
             },
             {
               name: 'poster',
-              title: 'Poster (fallback image)',
+              title: 'Poster (video fallback frame)',
               type: 'image',
               options: {hotspot: true},
             },
+            {
+              name: 'image',
+              title: 'Image',
+              description: 'Used instead of Video when no video is set.',
+              type: 'image',
+              options: {hotspot: true},
+              fields: [{name: 'alt', title: 'Alt text', type: 'string'}],
+            },
           ],
+          validation: (Rule: any) =>
+            Rule.custom((item: any) => {
+              if (!item?.video && !item?.image) {
+                return 'Set either a Video or an Image.'
+              }
+              return true
+            }),
           preview: {
-            select: {media: 'poster'},
-            prepare() {
-              return {title: 'Video'}
+            select: {media: 'image', poster: 'poster', hasVideo: 'video'},
+            prepare({media, poster, hasVideo}: any) {
+              return {
+                title: hasVideo ? 'Video' : media ? 'Image' : 'Empty',
+                media: media ?? poster,
+              }
             },
           },
         },

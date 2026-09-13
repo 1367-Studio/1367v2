@@ -24,7 +24,9 @@ const project = await client.fetch(
       layout,
       videos[]{
         "src": video.asset->url,
-        "poster": poster.asset->url
+        "poster": poster.asset->url,
+        "imageSrc": image.asset->url,
+        "imageAlt": image.alt
       },
       "svgSrc": svg.asset->url
     },
