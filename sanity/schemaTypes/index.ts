@@ -26,6 +26,12 @@ import officeItem from './objects/officeItem'
 import projectsPageSection from './documents/projectsPageSection'
 import project from './documents/project'
 import videoSection from './objects/videoSection'
+import blogPageSection from './documents/blogPageSection'
+import author from './documents/author'
+import category from './documents/category'
+import imageBlock from './objects/imageBlock'
+import tableBlock from './objects/tableBlock'
+import videoBlock from './objects/videoBlock'
 import mentionsLegalesSection from './documents/mentionsLegalesSection'
 import termsSection from './documents/termsSection'
 import privacySection from './documents/privacySection'
@@ -39,7 +45,10 @@ export const schemaTypes = [
   buildingWorldwideSection,
   aboutPhilosophySection,
   aboutTextRevealSection,
+  author,
+  blogPageSection,
   case_,
+  category,
   featuredCaseSection,
   featuredCase2Section,
   featuredCase3Section,
@@ -64,10 +73,13 @@ export const schemaTypes = [
   // objects
   brandLogo,
   cookieItem,
+  imageBlock,
   legalSection,
   officeItem,
   stat,
+  tableBlock,
   testimonialItem,
+  videoBlock,
   videoSection,
   seo,
 ]

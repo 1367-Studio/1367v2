@@ -216,9 +216,33 @@ const deskStructure = (S: StructureBuilder) =>
         .child(S.documentTypeList('case').title('Cases')),
 
       S.listItem()
-        .title('Posts')
-        .schemaType('post')
-        .child(S.documentTypeList('post').title('Posts')),
+        .title('Blog')
+        .child(
+          S.list()
+            .title('Blog')
+            .items([
+              S.listItem()
+                .title('Blog Page')
+                .child(
+                  S.editor()
+                    .schemaType('blogPageSection')
+                    .documentId('blogPageSection'),
+                ),
+              S.divider(),
+              S.listItem()
+                .title('Blog Posts (/blog/...)')
+                .schemaType('post')
+                .child(S.documentTypeList('post').title('Blog Posts')),
+              S.listItem()
+                .title('Authors')
+                .schemaType('author')
+                .child(S.documentTypeList('author').title('Authors')),
+              S.listItem()
+                .title('Categories')
+                .schemaType('category')
+                .child(S.documentTypeList('category').title('Categories')),
+            ]),
+        ),
     ])
 
 export default deskStructure

@@ -1,0 +1,116 @@
+---
+interface Author {
+  name: string;
+  avatarUrl?: string;
+}
+
+interface Props {
+  title: string;
+  slug: string;
+  excerpt?: string;
+  ctaLabel?: string;
+  publishedAt?: string;
+  readTime?: number;
+  coverImageUrl?: string;
+  coverImageAlt?: string;
+  authors?: Author[];
+}
+
+const {
+  title,
+  slug,
+  excerpt,
+  ctaLabel = "Read blog post",
+  publishedAt,
+  readTime,
+  coverImageUrl,
+  coverImageAlt,
+  authors: rawAuthors,
+} = Astro.props;
+
+const authors = rawAuthors ?? [];
+
+const date = publishedAt
+  ? new Date(publishedAt).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  : undefined;
+---
+
+<section class="bg-white px-6 py-16 text-black lg:px-12">
+  <a
+    href={`/blog/${slug}`}
+    class="group mx-auto grid max-w-[1216px] gap-8 lg:grid-cols-2 lg:gap-16"
+  >
+    <div class="aspect-[4/3] w-full overflow-hidden rounded-[8px] bg-[#f3f3f4] lg:aspect-auto">
+      {
+        coverImageUrl && (
+          <img
+            src={coverImageUrl}
+            alt={coverImageAlt || title}
+            class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          />
+        )
+      }
+    </div>
+    <div class="flex flex-col lg:py-6">
+      <span
+        class="font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[120%] tracking-[-0.01em] text-primary"
+      >
+        Featured
+      </span>
+      {
+        (readTime || date) && (
+          <span class="mt-4 font-[Geist_Mono] text-[12px] uppercase leading-[120%] tracking-[-0.01em] text-[#666666]">
+            {readTime && `${readTime} min read`}
+            {readTime && date && " · "}
+            {date}
+          </span>
+        )
+      }
+      <h2
+        class="mt-4 font-[Geist] text-[28px] font-medium leading-[1.15] tracking-[-0.01em] text-black md:text-[36px]"
+      >
+        {title}
+      </h2>
+      {
+        excerpt && (
+          <p class="mt-4 font-[Geist] text-base leading-relaxed text-[#666666]">
+            {excerpt}
+          </p>
+        )
+      }
+      {
+        authors.length > 0 && (
+          <div class="mt-8 flex items-center gap-3">
+            <div class="flex -space-x-2">
+              {authors.map((author) =>
+                author.avatarUrl ? (
+                  <img
+                    src={author.avatarUrl}
+                    alt={author.name}
+                    class="h-8 w-8 rounded-full border-2 border-white object-cover"
+                  />
+                ) : (
+                  <span class="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[#f3f3f4] text-xs text-black">
+                    {author.name?.[0]}
+                  </span>
+                ),
+              )}
+            </div>
+            <span class="font-[Geist] text-sm text-[#666666]">
+              {authors.map((a) => a.name).join(", ")}
+            </span>
+          </div>
+        )
+      }
+      <span
+        class="mt-auto inline-flex w-fit items-center gap-2 pt-10 font-[Geist_Mono] text-[12px] font-normal uppercase leading-[120%] tracking-[-0.01em] text-black transition-opacity group-hover:opacity-60"
+      >
+        {ctaLabel}
+      </span>
+    </div>
+  </a>
+</section>

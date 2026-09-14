@@ -1,0 +1,201 @@
+---
+import { extractHeadings } from "@/lib/toc";
+
+interface Props {
+  body: any[];
+}
+
+const { body: content = [] } = Astro.props;
+const HEADING_STYLES = ["h1", "h2", "h3"];
+// Same order/derivation as the sidebar TOC (extractHeadings), so ids line up.
+const headingIds = extractHeadings(content).map((h) => h.id);
+
+// Sanity's `block` type is flat — consecutive list items don't nest under a
+// parent list node on their own. Group consecutive same-type list blocks
+// into a synthetic "list" node so they render as one <ul>/<ol>; anything
+// else (a paragraph, an image, a video) ends the current list.
+function groupContent(nodes: any[]) {
+  const grouped: any[] = [];
+  let currentList: { _type: "list"; listItem: string; items: any[] } | null =
+    null;
+
+  for (const node of nodes) {
+    if (node._type === "block" && node.listItem) {
+      if (!currentList || currentList.listItem !== node.listItem) {
+        currentList = { _type: "list", listItem: node.listItem, items: [] };
+        grouped.push(currentList);
+      }
+      currentList.items.push(node);
+    } else {
+      currentList = null;
+      grouped.push(node);
+    }
+  }
+  return grouped;
+}
+
+function escapeHtml(str: string) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function renderSpan(child: any, markDefs: any[]) {
+  let text = escapeHtml(child.text ?? "");
+  for (const mark of child.marks ?? []) {
+    const def = markDefs.find((d: any) => d._key === mark);
+    if (def?._type === "link" && def.href) {
+      text = `<a href="${escapeHtml(def.href)}" class="underline underline-offset-2 hover:opacity-70" target="_blank" rel="noopener noreferrer">${text}</a>`;
+    } else if (mark === "strong") {
+      text = `<strong>${text}</strong>`;
+    } else if (mark === "em") {
+      text = `<em>${text}</em>`;
+    }
+  }
+  return text;
+}
+
+function renderBlockHtml(block: any) {
+  return (block.children ?? [])
+    .map((c: any) => renderSpan(c, block.markDefs ?? []))
+    .join("");
+}
+
+const STYLE_CLASS: Record<string, string> = {
+  normal:
+    "font-[Geist] text-base leading-relaxed text-[#333] [&_a]:text-black",
+  h1: "font-[Geist] text-[40px] font-normal leading-[1.1] tracking-[-0.01em] text-black scroll-mt-32",
+  h2: "font-[Geist] text-[32px] font-normal leading-[1.15] tracking-[-0.01em] text-black scroll-mt-32",
+  h3: "font-[Geist] text-[24px] font-normal leading-[1.2] tracking-[-0.01em] text-black scroll-mt-32",
+  h4: "font-[Geist] text-[18px] font-medium leading-[1.2] tracking-[-0.01em] text-black",
+  blockquote:
+    "font-[Geist] text-lg leading-relaxed text-[#333] border-l-2 border-black pl-6",
+};
+
+const blocks = groupContent(content);
+let headingCursor = 0;
+---
+
+<div class="flex flex-col gap-6">
+  {
+    blocks.map((node: any) => {
+      if (node._type === "list") {
+        const Tag = node.listItem === "number" ? "ol" : "ul";
+        return (
+          <Tag
+            class={`flex flex-col gap-2 pl-5 ${node.listItem === "number" ? "list-decimal" : "list-disc"} font-[Geist] text-base leading-relaxed text-[#333]`}
+          >
+            {node.items.map((item: any) => (
+              <li set:html={renderBlockHtml(item)} />
+            ))}
+          </Tag>
+        );
+      }
+
+      if (node._type === "block") {
+        const style = node.style || "normal";
+        const Tag = style === "blockquote" ? "blockquote" : style === "normal" ? "p" : style;
+        const id = HEADING_STYLES.includes(style) ? headingIds[headingCursor++] : undefined;
+        return (
+          <Tag
+            id={id}
+            class={STYLE_CLASS[style] ?? STYLE_CLASS.normal}
+            set:html={renderBlockHtml(node)}
+          />
+        );
+      }
+
+      if (node._type === "imageBlock" && node.imageUrl) {
+        return (
+          <figure>
+            <img
+              src={node.imageUrl}
+              alt={node.alt || ""}
+              class="w-full h-auto rounded-[8px]"
+            />
+            {node.caption && (
+              <figcaption class="mt-2 font-[Geist_Mono] text-xs uppercase tracking-[-0.01em] text-[#666666]">
+                {node.caption}
+              </figcaption>
+            )}
+          </figure>
+        );
+      }
+
+      if (node._type === "tableBlock" && node.rows?.length) {
+        return (
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse font-[Geist] text-sm">
+              <tbody>
+                {node.rows.map((row: any) => (
+                  <tr class="border-b border-[#e5e5e5]">
+                    {(row.cells ?? []).map((cell: string) => (
+                      <td class="py-3 pr-6 align-top text-[#333]">{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      }
+
+      if (node._type === "videoBlock" && node.videoUrl) {
+        return (
+          <figure>
+            <video
+              src={node.videoUrl}
+              poster={node.posterUrl}
+              autoplay
+              data-autoplay-in-view
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              class="w-full h-auto rounded-[8px]"
+            />
+            {node.caption && (
+              <figcaption class="mt-2 font-[Geist_Mono] text-xs uppercase tracking-[-0.01em] text-[#666666]">
+                {node.caption}
+              </figcaption>
+            )}
+          </figure>
+        );
+      }
+
+      return null;
+    })
+  }
+</div>
+
+<script>
+  // Same lazy-autoplay pattern as ProjectVideoSection.astro — pause videos
+  // once off-screen so a post with several clips doesn't decode all of them
+  // at once. Guarded the same way, so it's safe even if a page somehow
+  // loads both components.
+  const win = window as Window & { __lazyVideoObserverInit?: boolean };
+
+  if (!win.__lazyVideoObserverInit) {
+    win.__lazyVideoObserverInit = true;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.15 },
+    );
+
+    document
+      .querySelectorAll("video[data-autoplay-in-view]")
+      .forEach((video) => observer.observe(video));
+  }
+</script>

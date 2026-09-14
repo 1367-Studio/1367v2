@@ -1,0 +1,28 @@
+---
+interface Props {
+  heading?: string;
+  subtitle?: string;
+}
+
+const {
+  heading = "From the Studio",
+  subtitle = "Notes on design, engineering, and building products that last.",
+} = Astro.props;
+---
+
+<section class="bg-black px-6 py-16 text-white lg:px-12 lg:pb-24 lg:pt-[176px]">
+  <div class="mx-auto flex max-w-[1216px] flex-col gap-6 lg:gap-10">
+    <h1
+      class="whitespace-pre-line font-[Geist] font-normal text-[32px] leading-[104%] tracking-[-0.01em] md:text-[44px] lg:max-w-[620px] lg:text-[56px]"
+    >
+      {heading}
+    </h1>
+    {
+      subtitle && (
+        <p class="font-[Geist] font-normal text-[16px] leading-[130%] tracking-[-0.01em] text-white/70 lg:max-w-[420px] lg:self-end">
+          {subtitle}
+        </p>
+      )
+    }
+  </div>
+</section>

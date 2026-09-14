@@ -1,0 +1,76 @@
+---
+interface Category {
+  name: string;
+  slug: string;
+}
+
+interface Props {
+  categories: Category[];
+}
+
+const { categories = [] } = Astro.props;
+---
+
+{
+  categories.length > 0 && (
+    <div class="bg-white px-6 pb-4 lg:px-12">
+      <div
+        id="blog-filters"
+        class="mx-auto flex max-w-[1216px] flex-wrap gap-2 border-t border-[#e5e5e5] pt-8"
+      >
+        <button
+          type="button"
+          data-filter="all"
+          aria-pressed="true"
+          class="filter-pill rounded-full px-4 py-2 font-[Geist_Mono] text-[12px] font-normal uppercase leading-[120%] tracking-[-0.01em] transition-colors"
+        >
+          All posts
+        </button>
+        {categories.map((category) => (
+          <button
+            type="button"
+            data-filter={category.slug}
+            aria-pressed="false"
+            class="filter-pill rounded-full px-4 py-2 font-[Geist_Mono] text-[12px] font-normal uppercase leading-[120%] tracking-[-0.01em] transition-colors"
+          >
+            {category.name}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .filter-pill {
+    color: #666666;
+  }
+  .filter-pill:hover {
+    color: black;
+  }
+  .filter-pill[aria-pressed="true"] {
+    background-color: black;
+    color: white;
+  }
+</style>
+
+<script>
+  const container = document.getElementById("blog-filters");
+  if (container) {
+    const pills = container.querySelectorAll<HTMLButtonElement>(".filter-pill");
+    const cards = document.querySelectorAll<HTMLElement>("[data-categories]");
+
+    container.addEventListener("click", (event) => {
+      const pill = (event.target as HTMLElement).closest<HTMLButtonElement>(".filter-pill");
+      if (!pill) return;
+
+      const filter = pill.dataset.filter ?? "all";
+      pills.forEach((p) => p.setAttribute("aria-pressed", String(p === pill)));
+
+      cards.forEach((card) => {
+        const cardCategories = (card.dataset.categories ?? "").split(",").filter(Boolean);
+        card.hidden = filter !== "all" && !cardCategories.includes(filter);
+      });
+    });
+  }
+</script>

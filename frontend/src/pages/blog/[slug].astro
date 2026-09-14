@@ -1,0 +1,129 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import BlogContent from "@/components/BlogContent.astro";
+import BlogTableOfContents from "@/components/BlogTableOfContents.astro";
+import LetsBuild from "@/components/LetsBuild.astro";
+import { client } from "@/lib/sanity";
+import { estimateReadTime } from "@/lib/readTime";
+import { extractHeadings } from "@/lib/toc";
+
+const { slug } = Astro.params;
+
+const post = await client.fetch(
+  `*[_type == "post" && slug.current == $slug][0]{
+    title,
+    description,
+    publishedAt,
+    "seoTitle": seo.title,
+    "seoDescription": seo.description,
+    "coverImageUrl": coverImage.asset->url,
+    "coverImageAlt": coverImage.alt,
+    "authors": authors[]->{ name, "avatarUrl": avatar.asset->url },
+    body[]{
+      ...,
+      "imageUrl": image.asset->url,
+      "videoUrl": video.asset->url,
+      "posterUrl": poster.asset->url
+    }
+  }`,
+  { slug },
+);
+
+if (!post) {
+  return Astro.rewrite("/404");
+}
+
+const body = post.body ?? [];
+const authors = post.authors ?? [];
+const readTime = estimateReadTime(body);
+const headings = extractHeadings(body);
+
+const title = post.seoTitle ?? `${post.title} — 1367 Studio`;
+const description = post.seoDescription ?? post.description ?? `${post.title}, by 1367 Studio.`;
+const publishedDate = post.publishedAt
+  ? new Date(post.publishedAt).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  : undefined;
+---
+
+<Layout title={title} description={description} headerTheme="dark">
+  <article class="bg-white px-6 pb-16 pt-[152px] text-black lg:px-12 lg:pb-24">
+    <div class="mx-auto max-w-[1100px]">
+      <header class="mb-10 flex flex-col gap-4 lg:mb-16 lg:max-w-[820px]">
+        <a
+          href="/blog"
+          class="inline-flex h-[36px] w-fit items-center rounded-[8px] bg-primary px-4 font-[Geist_Mono] text-[12px] font-normal uppercase leading-[120%] tracking-[-0.01em] text-white transition-opacity hover:opacity-80"
+        >
+          Back to all posts
+        </a>
+        {
+          (readTime || publishedDate) && (
+            <span class="font-[Geist_Mono] text-[12px] font-normal uppercase leading-[120%] tracking-[-0.01em] text-[#666666]">
+              {readTime && `${readTime} min read`}
+              {readTime && publishedDate && " · "}
+              {publishedDate}
+            </span>
+          )
+        }
+        <h1
+          class="whitespace-pre-line font-[Geist] text-[32px] font-normal leading-[104%] tracking-[-0.01em] text-black md:text-[44px] lg:text-[56px]"
+        >
+          {post.title}
+        </h1>
+        {
+          post.description && (
+            <p class="font-[Geist] text-base leading-[130%] tracking-[-0.01em] text-[#666666]">
+              {post.description}
+            </p>
+          )
+        }
+        {
+          authors.length > 0 && (
+            <div class="mt-2 flex items-center gap-3">
+              <div class="flex -space-x-2">
+                {authors.map((author: any) =>
+                  author.avatarUrl ? (
+                    <img
+                      src={author.avatarUrl}
+                      alt={author.name}
+                      class="h-8 w-8 rounded-full border-2 border-white object-cover"
+                    />
+                  ) : (
+                    <span class="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[#f3f3f4] text-xs text-black">
+                      {author.name?.[0]}
+                    </span>
+                  ),
+                )}
+              </div>
+              <span class="font-[Geist] text-sm text-[#666666]">
+                {authors.map((a: any) => a.name).join(", ")}
+              </span>
+            </div>
+          )
+        }
+      </header>
+      {
+        post.coverImageUrl && (
+          <img
+            src={post.coverImageUrl}
+            alt={post.coverImageAlt || post.title}
+            class="mb-10 w-full h-auto rounded-[8px] lg:mb-16"
+          />
+        )
+      }
+      <div class="lg:grid lg:grid-cols-[1fr_240px] lg:items-start lg:gap-16">
+        <div class="max-w-[720px]">
+          <BlogContent body={body} />
+        </div>
+        <BlogTableOfContents headings={headings} />
+      </div>
+    </div>
+  </article>
+  <LetsBuild
+    title="Let's build something great together."
+    description="We work with ambitious teams to create brands, websites, and software that help organizations move forward."
+  />
+</Layout>

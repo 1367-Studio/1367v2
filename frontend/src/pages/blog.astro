@@ -1,0 +1,79 @@
+---
+import { client } from "@/lib/sanity";
+import Layout from "@/layouts/Layout.astro";
+import BlogBanner from "@/components/BlogBanner.astro";
+import BlogFeatured from "@/components/BlogFeatured.astro";
+import BlogFilters from "@/components/BlogFilters.astro";
+import BlogGrid from "@/components/BlogGrid.astro";
+import LetsBuild from "@/components/LetsBuild.astro";
+import { estimateReadTime } from "@/lib/readTime";
+
+const [page, rawPosts, categories] = await Promise.all([
+  client.fetch(`
+    *[_type == "blogPageSection" && _id == "blogPageSection"][0]{
+      title,
+      description
+    }
+  `),
+  client.fetch(`
+    *[_type == "post" && defined(slug.current)] | order(publishedAt desc){
+      title,
+      excerpt,
+      ctaLabel,
+      featured,
+      publishedAt,
+      "slug": slug.current,
+      "coverImageUrl": coverImage.asset->url,
+      "coverImageAlt": coverImage.alt,
+      "authors": authors[]->{ name, "avatarUrl": avatar.asset->url },
+      "categories": categories[]->{ name, "slug": slug.current },
+      body
+    }
+  `),
+  client.fetch(`
+    *[_type == "category" && defined(slug.current)] | order(name asc){
+      name,
+      "slug": slug.current
+    }
+  `),
+]);
+
+const posts = (rawPosts ?? []).map((post: any) => ({
+  ...post,
+  authors: post.authors ?? [],
+  categories: post.categories ?? [],
+  readTime: estimateReadTime(post.body),
+}));
+
+const featuredPost = posts.find((post: any) => post.featured) ?? posts[0];
+const gridPosts = posts.filter((post: any) => post.slug !== featuredPost?.slug);
+---
+
+<Layout
+  title="Blog — 1367 Studio"
+  description="Notes on design, engineering, and building products that last, from 1367 Studio."
+  headerTheme="dark"
+>
+  <BlogBanner heading={page?.title} subtitle={page?.description} />
+  {
+    featuredPost && (
+      <BlogFeatured
+        title={featuredPost.title}
+        slug={featuredPost.slug}
+        excerpt={featuredPost.excerpt}
+        ctaLabel={featuredPost.ctaLabel}
+        publishedAt={featuredPost.publishedAt}
+        readTime={featuredPost.readTime}
+        coverImageUrl={featuredPost.coverImageUrl}
+        coverImageAlt={featuredPost.coverImageAlt}
+        authors={featuredPost.authors}
+      />
+    )
+  }
+  <BlogFilters categories={categories ?? []} />
+  <BlogGrid posts={gridPosts} />
+  <LetsBuild
+    title="Let's build something great together."
+    description="We work with ambitious teams to create brands, websites, and software that help organizations move forward."
+  />
+</Layout>
