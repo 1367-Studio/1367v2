@@ -1,6 +1,4 @@
 ---
-import WordmarkScene from "./WordmarkScene.tsx";
-
 interface Location {
   city: string;
   country: string;
@@ -108,14 +106,16 @@ const {
     <!-- end right group -->
   </div>
 
-  <!-- "1367" scene, full-bleed inside the footer. The wordmark is drawn inside
-       the WebGL scene, which is why there is no text node here. No side margin —
-       it spans the full footer width so it reads as part of the footer, not a
-       boxed-in container. unicorn-wrapper makes the inline astro-island fill the
-       box (see global.css). -->
-  <div
-    class="unicorn-wrapper relative mt-16 h-[60vh] overflow-hidden lg:mt-[170px]"
-  >
-    <WordmarkScene client:only="react" />
+  <!-- "1367" wordmark, full-bleed inside the footer. No side margin — it spans
+       the full footer width so it reads as part of the footer, not a boxed-in
+       container. The gradient overlay fades its bottom edge into the footer's
+       orange instead of cutting it off sharply. -->
+  <div class="relative mt-16 lg:mt-[170px]">
+    <img src="/logo-1367.svg" alt="1367" class="w-full" />
+    <div
+      class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
+      style="background: linear-gradient(to top in srgb, #f43c00 0%, rgba(244, 60, 0, 0) 100%);"
+    >
+    </div>
   </div>
 </footer>

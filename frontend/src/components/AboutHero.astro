@@ -1,6 +1,4 @@
 ---
-import WordmarkScene from "./WordmarkScene.tsx";
-
 interface Props {
   leftText: string;
   rightText?: string;
@@ -28,12 +26,11 @@ const { leftText, rightText } = Astro.props;
     </p>
   </div>
 
-  <!-- "1367" progressive-blur scene, same one the footer uses. The wordmark is
-         drawn inside the WebGL scene, which is why there is no text node here.
-         Bottom-anchored so it sits where the gravity text used to. -->
-  <div
-    class="unicorn-wrapper absolute inset-x-0 bottom-0 h-[60vh] overflow-hidden"
-  >
-    <WordmarkScene client:only="react" />
-  </div>
+  <!-- "1367" wordmark, same one the footer uses. Bottom-anchored so it sits
+       where the gravity text used to. -->
+  <img
+    src="/logo-1367.svg"
+    alt="1367"
+    class="absolute inset-x-0 bottom-0 w-full"
+  />
 </section>

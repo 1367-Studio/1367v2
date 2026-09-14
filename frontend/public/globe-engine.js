@@ -57,6 +57,17 @@
     return t * t * (3 - 2 * t);
   };
 
+  // The 26° vertical FOV / z=5.0 framing below was tuned against a desktop-ish
+  // aspect ratio. A fixed vertical FOV crops hard horizontally on narrower
+  // (portrait/mobile) screens — the horizontal FOV shrinks with the aspect
+  // ratio, so instead of the globe you just see a zoomed-in sliver near the
+  // pole. Dolly the camera back on narrow screens so the same horizontal
+  // extent stays visible; wider screens are unaffected (factor clamps to 1).
+  const BASE_CAMERA_Z = 5.0;
+  const REFERENCE_ASPECT = 1.5;
+  const cameraDistanceForAspect = (aspect) =>
+    BASE_CAMERA_Z * clamp(REFERENCE_ASPECT / aspect, 1, 2.4);
+
   // lon=0 sits on +Z (facing camera) when rotation.y = 0
   function latLonToVec(lat, lon, R) {
     const la = lat * DEG,
@@ -281,6 +292,7 @@
       ) {
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
+        camera.position.z = cameraDistanceForAspect(w / h);
         camera.updateProjectionMatrix();
       }
       renderer.render(scene, camera);
@@ -307,7 +319,7 @@
       const w = canvas.clientWidth,
         h = canvas.clientHeight;
       camera = new THREE.PerspectiveCamera(26, w / h, 0.1, 100);
-      camera.position.set(0, 0, 5.0);
+      camera.position.set(0, 0, cameraDistanceForAspect(w / h));
       camera.lookAt(0, -0.2, 0);
 
       renderer = new THREE.WebGLRenderer({
