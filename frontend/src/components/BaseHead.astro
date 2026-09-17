@@ -19,12 +19,11 @@ export interface Props {
 
 const SITE_NAME = "1367 Studio";
 const DEFAULT_DESCRIPTION =
-  "1367 Studio is a digital branding agency crafting distinctive visual identities, strategic brand foundations, and custom websites that help ambitious businesses stand out and grow.";
-
+  "1367 Studio is a Next.js and Sanity development agency building fast, scalable websites, custom web applications, and software for ambitious businesses.";
 const {
   title = SITE_NAME,
   description = DEFAULT_DESCRIPTION,
-  image = "/city_bg.png",
+  image = "/website-preview.png",
   type = "website",
   noindex = false,
 } = Astro.props;
@@ -58,19 +57,19 @@ const jsonLd = {
       // their full addresses are confirmed.
       address: {
         "@type": "PostalAddress",
-        streetAddress: "SC-405, 4397 - Campeche, OKA SHOPPING",
-        addressLocality: "Florianópolis",
-        addressRegion: "SC",
-        postalCode: "88065-000",
-        addressCountry: "BR",
+        streetAddress: "RUE PARADIS",
+        addressLocality: "Marseille",
+        addressRegion: "BDR",
+        postalCode: "13008",
+        addressCountry: "FR",
       },
       contactPoint: {
         "@type": "ContactPoint",
-        telephone: "+55-48-99195-8826",
+        telephone: "+33 0763858388",
         contactType: "customer service",
-        areaServed: ["BR", "FR", "GB"],
+        areaServed: ["FR", "US", "GB"],
       },
-      areaServed: ["Florianópolis", "Marseille", "London"],
+      areaServed: ["NEW YORK", "MARSEILLE", "LONDON"],
       knowsAbout: [
         "Web design",
         "Web development",
