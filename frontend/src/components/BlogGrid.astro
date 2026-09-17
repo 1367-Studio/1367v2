@@ -51,7 +51,9 @@ function formatDate(dateStr?: string) {
             <a
               href={`/blog/${post.slug}`}
               class="group flex flex-col"
-              data-categories={(post.categories ?? []).map((c) => c.slug).join(",")}
+              data-categories={(post.categories ?? [])
+                .map((c) => c.slug)
+                .join(",")}
             >
               <div
                 class="aspect-[4/3] w-full overflow-hidden rounded-[8px]"
@@ -113,7 +115,7 @@ function formatDate(dateStr?: string) {
                   </span>
                 </div>
               )}
-              <span class="mt-auto inline-flex w-fit items-center gap-1 self-end pt-4 font-[Geist_Mono] text-[12px] font-normal uppercase leading-[120%] tracking-[-0.01em] text-black transition-opacity group-hover:opacity-60">
+              <span class="mt-auto inline-flex w-fit bg-gradient-to-r from-[#f3f3f4] via-[#f3f3f4]/70 to-transparent items-center gap-1 self-end pt-4 font-[Geist_Mono] text-[12px] font-normal uppercase leading-[120%] tracking-[-0.01em] text-black transition-opacity group-hover:opacity-60">
                 {post.ctaLabel || "Read more"}
               </span>
             </a>
