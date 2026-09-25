@@ -15,19 +15,34 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/assist": "^6.1.21",
-    "@sanity/vision": "^5.31.1",
-    "react": "^19.1",
-    "react-dom": "^19.1",
-    "sanity": "^5.31.1",
-    "styled-components": "^6.1.18"
+    "@sanity/assist": "^6.2.1",
+    "@sanity/sdk": "^3.5.0",
+    "@sanity/vision": "^6.16.0",
+    "@sanity/workflow-components": "^0.35.0",
+    "@sanity/workflow-diagram": "^0.35.0",
+    "@sanity/workflow-react": "^0.35.0",
+    "@sanity/workflow-sdk": "^0.35.0",
+    "@sanity/workflow-studio": "^0.35.0",
+    "@sanity/workflow-studio-plugin": "^0.35.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "sanity": "^6.16.0",
+    "styled-components": "^6.5.3"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^6.0.0",
+    "@sanity/workflow-cli": "^0.35.0",
+    "@sanity/workflow-engine": "^0.35.0",
+    "@types/node": "^24.13.6",
     "@types/react": "^19.1",
     "eslint": "^9.28",
     "prettier": "^3.5",
-    "typescript": "^5.8"
+    "typescript": "~6.0.3"
+  },
+  "overrides": {
+    "@sanity/sdk": {
+      "@sanity/mutate": "0.18.2"
+    }
   },
   "prettier": {
     "semi": false,
