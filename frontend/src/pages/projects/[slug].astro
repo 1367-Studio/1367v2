@@ -8,6 +8,7 @@ import ProjectsWhatWeDo from "@/components/ProjectsWhatWeDo.astro";
 import ProjectsTestimonial from "@/components/ProjectsTestimonial.astro";
 import LetsBuild from "@/components/LetsBuild.astro";
 import { client } from "@/lib/sanity";
+import { localizeVideoUrl } from "@/lib/local-video";
 
 const { slug } = Astro.params;
 
@@ -43,7 +44,13 @@ if (!project) {
   return Astro.rewrite("/404");
 }
 
-const sections = project.sections ?? [];
+const sections = (project.sections ?? []).map((section: any) => ({
+  ...section,
+  videos: (section.videos ?? []).map((v: any) => ({
+    ...v,
+    src: localizeVideoUrl(v.src),
+  })),
+}));
 const title = project.seoTitle ?? `${project.title} — 1367 Studio`;
 const description =
   project.seoDescription ?? `Case study: ${project.title}, by 1367 Studio.`;
