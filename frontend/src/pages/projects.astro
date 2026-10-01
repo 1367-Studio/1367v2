@@ -1,5 +1,6 @@
 ---
 import { client } from "@/lib/sanity";
+import { localizeVideoUrl } from "@/lib/local-video";
 import FeaturedCase3 from "@/components/FeaturedCase3.astro";
 import Layout from "@/layouts/Layout.astro";
 import ProjectsGrid from "@/components/ProjectsGrid.astro";
@@ -45,7 +46,12 @@ const [page, featuredCase3] = await Promise.all([
   <ProjectsGrid
     heading={page?.title}
     subtitle={page?.description}
-    projects={(page?.featuredProjects ?? []).filter(Boolean)}
+    projects={(page?.featuredProjects ?? [])
+      .filter(Boolean)
+      .map((p: any) => ({
+        ...p,
+        coverVideoUrl: localizeVideoUrl(p.coverVideoUrl),
+      }))}
   />
   <LetsBuild
     title="Let's build something great together."

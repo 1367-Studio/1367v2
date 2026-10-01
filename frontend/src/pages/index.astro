@@ -8,6 +8,7 @@ import Testimonials from "@/components/Testimonials.astro";
 import FocusAreas from "@/components/FocusAreas.astro";
 import BuildingWorldwide from "@/components/BuildingWorldwide.astro";
 import { client } from "@/lib/sanity";
+import { localizeVideoUrl } from "@/lib/local-video";
 
 const [
   hero,
@@ -154,7 +155,12 @@ const [
     items={featuredCase2?.items ?? []}
   /> */
   }
-  <FeaturedCase3 cases={featuredCase3?.cases ?? []} />
+  <FeaturedCase3
+    cases={(featuredCase3?.cases ?? []).map((c: any) => ({
+      ...c,
+      bgVideo: localizeVideoUrl(c.bgVideo),
+    }))}
+  />
   <LetsBuild
     title={letsBuild.title}
     description={letsBuild.description}
