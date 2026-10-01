@@ -41,7 +41,7 @@ const [
     `*[_type == "letsBuildSection" && _id == "letsBuildSection"][0]{ title, description, ctaLabel, ctaHref }`,
   ),
   client.fetch(
-    `*[_type == "projectSection" && _id == "projectSection"][0]{ "videoUrl": video.asset->url, title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`,
+    `*[_type == "projectSection" && _id == "projectSection"][0]{ title, subtitle, brandsLabel, brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`,
   ),
   client.fetch(
     `*[_type == "tickerSection" && _id == "tickerSection"][0]{ items[]{ label } }`,
@@ -64,7 +64,7 @@ const [
   image="/1367-studio-preview-2026.png"
 >
   <VideoProjectSection
-    videoUrl={projectSection?.videoUrl ?? "/hero-video.mp4"}
+    videoUrl="/hero-video.mp4"
     heroTitle={hero?.title?.replace(/\\n/g, "\n") ??
       "Designing the future, one pixel at a time."}
     heroSubtitle={hero?.subtitle?.replace(/\\n/g, "\n") ?? ""}
