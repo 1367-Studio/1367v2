@@ -8,7 +8,7 @@ import ProjectsWhatWeDo from "@/components/ProjectsWhatWeDo.astro";
 import ProjectsTestimonial from "@/components/ProjectsTestimonial.astro";
 import LetsBuild from "@/components/LetsBuild.astro";
 import { client } from "@/lib/sanity";
-import { localizeVideoUrl } from "@/lib/local-video";
+import { getProjectSectionVideo } from "@/lib/local-video";
 
 const { slug } = Astro.params;
 
@@ -24,7 +24,6 @@ const project = await client.fetch(
     sections[]{
       layout,
       videos[]{
-        "src": video.asset->url,
         "poster": poster.asset->url,
         "imageSrc": image.asset->url,
         "imageAlt": image.alt
@@ -44,13 +43,15 @@ if (!project) {
   return Astro.rewrite("/404");
 }
 
-const sections = (project.sections ?? []).map((section: any) => ({
-  ...section,
-  videos: (section.videos ?? []).map((v: any) => ({
-    ...v,
-    src: localizeVideoUrl(v.src),
-  })),
-}));
+const sections = (project.sections ?? []).map(
+  (section: any, sectionIndex: number) => ({
+    ...section,
+    videos: (section.videos ?? []).map((v: any, videoIndex: number) => ({
+      ...v,
+      src: getProjectSectionVideo(slug, sectionIndex, videoIndex),
+    })),
+  }),
+);
 const title = project.seoTitle ?? `${project.title} — 1367 Studio`;
 const description =
   project.seoDescription ?? `Case study: ${project.title}, by 1367 Studio.`;
