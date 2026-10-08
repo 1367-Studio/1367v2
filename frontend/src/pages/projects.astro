@@ -1,6 +1,6 @@
 ---
 import { client } from "@/lib/sanity";
-import { localizeVideoUrl } from "@/lib/local-video";
+import { projectCoverVideoBySlug } from "@/lib/local-video";
 import FeaturedCase3 from "@/components/FeaturedCase3.astro";
 import Layout from "@/layouts/Layout.astro";
 import ProjectsGrid from "@/components/ProjectsGrid.astro";
@@ -21,8 +21,7 @@ const [page, featuredCase3] = await Promise.all([
         ctaLabel,
         "slug": slug.current,
         "coverImageUrl": coverImage.asset->url,
-        "coverImageAlt": coverImage.alt,
-        "coverVideoUrl": coverVideo.asset->url
+        "coverImageAlt": coverImage.alt
       },
     }
   `),
@@ -50,7 +49,7 @@ const [page, featuredCase3] = await Promise.all([
       .filter(Boolean)
       .map((p: any) => ({
         ...p,
-        coverVideoUrl: localizeVideoUrl(p.coverVideoUrl),
+        coverVideoUrl: projectCoverVideoBySlug[p.slug],
       }))}
   />
   <LetsBuild
