@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import {
+  createGateway,
   streamText,
   tool,
   convertToModelMessages,
@@ -13,7 +14,11 @@ import { getAgentKnowledge } from '../../lib/agent-knowledge';
 
 export const prerender = false;
 
-const MODEL = 'anthropic/claude-sonnet-5.5';
+// Astro loads .env files into import.meta.env, not process.env, so the key has
+// to be passed explicitly for local dev. When it's unset (on Vercel), the
+// gateway falls back to the deployment's OIDC token.
+const gateway = createGateway({ apiKey: import.meta.env.AI_GATEWAY_API_KEY });
+const MODEL = gateway('anthropic/claude-sonnet-5.5');
 const MAX_MESSAGES = 30;
 const MAX_INPUT_CHARS = 2000;
 
