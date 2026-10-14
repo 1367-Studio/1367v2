@@ -1,4 +1,5 @@
 import header from './documents/header'
+import agentKnowledge from './documents/agentKnowledge'
 import case_ from './documents/case'
 import post from './documents/post'
 import footer from './documents/footer'
@@ -42,6 +43,7 @@ import cookieItem from './objects/cookieItem'
 export const schemaTypes = [
   // documents
   aboutHeroSection,
+  agentKnowledge,
   buildingWorldwideSection,
   aboutPhilosophySection,
   aboutTextRevealSection,

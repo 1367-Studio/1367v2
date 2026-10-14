@@ -2,6 +2,8 @@
 import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
 import BaseHead from "../components/BaseHead.astro"
+import AskAgent from "../components/AskAgent"
+import { getAgentConfig } from "@/lib/agent-knowledge"
 import { client } from "@/lib/sanity"
 import imageUrlBuilder from '@sanity/image-url'
 import "@/styles/global.css";
@@ -19,6 +21,8 @@ const footerData = await client.fetch(`
     logo
   }
 `)
+
+const agentConfig = await getAgentConfig()
 
 interface Props {
   title?: string;
@@ -66,6 +70,7 @@ const { title, description, image, type, noindex, headerTheme, hideFooter } = As
         )}
       </main>
     </div>
+    <AskAgent client:only="react" {...agentConfig} />
     <script>
       import { initBarba } from "@/lib/barba";
 

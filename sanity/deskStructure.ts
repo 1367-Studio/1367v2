@@ -19,6 +19,9 @@ const deskStructure = (S: StructureBuilder) =>
               S.listItem()
                 .title('Footer')
                 .child(S.editor().schemaType('footer').documentId('footer')),
+              S.listItem()
+                .title('Ask Agent')
+                .child(S.editor().schemaType('agentKnowledge').documentId('agentKnowledge')),
             ]),
         ),
 

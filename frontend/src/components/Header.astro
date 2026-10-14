@@ -109,6 +109,13 @@ const { theme = "light" } = Astro.props;
         }
       </nav>
       <button
+        type="button"
+        data-agent-open
+        class="agent-btn header-link cursor-pointer"
+      >
+        Ask agent
+      </button>
+      <button
         id="menu-btn-desktop"
         type="button"
         class="header-link cursor-pointer transition-opacity hover:opacity-60"
@@ -119,13 +126,22 @@ const { theme = "light" } = Astro.props;
     </div>
 
     <!-- hamburger button (mobile) -->
-    <button
-      id="menu-btn"
-      class="pill-item header-link md:hidden cursor-pointer relative z-50"
-    >
-      <Menu id="icon-menu" size={16} />
-      <X id="icon-close" size={16} class="hidden" />
-    </button>
+    <div class="pill-item flex items-center gap-4 md:hidden">
+      <button
+        type="button"
+        data-agent-open
+        class="agent-btn header-link cursor-pointer"
+      >
+        Ask agent
+      </button>
+      <button
+        id="menu-btn"
+        class="header-link cursor-pointer relative z-50"
+      >
+        <Menu id="icon-menu" size={16} />
+        <X id="icon-close" size={16} class="hidden" />
+      </button>
+    </div>
   </div>
 
   <!-- menu panel -->
@@ -265,6 +281,22 @@ const { theme = "light" } = Astro.props;
   }
   #site-header.is-scrolled .header-logo {
     filter: brightness(0) invert(1) !important;
+  }
+
+  .agent-btn.header-link {
+    font-family: var(--font-geist-mono);
+    font-size: 12px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    padding: 9px 14px;
+    border: 1px solid var(--color-primary);
+    border-radius: 999px;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .agent-btn.header-link:hover {
+    background-color: var(--color-primary);
+    color: #ffffff;
   }
 
   .header-link {
@@ -540,6 +572,11 @@ const { theme = "light" } = Astro.props;
   import { gsap } from "gsap";
 
   const header = document.getElementById("site-header")!;
+
+  // The Ask Agent panel is a React island in Layout; it listens for this event.
+  document.querySelectorAll("[data-agent-open]").forEach((btn) =>
+    btn.addEventListener("click", () => window.dispatchEvent(new Event("agent:open"))),
+  );
   const menu = document.getElementById("menu-panel")!;
   const menuBg = menu.querySelector<HTMLElement>(".menu-bg")!;
   const menuLines = Array.from(
