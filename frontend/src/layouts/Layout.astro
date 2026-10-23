@@ -4,6 +4,7 @@ import Footer from "../components/Footer.astro"
 import BaseHead from "../components/BaseHead.astro"
 import AskAgent from "../components/AskAgent"
 import { getAgentConfig } from "@/lib/agent-knowledge"
+import { markdownPathFor } from "@/lib/markdown"
 import { client } from "@/lib/sanity"
 import imageUrlBuilder from '@sanity/image-url'
 import "@/styles/global.css";
@@ -23,6 +24,7 @@ const footerData = await client.fetch(`
 `)
 
 const agentConfig = await getAgentConfig()
+const markdownPath = markdownPathFor(Astro.url.pathname)
 
 interface Props {
   title?: string;
@@ -41,6 +43,8 @@ const { title, description, image, type, noindex, headerTheme, hideFooter } = As
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} image={image} type={type} noindex={noindex} />
+    {markdownPath && <link rel="alternate" type="text/markdown" href={markdownPath} />}
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
     {/* Google Fonts */}
     <link rel="preconnect" href="https://app.endlesstools.io">
     <link rel="dns-prefetch" href="https://app.endlesstools.io">
