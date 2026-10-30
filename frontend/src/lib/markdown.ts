@@ -225,7 +225,7 @@ export async function llmsTxt(): Promise<string> {
 
   return [
     '# 1367 Studio',
-    '> 1367 Studio is a Marseille-based digital agency with a second studio in Florianópolis, Brazil, working with clients around the globe. We design and build premium websites, web and mobile apps, SaaS platforms, brand identities, and AI agentic systems for ambitious businesses. We are an official Sanity agency partner and part of the Sanity Pioneers program.',
+    '> 1367 Studio is a Next.js and Sanity development agency based in France (Marseille and Paris), working with founders and product teams in France, the United Kingdom and the United States. We rebuild websites, customer portals and SaaS platforms on Next.js and Sanity, migrate content to Sanity, and build internal tools and AI agents for content teams. We are an official Sanity agency partner and part of the Sanity Pioneers program.',
     'Every page below is available as Markdown: add `.md` to the URL (the home page is `/index.md`), or request any page with `Accept: text/markdown`. The full site in one file is at /llms-full.txt.',
     '## Pages\n\n' +
       [

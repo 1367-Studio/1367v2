@@ -1,4 +1,6 @@
 ---
+import { getLogoDimensions } from "@/lib/logo-metrics";
+
 interface Brand {
   name: string;
   logoUrl: string;
@@ -30,6 +32,14 @@ const {
   brandsLabel = "",
   brands = [],
 } = Astro.props;
+
+// Same logo-soup normalisation as the testimonials grid, so square marks
+// (Darty) and wide wordmarks (Santander) carry the same visual weight.
+const LOGO_BASE_SIZE = 34;
+const brandsWithDims = brands.map((brand) => ({
+  ...brand,
+  dims: getLogoDimensions(brand.logoUrl, LOGO_BASE_SIZE),
+}));
 ---
 
 <section id="video-project" style="height: 500vh; background: #fff;">
@@ -142,13 +152,17 @@ const {
           )
         }
         {
-          brands.length > 0 && (
-            <div class="mt-6 flex items-center justify-center gap-10">
-              {brands.map((brand) => (
+          brandsWithDims.length > 0 && (
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+              {brandsWithDims.map((brand) => (
                 <img
-                  src={brand.logoUrl}
-                  alt={brand.alt ?? brand.name}
-                  class="h-6 w-auto opacity-90"
+                  src={brand.dims?.src ?? brand.logoUrl}
+                  alt={brand.alt || brand.name}
+                  loading="lazy"
+                  class={brand.dims ? "object-contain opacity-90" : "h-6 w-auto max-w-[140px] object-contain opacity-90"}
+                  style={brand.dims
+                    ? `width: ${brand.dims.width}px; height: ${brand.dims.height}px; transform: translateY(${brand.dims.offsetY}px); filter: brightness(0) invert(1);`
+                    : "filter: brightness(0) invert(1);"}
                 />
               ))}
             </div>
