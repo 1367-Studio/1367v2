@@ -38,6 +38,16 @@ const {
   ],
   logoSrc,
 } = Astro.props;
+
+// Service pages: internal links so search engines (and people) find them.
+const serviceLinks = [
+  { label: "Sanity agency", href: "/sanity-agency" },
+  { label: "Sanity migration", href: "/sanity-migration" },
+  { label: "Next.js agency", href: "/nextjs-agency" },
+  { label: "Agence Sanity", href: "/fr/agence-sanity", lang: "fr" },
+  { label: "Agence web Marseille", href: "/fr/agence-web-marseille", lang: "fr" },
+  { label: "Migration Sanity", href: "/fr/migration-sanity", lang: "fr" },
+];
 ---
 
 <footer id="site-footer" class="relative overflow-hidden bg-primary">
@@ -69,6 +79,21 @@ const {
             <a
               href={link.href}
               class="font-[Geist] text-[16px] font-medium leading-[1.2] tracking-[-0.01em] text-white transition-opacity hover:opacity-60"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <!-- Services -->
+      <nav aria-label="Services" class="flex flex-col gap-4 lg:pt-2">
+        {
+          serviceLinks.map((link) => (
+            <a
+              href={link.href}
+              hreflang={link.lang}
+              class="font-[Geist] text-[14px] font-normal leading-[1.2] tracking-[-0.01em] text-white/80 transition-opacity hover:opacity-60"
             >
               {link.label}
             </a>

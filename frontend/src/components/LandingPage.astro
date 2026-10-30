@@ -1,0 +1,322 @@
+---
+/**
+ * Shared template for the service / location landing pages
+ * (/sanity-agency, /fr/agence-sanity, /fr/agence-web-marseille, …).
+ * Content lives in src/data/landing-pages.ts.
+ */
+import Layout from "@/layouts/Layout.astro";
+import LetsBuild from "@/components/LetsBuild.astro";
+import { client } from "@/lib/sanity";
+import { getLogoDimensions } from "@/lib/logo-metrics";
+import { ArrowUpRight, Plus } from "@phosphor-icons/react";
+import type { LandingPageData } from "@/data/landing-pages";
+
+interface Props {
+  page: LandingPageData;
+}
+
+const { page } = Astro.props;
+const fr = page.lang === "fr";
+const SITE = "https://www.1367studio.com";
+
+// Same trust logos as the homepage testimonials section.
+const testimonials = await client
+  .fetch(
+    `*[_type == "testimonialsSection"][0]{ brands[]{ name, "logoUrl": logo.asset->url, "alt": logo.alt } }`,
+  )
+  .catch(() => null);
+const brands = (testimonials?.brands ?? [])
+  .filter((b: any) => b?.logoUrl)
+  .map((b: any) => ({ ...b, dims: getLogoDimensions(b.logoUrl, 34) }));
+
+const t = fr
+  ? {
+      trusted: "Ils nous font confiance",
+      process: "Méthode",
+      proof: "Références",
+      view: "Voir le projet",
+      faq: "FAQ",
+      contact: "Contact",
+      home: "Accueil",
+      services: "Services",
+    }
+  : {
+      trusted: "Trusted by",
+      process: "Process",
+      proof: "Work",
+      view: "View project",
+      faq: "FAQ",
+      contact: "Contact",
+      home: "Home",
+      services: "Services",
+    };
+
+const url = `${SITE}${page.path}`;
+const jsonLd = [
+  {
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: page.serviceName,
+    description: page.description,
+    url,
+    inLanguage: page.lang,
+    provider: { "@id": `${SITE}/#organization` },
+    areaServed: [
+      { "@type": "Country", name: "France" },
+      { "@type": "Country", name: "United Kingdom" },
+      { "@type": "Country", name: "United States" },
+    ],
+  },
+  {
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    inLanguage: page.lang,
+    mainEntity: page.faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+  {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: t.home, item: SITE },
+      { "@type": "ListItem", position: 2, name: page.breadcrumb, item: url },
+    ],
+  },
+];
+
+const label =
+  "font-[Geist_Mono] text-[12px] font-normal uppercase leading-[1.2] tracking-[-0.01em]";
+const h2 =
+  "font-[Geist] text-[32px] font-normal leading-[1.04] tracking-[-0.01em] lg:text-[48px]";
+const pad = "px-6 py-20 lg:px-12 lg:py-28";
+---
+
+<Layout
+  title={page.title}
+  description={page.description}
+  lang={page.lang}
+  alternates={page.alternates}
+  jsonLd={jsonLd}
+  headerTheme="dark"
+>
+  <!-- Hero -->
+  <section class="bg-black px-6 pb-16 pt-[140px] text-white lg:px-12 lg:pb-24 lg:pt-[180px]">
+    <nav aria-label="Breadcrumb" class={`${label} mb-10 text-white/50`}>
+      <a href="/" class="hover:text-white">{t.home}</a>
+      <span class="mx-2">/</span>
+      <span aria-current="page">{page.breadcrumb}</span>
+    </nav>
+    <p class={`${label} mb-6 text-primary`}>{page.eyebrow}</p>
+    <h1
+      data-reveal-entry
+      class="max-w-[1100px] font-[Geist] text-[40px] font-normal leading-[1.04] tracking-[-0.02em] md:text-[60px] lg:text-[80px]"
+    >
+      {page.h1}
+    </h1>
+    <div class="mt-10 flex flex-col gap-10 lg:mt-16 lg:flex-row lg:items-end lg:justify-between">
+      <p class="max-w-[640px] font-[Geist] text-[18px] leading-[1.4] text-white/80 lg:text-[20px]">
+        {page.lead}
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex h-[48px] w-fit shrink-0 items-center justify-center rounded-[8px] bg-primary px-[40px] font-[Geist_Mono] text-[12px] font-semibold uppercase leading-[1.12] tracking-[-0.01em] text-white transition-opacity hover:opacity-90"
+      >
+        {page.ctaLabel}
+      </a>
+    </div>
+    <ul class="mt-12 flex flex-wrap gap-3">
+      {
+        page.highlights.map((h) => (
+          <li class={`${label} rounded-full border border-white/20 px-4 py-2 text-white/80`}>{h}</li>
+        ))
+      }
+    </ul>
+
+    {
+      brands.length > 0 && (
+        <div class="mt-20 border-t border-white/15 pt-10">
+          <p class={`${label} mb-8 text-white/50`}>{t.trusted}</p>
+          <div class="flex flex-wrap items-center gap-x-12 gap-y-8">
+            {brands.map((b: any) => (
+              <img
+                src={b.dims?.src ?? b.logoUrl}
+                alt={b.alt || b.name}
+                loading="lazy"
+                class="object-contain opacity-80"
+                style={
+                  b.dims
+                    ? `width:${b.dims.width}px;height:${b.dims.height}px;filter:brightness(0) invert(1);`
+                    : "height:24px;width:auto;filter:brightness(0) invert(1);"
+                }
+              />
+            ))}
+          </div>
+        </div>
+      )
+    }
+  </section>
+
+  <!-- Problems -->
+  <section class={`bg-white text-black ${pad}`}>
+    <h2 class={`${h2} max-w-[800px]`}>{page.problemsTitle}</h2>
+    <div class="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
+      {
+        page.problems.map((p, i) => (
+          <article class="border-t border-black pt-6">
+            <span class={`${label} text-primary`}>{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="mt-4 font-[Geist] text-[22px] font-medium leading-[1.15] tracking-[-0.01em]">{p.title}</h3>
+            <p class="mt-4 font-[Geist] text-[16px] leading-[1.5] text-[#4d4d4d]">{p.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class={`bg-[#f4f4f2] text-black ${pad}`}>
+    <p class={`${label} mb-6 text-[#7a7a7a]`}>{t.services}</p>
+    <h2 class={`${h2} max-w-[800px]`}>{page.servicesTitle}</h2>
+    <div class="mt-14 grid gap-px overflow-hidden rounded-[12px] bg-black/10 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        page.services.map((s) => (
+          <article class="bg-[#f4f4f2] p-8">
+            <h3 class="font-[Geist] text-[20px] font-medium leading-[1.2] tracking-[-0.01em]">{s.title}</h3>
+            <p class="mt-3 font-[Geist] text-[15px] leading-[1.5] text-[#4d4d4d]">{s.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class={`bg-white text-black ${pad}`}>
+    <p class={`${label} mb-6 text-[#7a7a7a]`}>{t.process}</p>
+    <h2 class={`${h2} max-w-[800px]`}>{page.processTitle}</h2>
+    <ol class="mt-14 grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      {
+        page.process.map((s, i) => (
+          <li>
+            <span class="font-[Geist] text-[48px] font-normal leading-none text-primary">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3 class="mt-6 font-[Geist] text-[20px] font-medium leading-[1.2]">{s.title}</h3>
+            <p class="mt-3 font-[Geist] text-[15px] leading-[1.5] text-[#4d4d4d]">{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Proof -->
+  <section class={`bg-black text-white ${pad}`}>
+    <p class={`${label} mb-6 text-white/50`}>{t.proof}</p>
+    <h2 class={`${h2} max-w-[800px]`}>{page.proofTitle}</h2>
+    <div class="mt-14 grid gap-6 md:grid-cols-3">
+      {
+        page.cases.map((c) => (
+          <a
+            href={c.href}
+            class="group flex min-h-[240px] flex-col justify-between rounded-[12px] border border-white/15 p-8 transition-colors hover:border-white/40"
+          >
+            <div>
+              <h3 class="font-[Geist] text-[24px] font-medium leading-[1.1]">{c.name}</h3>
+              <p class="mt-4 font-[Geist] text-[15px] leading-[1.5] text-white/70">{c.summary}</p>
+            </div>
+            <span class={`${label} mt-8 inline-flex items-center gap-2 text-white group-hover:text-primary`}>
+              {t.view}
+              <ArrowUpRight size={16} weight="regular" aria-hidden="true" />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+    {
+      page.quote && (
+        <figure class="mt-20 max-w-[900px]">
+          <blockquote class="font-[Geist] text-[24px] leading-[1.25] tracking-[-0.01em] lg:text-[32px]">
+            “{page.quote.text}”
+          </blockquote>
+          <figcaption class={`${label} mt-6 text-white/60`}>{page.quote.author}</figcaption>
+        </figure>
+      )
+    }
+  </section>
+
+  <!-- Local / presence -->
+  {
+    page.local && (
+      <section class={`bg-white text-black ${pad} grid gap-10 lg:grid-cols-2`}>
+        <div>
+          <p class={`${label} mb-6 text-[#7a7a7a]`}>{t.contact}</p>
+          <h2 class={h2}>{page.local.title}</h2>
+        </div>
+        <div>
+          <p class="font-[Geist] text-[18px] leading-[1.5] text-[#4d4d4d]">{page.local.body}</p>
+          <address class="mt-8 flex flex-col gap-2 font-[Geist] text-[16px] not-italic">
+            {page.local.lines.map((l) => (
+              <span>{l}</span>
+            ))}
+          </address>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- FAQ -->
+  <section class={`bg-[#f4f4f2] text-black ${pad} grid gap-10 lg:grid-cols-[1fr_2fr]`}>
+    <div>
+      <p class={`${label} mb-6 text-[#7a7a7a]`}>{t.faq}</p>
+      <h2 class={h2}>{page.faqTitle}</h2>
+    </div>
+    <div class="divide-y divide-black/15 border-y border-black/15">
+      {
+        page.faqs.map((f) => (
+          <details class="faq group py-6">
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-6 font-[Geist] text-[18px] font-medium leading-[1.3] lg:text-[20px]">
+              <span>{f.q}</span>
+              <span class="mt-1 shrink-0 transition-transform duration-300 group-open:rotate-45">
+                <Plus size={20} aria-hidden="true" />
+              </span>
+            </summary>
+            <p class="mt-4 max-w-[720px] font-[Geist] text-[16px] leading-[1.6] text-[#4d4d4d]">{f.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Related -->
+  <section class="bg-white px-6 py-16 text-black lg:px-12">
+    <p class={`${label} mb-6 text-[#7a7a7a]`}>{page.relatedTitle}</p>
+    <ul class="flex flex-col divide-y divide-black/10 border-y border-black/10">
+      {
+        page.related.map((r) => (
+          <li>
+            <a
+              href={r.href}
+              class="flex items-center justify-between py-5 font-[Geist] text-[18px] transition-colors hover:text-primary lg:text-[22px]"
+            >
+              <span>{r.label}</span>
+              <ArrowUpRight size={20} aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <LetsBuild
+    title={page.closing.title}
+    description={page.closing.description}
+    ctaLabel={page.closing.ctaLabel}
+    ctaHref="/contact"
+  />
+</Layout>
+
+<style>
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

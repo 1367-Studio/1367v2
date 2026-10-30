@@ -1,5 +1,5 @@
 ---
-import USDZViewer from './USDZViewer.tsx'
+import LazyUSDZViewer from './LazyUSDZViewer.tsx'
 
 interface Props {
   body: string
@@ -24,7 +24,7 @@ const { body } = Astro.props
     class="pointer-events-none absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 -mt-[24px]"
     style="position: absolute; width: min(280px, 90vw); height: min(280px, 90vw);"
   >
-    <USDZViewer
+    <LazyUSDZViewer
       src="/Endless_Tools_2026-06-09_14-23-55.usdz"
       rotationSpeed={0.015}
       tiltX={0} tiltY={0} tiltZ={0}
