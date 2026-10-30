@@ -62,7 +62,11 @@ function doPost(e) {
 function getSheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(SHEET_NAME);
-  if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
+  if (!sheet) {
+    // Reuse the empty default tab of a new spreadsheet instead of adding one.
+    const first = ss.getSheets()[0];
+    sheet = first.getLastRow() === 0 ? first.setName(SHEET_NAME) : ss.insertSheet(SHEET_NAME);
+  }
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(COLUMNS.map(([header]) => header));
     sheet.setFrozenRows(1);
