@@ -85,5 +85,20 @@ titles, you need **real, unique pages** — but only with genuine content (no th
       Once cases exist we can build `/projects` + `/projects/[slug]` and add them to the sitemap
       and the nav (the nav already auto-shows items once they have a real `href`).
 - [ ] Add an **About** page when you have real copy.
-- [ ] Decide on localisation (pt-BR / fr) later — the site is English-only for now by design,
-      so no `hreflang` is emitted yet (correct).
+- [ ] Target markets are **France, the United Kingdom and the United States** (Brazil is no
+      longer a market — all Brazil references were removed from the site, JSON-LD and llms.txt).
+      The site is English-only today, so no `hreflang` is emitted yet (correct).
+- [ ] The biggest remaining lever for **France** is a real French version (`/fr/...`, translated
+      by a person, not machine-only) with `hreflang="fr"` / `hreflang="en"` / `x-default`.
+      English already covers the UK and US from one URL set.
+
+## 8. International discovery (FR / UK / US)
+- [ ] Search Console no longer has country targeting — geo signals now come from content,
+      JSON-LD `areaServed` (France, United Kingdom, United States — already shipped) and links.
+- [ ] Add the site to **Bing Webmaster Tools** (import from Search Console in one click) — Bing
+      also feeds ChatGPT search and DuckDuckGo, which matters for US/UK reach.
+- [ ] Create/claim a **Google Business Profile** for the Marseille/Paris office (FR local pack).
+- [ ] Get listed where UK/US buyers look for a Sanity agency: the Sanity partner directory,
+      Clutch, and the Sanity Exchange. These are the backlinks that rank "Sanity agency".
+- [ ] After deploy, check Search Console → Performance → filter by country (FR, GB, US) to watch
+      impressions for "sanity agency", "next.js agency", "sanity cms migration".

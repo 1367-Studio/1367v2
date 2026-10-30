@@ -37,12 +37,12 @@
       dy: 30,
     },
     {
-      id: "floripa",
-      city: "Florianópolis",
-      country: "Brazil",
-      tz: "America/Sao_Paulo",
-      lat: -27.5954,
-      lon: -48.548,
+      id: "newyork",
+      city: "New York",
+      country: "United States",
+      tz: "America/New_York",
+      lat: 40.7128,
+      lon: -74.006,
       dx: 0,
       dy: 0,
     },
@@ -81,23 +81,24 @@
 
   // ── State / config ──────────────────────────────────────────────────────────
   const cfg = {
-    spins: 1, // decorative FULL turns added before landing on Florianópolis
+    spins: 1, // decorative FULL turns added before landing on New York
     density: "dense", // sparse | regular | dense
   };
 
   // Longitude rotation (rad) that brings a given lon to the front (+Z, facing camera).
   // latLonToVec puts lon at effective angle lon+rotation.y, so front needs rotation.y = -lon.
-  const FLORIPA_LON = -48.548;
-  const FLORIPA_FRONT = -FLORIPA_LON * DEG; // ≈ +0.847 rad → Florianópolis dead-front
+  const TARGET_LAT = 40.7128;
+  const TARGET_LON = -74.006;
+  const TARGET_FRONT = -TARGET_LON * DEG; // ≈ +1.292 rad → New York dead-front
 
   let scene, camera, renderer, spinGroup, lineMaterial;
   let canvas, cardsLayer, sceneEl;
   let cardEls = {};
   const R = 2.0; // globe radius (world units)
   const START_Y = -1.32; // partial north-pole dome at scroll start
-  // End offset places Florianópolis (lat -27.6) at the vertical centre of the page
-  // once it has rotated to the front:  -(R*sin(-27.6°)) = +0.926
-  const END_Y = 0.926;
+  // End offset places New York (lat 40.7) at the vertical centre of the page
+  // once it has rotated to the front:  -(R*sin(40.7°)) ≈ -1.305
+  const END_Y = -R * Math.sin(TARGET_LAT * DEG);
   const GROUP_Y = START_Y; // initial vertical offset
   let targetRot = 0,
     curRot = 0;
@@ -272,9 +273,9 @@
       _lastP = p;
       const eased = ss(0, 1, p); // eased 0→1 over the scroll track
 
-      // Rotation: travel from London/Marseille (front at start) to Florianópolis
-      // (front at end), plus any decorative full turns. End ALWAYS lands on Florianópolis.
-      const endRot = FLORIPA_FRONT + cfg.spins * Math.PI * 2;
+      // Rotation: travel from London/Paris/Marseille (front at start) to New York
+      // (front at end), plus any decorative full turns. End ALWAYS lands on New York.
+      const endRot = TARGET_FRONT + cfg.spins * Math.PI * 2;
       targetRot = eased * endRot;
       curRot = lerp(curRot, targetRot, 0.09); // cinematic easing
       spinGroup.rotation.y = curRot;
@@ -380,7 +381,7 @@
     // verification helper: snap to a scroll progress p∈[0,1] and render one frame
     _renderAt(p) {
       const eased = ss(0, 1, clamp(p, 0, 1));
-      curRot = eased * (FLORIPA_FRONT + cfg.spins * Math.PI * 2);
+      curRot = eased * (TARGET_FRONT + cfg.spins * Math.PI * 2);
       curY = lerp(START_Y, END_Y, eased);
       spinGroup.rotation.y = curRot;
       spinGroup.position.y = curY;
@@ -390,18 +391,18 @@
       updateCards(w, h);
       return this._debug();
     },
-    // debug: report Florianópolis' screen position + current vertical offset
+    // debug: report the target city's screen position + current vertical offset
     _debug() {
       const w = canvas.clientWidth,
         h = canvas.clientHeight;
       spinGroup.updateMatrixWorld();
-      const local = latLonToVec(-27.5954, -48.548, R);
+      const local = latLonToVec(TARGET_LAT, TARGET_LON, R);
       const wp = local.clone().applyMatrix4(spinGroup.matrixWorld);
       const proj = wp.clone().project(camera);
       return {
         curY: +curY.toFixed(3),
-        floripaXpct: +((proj.x * 0.5 + 0.5) * 100).toFixed(1),
-        floripaYpct: +((-proj.y * 0.5 + 0.5) * 100).toFixed(1),
+        targetXpct: +((proj.x * 0.5 + 0.5) * 100).toFixed(1),
+        targetYpct: +((-proj.y * 0.5 + 0.5) * 100).toFixed(1),
         rotDeg: +((curRot * 180) / Math.PI).toFixed(1),
         frames: _frames,
         lastP: +_lastP.toFixed(3),

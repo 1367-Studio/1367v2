@@ -19,7 +19,14 @@ export interface Props {
 
 const SITE_NAME = "1367 Studio";
 const DEFAULT_DESCRIPTION =
-  "1367 Studio is a Next.js and Sanity development agency building fast, scalable websites, custom web applications, and software for ambitious businesses.";
+  "1367 Studio is an official Sanity agency partner and Next.js development studio building websites, customer portals and SaaS platforms for teams in France, the United Kingdom and the United States.";
+
+// Markets we actively serve. Keep in sync with llms.txt and the agent knowledge.
+const AREA_SERVED = [
+  { "@type": "Country", name: "France" },
+  { "@type": "Country", name: "United Kingdom" },
+  { "@type": "Country", name: "United States" },
+];
 const {
   title = SITE_NAME,
   description = DEFAULT_DESCRIPTION,
@@ -34,12 +41,13 @@ const canonical = new URL(Astro.url.pathname, siteOrigin).href;
 const ogImage = new URL(image, siteOrigin).href;
 
 const SERVICES = [
-  "Premium websites",
-  "Web & mobile apps",
-  "SaaS platforms",
-  "Design",
-  "Branding",
-  "AI agents",
+  "Sanity CMS development & migrations",
+  "Next.js website development",
+  "SaaS platform development",
+  "Customer portals & web applications",
+  "Internal tools & integrations",
+  "Mobile app development",
+  "AI agents for content teams",
 ];
 
 const jsonLd = {
@@ -53,29 +61,57 @@ const jsonLd = {
       logo: new URL("/favicon.png", siteOrigin).href,
       image: ogImage,
       description: DEFAULT_DESCRIPTION,
-      // Real HQ data (matches the footer). Other locations can be added once
-      // their full addresses are confirmed.
+      // Real office data (matches the footer / contact page).
       address: {
         "@type": "PostalAddress",
-        streetAddress: "RUE PARADIS",
+        streetAddress: "Rue Paradis",
         addressLocality: "Marseille",
-        addressRegion: "BDR",
         postalCode: "13008",
+        addressRegion: "Provence-Alpes-Côte d'Azur",
         addressCountry: "FR",
       },
+      location: [
+        {
+          "@type": "Place",
+          name: "1367 Studio Marseille",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Marseille",
+            postalCode: "13008",
+            addressCountry: "FR",
+          },
+        },
+        {
+          "@type": "Place",
+          name: "1367 Studio Paris",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Paris",
+            postalCode: "75008",
+            addressCountry: "FR",
+          },
+        },
+      ],
+      email: "hello@1367studio.com",
+      telephone: "+33 7 63 85 83 88",
       contactPoint: {
         "@type": "ContactPoint",
-        telephone: "+33 0763858388",
-        contactType: "customer service",
-        areaServed: ["FR", "US", "GB"],
+        telephone: "+33 7 63 85 83 88",
+        email: "hello@1367studio.com",
+        contactType: "sales",
+        areaServed: ["FR", "GB", "US"],
+        availableLanguage: ["English", "French"],
       },
-      areaServed: ["NEW YORK", "MARSEILLE", "LONDON"],
+      areaServed: AREA_SERVED,
       knowsAbout: [
-        "Web design",
+        "Sanity CMS",
+        "Headless CMS",
+        "Next.js",
+        "TypeScript",
+        "React",
         "Web development",
-        "Mobile app development",
-        "SaaS platforms",
-        "Brand identity",
+        "SaaS development",
+        "Content migration",
         "AI agents",
       ],
       hasOfferCatalog: {
@@ -83,7 +119,7 @@ const jsonLd = {
         name: "Services",
         itemListElement: SERVICES.map((name) => ({
           "@type": "Offer",
-          itemOffered: { "@type": "Service", name },
+          itemOffered: { "@type": "Service", name, areaServed: AREA_SERVED },
         })),
       },
     },
@@ -127,11 +163,11 @@ const jsonLd = {
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImage} />
-<meta property="og:image" content={ogImage} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="en_GB" />
 
 {/* Twitter */}
 <meta name="twitter:card" content="summary_large_image" />
