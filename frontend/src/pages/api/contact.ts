@@ -3,7 +3,9 @@ import { Resend } from "resend";
 
 export const prerender = false;
 
-const resend = new Resend(import.meta.env.RESEND_API_KEY);
+// Created lazily: `new Resend(undefined)` throws, and at module level that
+// took the whole endpoint down (500 on every lead) when the key was missing.
+let resend: Resend | null = null;
 
 const ATTRIBUTION_FIELDS = [
   "gclid",
@@ -128,6 +130,12 @@ async function sendEmail(lead: Lead) {
   ]);
 
   const text = [...header, "", lead.message, "", "—", ...tracking].join("\n");
+
+  const key = import.meta.env.RESEND_API_KEY;
+  if (!key || !import.meta.env.RESEND_FROM_EMAIL || !import.meta.env.RESEND_TO_EMAIL) {
+    throw new Error("Resend is not configured (RESEND_API_KEY / RESEND_FROM_EMAIL / RESEND_TO_EMAIL)");
+  }
+  resend ??= new Resend(key);
 
   const { error } = await resend.emails.send({
     from: import.meta.env.RESEND_FROM_EMAIL,
