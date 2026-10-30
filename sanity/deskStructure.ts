@@ -144,6 +144,16 @@ const deskStructure = (S: StructureBuilder) =>
       S.divider(),
 
       // -------------------------------------------------------
+      // 4b. SEO LANDING PAGES (/sanity-agency, /fr/agence-sanity, …)
+      // -------------------------------------------------------
+      S.listItem()
+        .title('Landing Pages (SEO)')
+        .schemaType('landingPage')
+        .child(S.documentTypeList('landingPage').title('Landing Pages (SEO)')),
+
+      S.divider(),
+
+      // -------------------------------------------------------
       // 5. CONTACT PAGE
       // -------------------------------------------------------
       S.listItem()

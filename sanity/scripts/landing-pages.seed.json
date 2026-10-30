@@ -1,0 +1,1219 @@
+[
+  {
+    "_id": "landingPage-fr-agence-sanity",
+    "lang": "fr",
+    "path": "/fr/agence-sanity",
+    "alternatePath": "/sanity-agency",
+    "title": "Agence Sanity CMS à Paris & Marseille | 1367 Studio",
+    "description": "1367 Studio est une agence partenaire officielle de Sanity, à Paris et Marseille. Sites Next.js, SaaS et migrations vers Sanity pour les équipes en France.",
+    "serviceName": "Développement Sanity CMS",
+    "breadcrumb": "Agence Sanity",
+    "eyebrow": "Agence Sanity · Paris & Marseille",
+    "h1": "Agence Sanity officielle, à Paris et Marseille.",
+    "lead": "Votre CMS freine votre équipe : chaque nouvelle page demande un développeur, le contenu est dupliqué partout et le site ralentit. Nous concevons votre modèle de contenu dans Sanity et le connectons à un front Next.js rapide, que votre équipe édite seule.",
+    "ctaLabel": "Réserver un appel",
+    "highlights": [
+      "Partenaire officiel Sanity",
+      "Programme Sanity Pioneers",
+      "Next.js · TypeScript · Vercel"
+    ],
+    "problemsTitle": "Ce que nous réglons",
+    "problems": [
+      {
+        "_key": "k0000",
+        "_type": "problem",
+        "title": "Un CMS que l’équipe évite",
+        "body": "Des champs inutiles, des pages figées, aucune prévisualisation. Nous configurons un Sanity Studio qui parle le vocabulaire de votre métier, avec aperçu en temps réel."
+      },
+      {
+        "_key": "k0001",
+        "_type": "problem",
+        "title": "Un site qui ne suit plus le produit",
+        "body": "Votre offre a évolué, votre site non. Un modèle de contenu structuré permet de créer de nouvelles pages et sections sans repasser par le développement."
+      },
+      {
+        "_key": "k0002",
+        "_type": "problem",
+        "title": "Du contenu copié sur chaque canal",
+        "body": "Avec Sanity, un même contenu alimente le site, l’application et les autres canaux via une API. Vous le modifiez une fois."
+      }
+    ],
+    "servicesTitle": "Nos services Sanity",
+    "services": [
+      {
+        "_key": "k0003",
+        "_type": "serviceItem",
+        "title": "Modélisation de contenu",
+        "body": "Nous partons de la façon dont votre équipe écrit et publie, puis traduisons cela en schémas Sanity clairs et évolutifs."
+      },
+      {
+        "_key": "k0004",
+        "_type": "serviceItem",
+        "title": "Sanity Studio sur mesure",
+        "body": "Interfaces d’édition adaptées, prévisualisation, workflows de relecture et rôles par équipe."
+      },
+      {
+        "_key": "k0005",
+        "_type": "serviceItem",
+        "title": "Front Next.js",
+        "body": "Sites et applications Next.js en TypeScript, déployés sur Vercel, pensés pour le référencement et les Core Web Vitals."
+      },
+      {
+        "_key": "k0006",
+        "_type": "serviceItem",
+        "title": "Migration vers Sanity",
+        "body": "Depuis WordPress, Contentful ou un autre CMS, avec reprise des contenus, des métadonnées SEO et des redirections."
+      },
+      {
+        "_key": "k0007",
+        "_type": "serviceItem",
+        "title": "IA et agents de contenu",
+        "body": "Automatisation des tâches répétitives dans Sanity, avec une validation humaine avant toute publication."
+      },
+      {
+        "_key": "k0008",
+        "_type": "serviceItem",
+        "title": "Maintenance et évolutions",
+        "body": "Nouveaux types de contenu, nouvelles pages et améliorations du Studio au fil de vos besoins."
+      }
+    ],
+    "processTitle": "Comment nous travaillons",
+    "process": [
+      {
+        "_key": "k0009",
+        "_type": "step",
+        "title": "Cadrage",
+        "body": "Un appel pour comprendre votre contenu, votre équipe et vos objectifs, puis une proposition chiffrée."
+      },
+      {
+        "_key": "k000a",
+        "_type": "step",
+        "title": "Modèle de contenu",
+        "body": "Les schémas Sanity sont validés avec votre équipe éditoriale avant toute intégration."
+      },
+      {
+        "_key": "k000b",
+        "_type": "step",
+        "title": "Construction",
+        "body": "Studio et front Next.js livrés en itérations, avec des aperçus en ligne à chaque étape."
+      },
+      {
+        "_key": "k000c",
+        "_type": "step",
+        "title": "Mise en ligne et suivi",
+        "body": "Redirections, contrôle SEO, formation de l’équipe, puis accompagnement continu."
+      }
+    ],
+    "proofTitle": "Projets récents",
+    "cases": [
+      {
+        "_key": "k000d",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "b0e2e02c-435e-4998-8506-2132c5f6f19b"
+        },
+        "summary": "Un SaaS de gestion pour associations et établissements privés. Envol Culture y gère plus de 300 élèves chaque jour."
+      },
+      {
+        "_key": "k000e",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "project-asr-temp"
+        },
+        "summary": "Une plateforme d’intérim et un site sur mesure qui réunissent candidats, offres d’emploi et relation client."
+      },
+      {
+        "_key": "k000f",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "38ad273c-561d-40cd-a54c-56c60b6db42e"
+        },
+        "summary": "Un site sur mesure qui met en valeur l’expertise, les offres et le positionnement d’un cabinet de conseil en stratégie."
+      }
+    ],
+    "quote": {
+      "text": "Nous utilisons Formwise pour gérer plus de 300 élèves au quotidien. 1367 Studio a construit une plateforme fiable et claire, parfaitement adaptée aux besoins d’une école moderne.",
+      "author": "Directeur d’établissement, Envol Culture"
+    },
+    "local": {
+      "title": "Une agence Sanity en France",
+      "body": "Nous travaillons depuis Marseille et Paris, en français ou en anglais, avec des équipes partout en France et à l’étranger. Les ateliers peuvent se faire sur place.",
+      "lines": [
+        "Rue Paradis, 13008 Marseille",
+        "Paris 8e",
+        "hello@1367studio.com · +33 7 63 85 83 88"
+      ]
+    },
+    "relatedTitle": "À lire aussi",
+    "related": [
+      {
+        "_key": "k000g",
+        "_type": "relatedLink",
+        "label": "Migration WordPress vers Sanity",
+        "href": "/fr/migration-sanity"
+      },
+      {
+        "_key": "k000h",
+        "_type": "relatedLink",
+        "label": "Agence web à Marseille",
+        "href": "/fr/agence-web-marseille"
+      },
+      {
+        "_key": "k000i",
+        "_type": "relatedLink",
+        "label": "1367 Studio devient partenaire Sanity",
+        "href": "/blog/1367-studio-sanity-agency-partner"
+      },
+      {
+        "_key": "k000j",
+        "_type": "relatedLink",
+        "label": "Les nouveautés Sanity d’Everything NYC 2026",
+        "href": "/blog/sanity-s-new-features-from-everything-nyc-2026-explained-simply"
+      }
+    ],
+    "closing": {
+      "title": "Parlons de votre contenu.",
+      "description": "Dites-nous ce que votre CMS ou votre site ne permet pas aujourd’hui. Nous revenons vers vous avec un périmètre clair et la prochaine étape.",
+      "ctaLabel": "Réserver un appel"
+    },
+    "faqTitle": "Questions fréquentes",
+    "faqs": [
+      {
+        "_key": "k000k",
+        "_type": "faqItem",
+        "q": "Qu’est-ce que Sanity ?",
+        "a": "Sanity est un CMS headless : le contenu est stocké sous forme de données structurées et diffusé par API vers votre site, votre application ou tout autre canal. L’interface d’édition, Sanity Studio, se configure en code pour coller à votre métier."
+      },
+      {
+        "_key": "k000l",
+        "_type": "faqItem",
+        "q": "Pourquoi choisir une agence partenaire Sanity ?",
+        "a": "1367 Studio est partenaire officiel de Sanity et membre du programme Sanity Pioneers. Nous avons un accès direct à l’équipe Sanity et suivons les nouveautés de la plateforme dès leur sortie. Sanity est au cœur de chaque projet que nous livrons."
+      },
+      {
+        "_key": "k000m",
+        "_type": "faqItem",
+        "q": "Sanity ou WordPress ?",
+        "a": "WordPress convient à un site simple géré par une seule personne. Sanity devient pertinent quand plusieurs personnes publient, que le contenu alimente plusieurs canaux ou que le site doit rester rapide en grandissant."
+      },
+      {
+        "_key": "k000n",
+        "_type": "faqItem",
+        "q": "Combien coûte un projet Sanity ?",
+        "a": "Chaque projet est chiffré après un premier échange, selon le volume de contenu, le nombre de modèles et les intégrations. Sanity propose aussi une offre gratuite pour démarrer."
+      },
+      {
+        "_key": "k000o",
+        "_type": "faqItem",
+        "q": "Travaillez-vous avec des équipes hors de Marseille et Paris ?",
+        "a": "Oui. Nous travaillons avec des équipes dans toute la France, au Royaume-Uni et aux États-Unis, en français ou en anglais."
+      }
+    ],
+    "_type": "landingPage"
+  },
+  {
+    "_id": "landingPage-fr-agence-web-marseille",
+    "lang": "fr",
+    "path": "/fr/agence-web-marseille",
+    "title": "Agence web à Marseille : Next.js & Sanity | 1367 Studio",
+    "description": "Agence web à Marseille (8e) : sites sur mesure, plateformes et logiciels en Next.js et Sanity pour les entreprises qui ont dépassé leur site actuel.",
+    "serviceName": "Création de sites et développement web sur mesure à Marseille",
+    "breadcrumb": "Agence web Marseille",
+    "eyebrow": "Agence web · Marseille 8e",
+    "h1": "Agence web à Marseille pour sites et logiciels sur mesure.",
+    "lead": "Votre site ne reflète plus votre entreprise, vos outils internes tiennent avec des tableurs, ou votre plateforme n’existe encore que sur le papier. Nous concevons et développons des sites, des portails clients et des logiciels sur mesure, depuis la rue Paradis.",
+    "ctaLabel": "Réserver un appel",
+    "highlights": [
+      "Basés à Marseille 8e",
+      "Partenaire officiel Sanity",
+      "Sites, SaaS & outils internes"
+    ],
+    "problemsTitle": "Les situations que nous connaissons bien",
+    "problems": [
+      {
+        "_key": "k000p",
+        "_type": "problem",
+        "title": "Un site qui date",
+        "body": "Lent, difficile à modifier, plus en phase avec votre offre. Nous le reconstruisons sur une base moderne que votre équipe peut faire évoluer seule."
+      },
+      {
+        "_key": "k000q",
+        "_type": "problem",
+        "title": "Des process gérés à la main",
+        "body": "Candidatures, inscriptions, devis ou plannings dans des tableurs. Nous les transformons en plateforme, comme pour ASR Temp ou Formwise."
+      },
+      {
+        "_key": "k000r",
+        "_type": "problem",
+        "title": "Un produit à lancer",
+        "body": "Une idée de SaaS ou de portail client à concrétiser. Nous cadrons, concevons et développons la première version, puis l’accompagnons."
+      }
+    ],
+    "servicesTitle": "Ce que nous réalisons",
+    "services": [
+      {
+        "_key": "k000s",
+        "_type": "serviceItem",
+        "title": "Sites vitrines sur mesure",
+        "body": "Design et développement Next.js, contenu géré dans Sanity, optimisés pour le référencement."
+      },
+      {
+        "_key": "k000t",
+        "_type": "serviceItem",
+        "title": "Plateformes et SaaS",
+        "body": "Applications web métier, espaces membres et produits SaaS, de la maquette à la production."
+      },
+      {
+        "_key": "k000u",
+        "_type": "serviceItem",
+        "title": "Portails clients",
+        "body": "Espaces sécurisés pour vos clients, candidats ou adhérents, connectés à vos outils."
+      },
+      {
+        "_key": "k000v",
+        "_type": "serviceItem",
+        "title": "Outils internes",
+        "body": "Remplacer les tableurs par des outils adaptés à vos équipes, avec les intégrations nécessaires."
+      },
+      {
+        "_key": "k000w",
+        "_type": "serviceItem",
+        "title": "Applications mobiles",
+        "body": "Applications natives ou multiplateformes reliées à la même base de contenu."
+      },
+      {
+        "_key": "k000x",
+        "_type": "serviceItem",
+        "title": "Refonte et migration",
+        "body": "Reprise de l’existant, des contenus et du référencement, sans perte de trafic."
+      }
+    ],
+    "processTitle": "Notre méthode",
+    "process": [
+      {
+        "_key": "k000y",
+        "_type": "step",
+        "title": "Premier échange",
+        "body": "Un appel ou une rencontre à Marseille pour comprendre votre besoin et vos contraintes."
+      },
+      {
+        "_key": "k000z",
+        "_type": "step",
+        "title": "Proposition",
+        "body": "Un périmètre clair, un découpage par étapes et un devis."
+      },
+      {
+        "_key": "k0010",
+        "_type": "step",
+        "title": "Design et développement",
+        "body": "Livraisons régulières avec des aperçus en ligne pour valider au fur et à mesure."
+      },
+      {
+        "_key": "k0011",
+        "_type": "step",
+        "title": "Mise en ligne",
+        "body": "Contrôle SEO et performance, formation, puis maintenance et évolutions."
+      }
+    ],
+    "proofTitle": "Quelques réalisations",
+    "cases": [
+      {
+        "_key": "k0012",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "b0e2e02c-435e-4998-8506-2132c5f6f19b"
+        },
+        "summary": "Un SaaS de gestion pour associations et établissements privés. Envol Culture y gère plus de 300 élèves chaque jour."
+      },
+      {
+        "_key": "k0013",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "project-asr-temp"
+        },
+        "summary": "Une plateforme d’intérim et un site sur mesure qui réunissent candidats, offres d’emploi et relation client."
+      },
+      {
+        "_key": "k0014",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "38ad273c-561d-40cd-a54c-56c60b6db42e"
+        },
+        "summary": "Un site sur mesure qui met en valeur l’expertise, les offres et le positionnement d’un cabinet de conseil en stratégie."
+      }
+    ],
+    "quote": {
+      "text": "Nous utilisons Formwise pour gérer plus de 300 élèves au quotidien. 1367 Studio a construit une plateforme fiable et claire, parfaitement adaptée aux besoins d’une école moderne.",
+      "author": "Directeur d’établissement, Envol Culture"
+    },
+    "local": {
+      "title": "Une équipe à Marseille",
+      "body": "Notre bureau est rue Paradis, dans le 8e arrondissement. Nous accompagnons des entreprises à Marseille, Aix-en-Provence et dans toute la région, ainsi qu’à Paris.",
+      "lines": [
+        "Rue Paradis, 13008 Marseille",
+        "hello@1367studio.com",
+        "+33 7 63 85 83 88"
+      ]
+    },
+    "relatedTitle": "À lire aussi",
+    "related": [
+      {
+        "_key": "k0015",
+        "_type": "relatedLink",
+        "label": "Agence Sanity à Paris & Marseille",
+        "href": "/fr/agence-sanity"
+      },
+      {
+        "_key": "k0016",
+        "_type": "relatedLink",
+        "label": "Migration WordPress vers Sanity",
+        "href": "/fr/migration-sanity"
+      },
+      {
+        "_key": "k0017",
+        "_type": "relatedLink",
+        "label": "Nos projets",
+        "href": "/projects"
+      },
+      {
+        "_key": "k0018",
+        "_type": "relatedLink",
+        "label": "À propos de 1367 Studio",
+        "href": "/about"
+      }
+    ],
+    "closing": {
+      "title": "Un projet à Marseille ?",
+      "description": "Dites-nous ce qui freine votre site ou vos outils aujourd’hui. Nous revenons vers vous avec un périmètre clair et la prochaine étape.",
+      "ctaLabel": "Réserver un appel"
+    },
+    "faqTitle": "Questions fréquentes",
+    "faqs": [
+      {
+        "_key": "k0019",
+        "_type": "faqItem",
+        "q": "Quelle est la différence avec une agence web classique ?",
+        "a": "Nous développons sur mesure en Next.js et Sanity plutôt qu’à partir de thèmes. Le résultat est plus rapide, plus simple à faire évoluer et pensé pour le référencement dès le départ."
+      },
+      {
+        "_key": "k001a",
+        "_type": "faqItem",
+        "q": "Faites-vous aussi des logiciels sur mesure ?",
+        "a": "Oui : plateformes métier, SaaS, portails clients et outils internes. Formwise, par exemple, gère au quotidien plus de 300 élèves chez Envol Culture."
+      },
+      {
+        "_key": "k001b",
+        "_type": "faqItem",
+        "q": "Combien coûte un site sur mesure à Marseille ?",
+        "a": "Chaque projet est chiffré après un premier échange, selon le nombre de pages, les fonctionnalités et les intégrations. Nous ne publions pas de tarif fixe, car aucun projet ne se ressemble."
+      },
+      {
+        "_key": "k001c",
+        "_type": "faqItem",
+        "q": "Peut-on se rencontrer ?",
+        "a": "Oui, à notre bureau de la rue Paradis ou dans vos locaux à Marseille et alentour. Nous travaillons aussi entièrement à distance si vous préférez."
+      },
+      {
+        "_key": "k001d",
+        "_type": "faqItem",
+        "q": "Gérez-vous le référencement ?",
+        "a": "Nous livrons des sites optimisés techniquement : performance, balisage, données structurées, sitemap et redirections. Pour les campagnes SEO ou publicitaires, nous travaillons avec votre agence marketing."
+      }
+    ],
+    "_type": "landingPage"
+  },
+  {
+    "_id": "landingPage-fr-migration-sanity",
+    "lang": "fr",
+    "path": "/fr/migration-sanity",
+    "alternatePath": "/sanity-migration",
+    "title": "Migration WordPress vers Sanity | 1367 Studio",
+    "description": "Migrez de WordPress, Contentful ou d’un autre CMS vers Sanity sans perdre votre référencement : contenus, médias, métadonnées SEO et redirections repris.",
+    "serviceName": "Migration de CMS vers Sanity",
+    "breadcrumb": "Migration Sanity",
+    "eyebrow": "Migration CMS · Sanity",
+    "h1": "Migrer de WordPress vers Sanity sans perdre votre SEO.",
+    "lead": "Plugins qui cassent à chaque mise à jour, éditeur de pages lourd, site lent : WordPress a fait son temps pour votre équipe. Nous migrons vos contenus vers Sanity et votre site vers Next.js, en gardant vos URL, vos métadonnées et votre trafic.",
+    "ctaLabel": "Parler de votre migration",
+    "highlights": [
+      "Partenaire officiel Sanity",
+      "Reprise SEO complète",
+      "WordPress · Contentful · autres CMS"
+    ],
+    "problemsTitle": "Quand migrer vers Sanity",
+    "problems": [
+      {
+        "_key": "k001e",
+        "_type": "problem",
+        "title": "Le site ralentit",
+        "body": "Thèmes et plugins s’empilent et les Core Web Vitals se dégradent. Un front Next.js sur Sanity repart sur une base légère."
+      },
+      {
+        "_key": "k001f",
+        "_type": "problem",
+        "title": "Publier est devenu compliqué",
+        "body": "Chaque mise en page passe par un développeur. Sanity sépare le contenu de sa mise en forme : l’équipe publie seule."
+      },
+      {
+        "_key": "k001g",
+        "_type": "problem",
+        "title": "Le contenu doit servir ailleurs",
+        "body": "Application, autre site, nouvelles langues : avec Sanity, le même contenu est disponible partout via API."
+      }
+    ],
+    "servicesTitle": "Ce que comprend la migration",
+    "services": [
+      {
+        "_key": "k001h",
+        "_type": "serviceItem",
+        "title": "Audit de l’existant",
+        "body": "Inventaire des types de contenu, champs personnalisés, plugins, médias et URL."
+      },
+      {
+        "_key": "k001i",
+        "_type": "serviceItem",
+        "title": "Modèle de contenu Sanity",
+        "body": "Chaque type WordPress est repensé en schéma Sanity structuré, pas simplement copié."
+      },
+      {
+        "_key": "k001j",
+        "_type": "serviceItem",
+        "title": "Migration des contenus",
+        "body": "Articles, pages, médias, auteurs et taxonomies importés par script, vérifiés puis relancés si besoin."
+      },
+      {
+        "_key": "k001k",
+        "_type": "serviceItem",
+        "title": "Reprise SEO",
+        "body": "Titres, descriptions, balises canoniques et URL repris ; redirections 301 pour tout ce qui change."
+      },
+      {
+        "_key": "k001l",
+        "_type": "serviceItem",
+        "title": "Nouveau front Next.js",
+        "body": "Un site rapide, accessible et prêt pour les moteurs de recherche et les moteurs IA."
+      },
+      {
+        "_key": "k001m",
+        "_type": "serviceItem",
+        "title": "Formation",
+        "body": "Votre équipe prend en main Sanity Studio avant la bascule."
+      }
+    ],
+    "processTitle": "Étapes de la migration",
+    "process": [
+      {
+        "_key": "k001n",
+        "_type": "step",
+        "title": "Audit et plan",
+        "body": "Cartographie des contenus et des URL, plan de redirections et calendrier."
+      },
+      {
+        "_key": "k001o",
+        "_type": "step",
+        "title": "Modèle et scripts",
+        "body": "Schémas Sanity validés, puis scripts d’import testés sur une copie."
+      },
+      {
+        "_key": "k001p",
+        "_type": "step",
+        "title": "Gel et import final",
+        "body": "Publication suspendue un court moment, import définitif et vérification."
+      },
+      {
+        "_key": "k001q",
+        "_type": "step",
+        "title": "Bascule et contrôle",
+        "body": "Mise en ligne, redirections actives, suivi dans la Search Console."
+      }
+    ],
+    "proofTitle": "Projets récents",
+    "cases": [
+      {
+        "_key": "k001r",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "b0e2e02c-435e-4998-8506-2132c5f6f19b"
+        },
+        "summary": "Un SaaS de gestion pour associations et établissements privés. Envol Culture y gère plus de 300 élèves chaque jour."
+      },
+      {
+        "_key": "k001s",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "project-asr-temp"
+        },
+        "summary": "Une plateforme d’intérim et un site sur mesure qui réunissent candidats, offres d’emploi et relation client."
+      },
+      {
+        "_key": "k001t",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "38ad273c-561d-40cd-a54c-56c60b6db42e"
+        },
+        "summary": "Un site sur mesure qui met en valeur l’expertise, les offres et le positionnement d’un cabinet de conseil en stratégie."
+      }
+    ],
+    "relatedTitle": "À lire aussi",
+    "related": [
+      {
+        "_key": "k001u",
+        "_type": "relatedLink",
+        "label": "Agence Sanity à Paris & Marseille",
+        "href": "/fr/agence-sanity"
+      },
+      {
+        "_key": "k001v",
+        "_type": "relatedLink",
+        "label": "Agence web à Marseille",
+        "href": "/fr/agence-web-marseille"
+      },
+      {
+        "_key": "k001w",
+        "_type": "relatedLink",
+        "label": "Comment nous utilisons l’IA dans la gestion de contenu",
+        "href": "/blog/how-we-use-ai-in-content-management"
+      }
+    ],
+    "closing": {
+      "title": "Prêt à quitter WordPress ?",
+      "description": "Envoyez-nous l’adresse de votre site. Nous revenons vers vous avec une première lecture de la migration et la prochaine étape.",
+      "ctaLabel": "Parler de votre migration"
+    },
+    "faqTitle": "Questions fréquentes",
+    "faqs": [
+      {
+        "_key": "k001x",
+        "_type": "faqItem",
+        "q": "Vais-je perdre mon référencement ?",
+        "a": "Non, si la migration est préparée : nous reprenons les URL, les titres et descriptions, les balises canoniques, et mettons en place des redirections 301 pour chaque adresse qui change."
+      },
+      {
+        "_key": "k001y",
+        "_type": "faqItem",
+        "q": "Peut-on continuer à publier pendant la migration ?",
+        "a": "Oui, presque tout le temps. Nous ne demandons qu’un court gel des publications avant l’import final."
+      },
+      {
+        "_key": "k001z",
+        "_type": "faqItem",
+        "q": "Peut-on garder WordPress en partie ?",
+        "a": "C’est possible pendant une transition, mais nous recommandons en général une migration complète vers Sanity pour ne maintenir qu’un seul outil."
+      },
+      {
+        "_key": "k0020",
+        "_type": "faqItem",
+        "q": "Migrez-vous depuis d’autres CMS que WordPress ?",
+        "a": "Oui : Contentful, Prismic, Strapi, Webflow ou un CMS maison, du moment que le contenu est exportable."
+      }
+    ],
+    "_type": "landingPage"
+  },
+  {
+    "_id": "landingPage-sanity-agency",
+    "lang": "en",
+    "path": "/sanity-agency",
+    "alternatePath": "/fr/agence-sanity",
+    "title": "Sanity CMS Agency for SaaS & Product Teams | 1367 Studio",
+    "description": "Official Sanity agency partner and Sanity Pioneer. We design Sanity content models and Next.js front ends for SaaS and product teams in the UK, US and Europe.",
+    "serviceName": "Sanity CMS development",
+    "breadcrumb": "Sanity agency",
+    "eyebrow": "Sanity CMS agency · Official partner",
+    "h1": "Official Sanity partner for SaaS and product teams.",
+    "lead": "Your team ships product every week, but every new landing page still waits on a developer. We model your content in Sanity, build a Studio your marketers actually like, and connect it to a fast Next.js front end, so publishing stops being an engineering ticket.",
+    "ctaLabel": "Book a call",
+    "highlights": [
+      "Official Sanity agency partner",
+      "Sanity Pioneers program",
+      "Next.js · TypeScript · Vercel"
+    ],
+    "problemsTitle": "What we fix",
+    "problems": [
+      {
+        "_key": "k0021",
+        "_type": "problem",
+        "title": "Marketing waits on engineering",
+        "body": "Every new page or section needs a pull request. A structured content model and page-building blocks let marketing publish on their own."
+      },
+      {
+        "_key": "k0022",
+        "_type": "problem",
+        "title": "A CMS nobody wants to open",
+        "body": "Forty fields, half of them irrelevant, and no preview. We configure Sanity Studio around how your team works, with live preview."
+      },
+      {
+        "_key": "k0023",
+        "_type": "problem",
+        "title": "The site no longer matches the product",
+        "body": "Your product moved on and the site didn’t. We rebuild it on Sanity and Next.js so it can keep up."
+      }
+    ],
+    "servicesTitle": "Sanity services",
+    "services": [
+      {
+        "_key": "k0024",
+        "_type": "serviceItem",
+        "title": "Content modelling",
+        "body": "Schemas designed around how your team writes, reviews and reuses content, not around page templates."
+      },
+      {
+        "_key": "k0025",
+        "_type": "serviceItem",
+        "title": "Custom Sanity Studio",
+        "body": "Tailored inputs, previews, review workflows and roles, so editors see exactly what they publish."
+      },
+      {
+        "_key": "k0026",
+        "_type": "serviceItem",
+        "title": "Next.js front ends",
+        "body": "TypeScript, App Router, deployed on Vercel, built for Core Web Vitals and search."
+      },
+      {
+        "_key": "k0027",
+        "_type": "serviceItem",
+        "title": "Migrations to Sanity",
+        "body": "From WordPress, Contentful or a home-grown CMS, with content, SEO metadata and redirects carried over."
+      },
+      {
+        "_key": "k0028",
+        "_type": "serviceItem",
+        "title": "AI content workflows",
+        "body": "Sanity agents and automations for repetitive content work, with a human approval step before anything ships."
+      },
+      {
+        "_key": "k0029",
+        "_type": "serviceItem",
+        "title": "Ongoing support",
+        "body": "New content types, pages and Studio improvements as your product grows."
+      }
+    ],
+    "processTitle": "How we work",
+    "process": [
+      {
+        "_key": "k002a",
+        "_type": "step",
+        "title": "Discovery",
+        "body": "A call to understand your content, team and goals, followed by a scoped proposal."
+      },
+      {
+        "_key": "k002b",
+        "_type": "step",
+        "title": "Content model",
+        "body": "Sanity schemas agreed with your editors before any front-end work."
+      },
+      {
+        "_key": "k002c",
+        "_type": "step",
+        "title": "Build",
+        "body": "Studio and Next.js site delivered in iterations, with a live preview at every step."
+      },
+      {
+        "_key": "k002d",
+        "_type": "step",
+        "title": "Launch and support",
+        "body": "Redirects, SEO checks and team training, then ongoing improvements."
+      }
+    ],
+    "proofTitle": "Recent work",
+    "cases": [
+      {
+        "_key": "k002e",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "b0e2e02c-435e-4998-8506-2132c5f6f19b"
+        },
+        "summary": "A management SaaS for associations and private schools. Envol Culture runs more than 300 students on it every day."
+      },
+      {
+        "_key": "k002f",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "project-asr-temp"
+        },
+        "summary": "A temporary-staffing platform and website that brings applicants, job offers and client relations into one place."
+      },
+      {
+        "_key": "k002g",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "38ad273c-561d-40cd-a54c-56c60b6db42e"
+        },
+        "summary": "A bespoke website that presents a strategy consultancy’s expertise, services and positioning."
+      }
+    ],
+    "quote": {
+      "text": "We use Formwise to manage over 300 students daily. 1367 Studio built a reliable, clear platform perfectly tailored to the needs of a modern school.",
+      "author": "School director, Envol Culture"
+    },
+    "local": {
+      "title": "Working with UK and US teams",
+      "body": "We’re based in Paris and Marseille, one hour ahead of London, and work in English with teams across the UK, the US and Europe. Calls fit both London hours and US East Coast mornings.",
+      "lines": [
+        "Paris & Marseille, France",
+        "hello@1367studio.com",
+        "+33 7 63 85 83 88"
+      ]
+    },
+    "relatedTitle": "Related",
+    "related": [
+      {
+        "_key": "k002h",
+        "_type": "relatedLink",
+        "label": "Migrate to Sanity",
+        "href": "/sanity-migration"
+      },
+      {
+        "_key": "k002i",
+        "_type": "relatedLink",
+        "label": "Next.js development agency",
+        "href": "/nextjs-agency"
+      },
+      {
+        "_key": "k002j",
+        "_type": "relatedLink",
+        "label": "1367 Studio is now a Sanity agency partner",
+        "href": "/blog/1367-studio-sanity-agency-partner"
+      },
+      {
+        "_key": "k002k",
+        "_type": "relatedLink",
+        "label": "Everything NYC 2026, as a Sanity Pioneer",
+        "href": "/blog/everything-nyc-2026"
+      }
+    ],
+    "closing": {
+      "title": "Let’s talk about your content.",
+      "description": "Tell us what your CMS or site can’t do today. We’ll come back with a clear scope and the next step.",
+      "ctaLabel": "Book a call"
+    },
+    "faqTitle": "FAQ",
+    "faqs": [
+      {
+        "_key": "k002l",
+        "_type": "faqItem",
+        "q": "What does an official Sanity agency partner mean?",
+        "a": "1367 Studio is part of Sanity’s agency partner program and the Sanity Pioneers program. That gives us direct access to the Sanity team and early insight into new platform features. Sanity is the content platform on every project we deliver."
+      },
+      {
+        "_key": "k002m",
+        "_type": "faqItem",
+        "q": "Do you only build with Next.js?",
+        "a": "Next.js is our main framework and our default for Sanity projects. We also work with Astro, Angular and Ruby on Rails when a project calls for it."
+      },
+      {
+        "_key": "k002n",
+        "_type": "faqItem",
+        "q": "Do you work with UK and US companies?",
+        "a": "Yes. We work in English with teams in the UK, the US and across Europe. Most of our collaboration happens remotely, with workshops in person when useful."
+      },
+      {
+        "_key": "k002o",
+        "_type": "faqItem",
+        "q": "How much does a Sanity project cost?",
+        "a": "Every project is scoped individually after a first call, based on content volume, number of models and integrations. We don’t publish fixed prices."
+      },
+      {
+        "_key": "k002p",
+        "_type": "faqItem",
+        "q": "Can you take over an existing Sanity project?",
+        "a": "Yes. We can audit your current schemas and front end, then improve the Studio, performance or content model without starting from scratch."
+      }
+    ],
+    "_type": "landingPage"
+  },
+  {
+    "_id": "landingPage-sanity-migration",
+    "lang": "en",
+    "path": "/sanity-migration",
+    "alternatePath": "/fr/migration-sanity",
+    "title": "WordPress & Contentful to Sanity Migration | 1367 Studio",
+    "description": "Move from WordPress, Contentful or another CMS to Sanity without losing traffic. Content, media, SEO metadata and redirects carried over by a Sanity partner.",
+    "serviceName": "CMS migration to Sanity",
+    "breadcrumb": "Sanity migration",
+    "eyebrow": "CMS migration · Sanity",
+    "h1": "Move to Sanity without losing your traffic.",
+    "lead": "Plugins that break on every update, a page builder your team fights with, a site that keeps getting slower. We migrate your content to Sanity and your site to Next.js, keeping your URLs, metadata and rankings intact.",
+    "ctaLabel": "Plan your migration",
+    "highlights": [
+      "Official Sanity agency partner",
+      "Full SEO carry-over",
+      "WordPress · Contentful · custom CMS"
+    ],
+    "problemsTitle": "When it’s time to migrate",
+    "problems": [
+      {
+        "_key": "k002q",
+        "_type": "problem",
+        "title": "The site keeps slowing down",
+        "body": "Themes and plugins pile up and Core Web Vitals suffer. A Next.js front end on Sanity starts from a lean base."
+      },
+      {
+        "_key": "k002r",
+        "_type": "problem",
+        "title": "Publishing needs a developer",
+        "body": "Sanity separates content from layout, so your team can publish and reuse content on its own."
+      },
+      {
+        "_key": "k002s",
+        "_type": "problem",
+        "title": "Content has to go further",
+        "body": "An app, a second site, new languages: Sanity serves the same content everywhere through its API."
+      }
+    ],
+    "servicesTitle": "What the migration covers",
+    "services": [
+      {
+        "_key": "k002t",
+        "_type": "serviceItem",
+        "title": "Audit",
+        "body": "An inventory of content types, custom fields, plugins, media and URLs."
+      },
+      {
+        "_key": "k002u",
+        "_type": "serviceItem",
+        "title": "Sanity content model",
+        "body": "Each legacy type is redesigned as a structured Sanity schema, not copied one-to-one."
+      },
+      {
+        "_key": "k002v",
+        "_type": "serviceItem",
+        "title": "Scripted content import",
+        "body": "Posts, pages, media, authors and taxonomies imported by script, verified and re-runnable."
+      },
+      {
+        "_key": "k002w",
+        "_type": "serviceItem",
+        "title": "SEO carry-over",
+        "body": "Titles, descriptions, canonicals and URLs preserved; 301 redirects for anything that changes."
+      },
+      {
+        "_key": "k002x",
+        "_type": "serviceItem",
+        "title": "New Next.js front end",
+        "body": "Fast, accessible and ready for search and AI answer engines."
+      },
+      {
+        "_key": "k002y",
+        "_type": "serviceItem",
+        "title": "Team training",
+        "body": "Your editors learn Sanity Studio before the switch."
+      }
+    ],
+    "processTitle": "Migration steps",
+    "process": [
+      {
+        "_key": "k002z",
+        "_type": "step",
+        "title": "Audit and plan",
+        "body": "Content and URL map, redirect plan and timeline."
+      },
+      {
+        "_key": "k0030",
+        "_type": "step",
+        "title": "Model and scripts",
+        "body": "Sanity schemas agreed, import scripts tested on a copy."
+      },
+      {
+        "_key": "k0031",
+        "_type": "step",
+        "title": "Freeze and final import",
+        "body": "A short publishing freeze, then the final import and checks."
+      },
+      {
+        "_key": "k0032",
+        "_type": "step",
+        "title": "Switch and monitor",
+        "body": "Go live, redirects active, Search Console monitored."
+      }
+    ],
+    "proofTitle": "Recent work",
+    "cases": [
+      {
+        "_key": "k0033",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "b0e2e02c-435e-4998-8506-2132c5f6f19b"
+        },
+        "summary": "A management SaaS for associations and private schools. Envol Culture runs more than 300 students on it every day."
+      },
+      {
+        "_key": "k0034",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "project-asr-temp"
+        },
+        "summary": "A temporary-staffing platform and website that brings applicants, job offers and client relations into one place."
+      },
+      {
+        "_key": "k0035",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "38ad273c-561d-40cd-a54c-56c60b6db42e"
+        },
+        "summary": "A bespoke website that presents a strategy consultancy’s expertise, services and positioning."
+      }
+    ],
+    "relatedTitle": "Related",
+    "related": [
+      {
+        "_key": "k0036",
+        "_type": "relatedLink",
+        "label": "Sanity CMS agency",
+        "href": "/sanity-agency"
+      },
+      {
+        "_key": "k0037",
+        "_type": "relatedLink",
+        "label": "Next.js development agency",
+        "href": "/nextjs-agency"
+      },
+      {
+        "_key": "k0038",
+        "_type": "relatedLink",
+        "label": "How we use AI in content management",
+        "href": "/blog/how-we-use-ai-in-content-management"
+      }
+    ],
+    "closing": {
+      "title": "Ready to leave WordPress?",
+      "description": "Send us your site’s address. We’ll come back with a first read on the migration and the next step.",
+      "ctaLabel": "Plan your migration"
+    },
+    "faqTitle": "FAQ",
+    "faqs": [
+      {
+        "_key": "k0039",
+        "_type": "faqItem",
+        "q": "Will we lose our SEO?",
+        "a": "Not if the migration is planned. We keep URLs, titles, descriptions and canonicals, and add 301 redirects for every URL that changes."
+      },
+      {
+        "_key": "k003a",
+        "_type": "faqItem",
+        "q": "Can we keep publishing during the migration?",
+        "a": "Almost the whole time. We only ask for a short publishing freeze before the final import."
+      },
+      {
+        "_key": "k003b",
+        "_type": "faqItem",
+        "q": "Which CMSs can you migrate from?",
+        "a": "WordPress, Contentful, Prismic, Strapi, Webflow or a custom CMS, as long as the content can be exported."
+      },
+      {
+        "_key": "k003c",
+        "_type": "faqItem",
+        "q": "Do we have to rebuild the front end too?",
+        "a": "Usually yes, since the old theme is tied to the old CMS. We rebuild it in Next.js, which is also where most of the speed gains come from."
+      }
+    ],
+    "_type": "landingPage"
+  },
+  {
+    "_id": "landingPage-nextjs-agency",
+    "lang": "en",
+    "path": "/nextjs-agency",
+    "title": "Next.js Development Agency | 1367 Studio",
+    "description": "Next.js agency building marketing sites, SaaS front ends and customer portals in TypeScript, with Sanity for content. For teams in the UK, US and France.",
+    "serviceName": "Next.js development",
+    "breadcrumb": "Next.js agency",
+    "eyebrow": "Next.js development agency",
+    "h1": "Next.js websites and SaaS front ends, built to rank.",
+    "lead": "Your site was built for the company you were. We rebuild marketing sites, customer portals and SaaS front ends in Next.js and TypeScript, with Sanity for content, so they stay fast as you grow and your team can change them without us.",
+    "ctaLabel": "Book a call",
+    "highlights": [
+      "Next.js · TypeScript",
+      "Sanity for content",
+      "Deployed on Vercel"
+    ],
+    "problemsTitle": "What we fix",
+    "problems": [
+      {
+        "_key": "k003d",
+        "_type": "problem",
+        "title": "Slow pages",
+        "body": "Heavy themes and client-side bloat hurt Core Web Vitals and rankings. We ship server-rendered pages that load fast on mobile."
+      },
+      {
+        "_key": "k003e",
+        "_type": "problem",
+        "title": "A front end nobody wants to touch",
+        "body": "Legacy React or jQuery, no types, no tests. We rebuild in TypeScript with a structure your next hire can follow."
+      },
+      {
+        "_key": "k003f",
+        "_type": "problem",
+        "title": "Portals that don’t exist yet",
+        "body": "Customers, applicants or members still email you spreadsheets. We build the portal they log into instead."
+      }
+    ],
+    "servicesTitle": "Next.js services",
+    "services": [
+      {
+        "_key": "k003g",
+        "_type": "serviceItem",
+        "title": "Marketing websites",
+        "body": "Next.js and Sanity sites your marketing team edits on its own."
+      },
+      {
+        "_key": "k003h",
+        "_type": "serviceItem",
+        "title": "SaaS front ends",
+        "body": "Product UIs, dashboards and onboarding flows for SaaS platforms."
+      },
+      {
+        "_key": "k003i",
+        "_type": "serviceItem",
+        "title": "Customer portals",
+        "body": "Secure areas for customers, applicants or members, connected to your systems."
+      },
+      {
+        "_key": "k003j",
+        "_type": "serviceItem",
+        "title": "Replatforming",
+        "body": "Moving from WordPress, Gatsby or a legacy React app to Next.js with SEO continuity."
+      },
+      {
+        "_key": "k003k",
+        "_type": "serviceItem",
+        "title": "Performance work",
+        "body": "Core Web Vitals audits and fixes on existing Next.js sites."
+      },
+      {
+        "_key": "k003l",
+        "_type": "serviceItem",
+        "title": "AI features",
+        "body": "Chat agents and content automation built into your site, like the one on this page."
+      }
+    ],
+    "processTitle": "How we work",
+    "process": [
+      {
+        "_key": "k003m",
+        "_type": "step",
+        "title": "Discovery",
+        "body": "A call to understand your product, users and constraints, then a scoped proposal."
+      },
+      {
+        "_key": "k003n",
+        "_type": "step",
+        "title": "Design and architecture",
+        "body": "Page structure, components and data flow agreed before code."
+      },
+      {
+        "_key": "k003o",
+        "_type": "step",
+        "title": "Build",
+        "body": "Iterative delivery with preview deployments for every change."
+      },
+      {
+        "_key": "k003p",
+        "_type": "step",
+        "title": "Launch and support",
+        "body": "Redirects, SEO and performance checks, then ongoing improvements."
+      }
+    ],
+    "proofTitle": "Recent work",
+    "cases": [
+      {
+        "_key": "k003q",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "b0e2e02c-435e-4998-8506-2132c5f6f19b"
+        },
+        "summary": "A management SaaS for associations and private schools. Envol Culture runs more than 300 students on it every day."
+      },
+      {
+        "_key": "k003r",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "project-asr-temp"
+        },
+        "summary": "A temporary-staffing platform and website that brings applicants, job offers and client relations into one place."
+      },
+      {
+        "_key": "k003s",
+        "_type": "caseLink",
+        "project": {
+          "_type": "reference",
+          "_ref": "38ad273c-561d-40cd-a54c-56c60b6db42e"
+        },
+        "summary": "A bespoke website that presents a strategy consultancy’s expertise, services and positioning."
+      }
+    ],
+    "quote": {
+      "text": "We use Formwise to manage over 300 students daily. 1367 Studio built a reliable, clear platform perfectly tailored to the needs of a modern school.",
+      "author": "School director, Envol Culture"
+    },
+    "relatedTitle": "Related",
+    "related": [
+      {
+        "_key": "k003t",
+        "_type": "relatedLink",
+        "label": "Sanity CMS agency",
+        "href": "/sanity-agency"
+      },
+      {
+        "_key": "k003u",
+        "_type": "relatedLink",
+        "label": "Migrate to Sanity",
+        "href": "/sanity-migration"
+      },
+      {
+        "_key": "k003v",
+        "_type": "relatedLink",
+        "label": "Agents in the workflow, people at the top",
+        "href": "/blog/agents-in-the-workflow-people-at-the-top"
+      }
+    ],
+    "closing": {
+      "title": "Let’s rebuild it properly.",
+      "description": "Tell us what your current site or front end can’t do. We’ll come back with a clear scope and the next step.",
+      "ctaLabel": "Book a call"
+    },
+    "faqTitle": "FAQ",
+    "faqs": [
+      {
+        "_key": "k003w",
+        "_type": "faqItem",
+        "q": "Why Next.js?",
+        "a": "Next.js renders pages on the server, which makes them fast to load and easy for search engines and AI crawlers to read. It also scales from a marketing site to a full SaaS front end on one framework."
+      },
+      {
+        "_key": "k003x",
+        "_type": "faqItem",
+        "q": "Which CMS do you pair with Next.js?",
+        "a": "Sanity, on every project. We are an official Sanity agency partner."
+      },
+      {
+        "_key": "k003y",
+        "_type": "faqItem",
+        "q": "Do you work with UK and US teams?",
+        "a": "Yes, in English, remotely, with calls that fit London hours and US East Coast mornings."
+      },
+      {
+        "_key": "k003z",
+        "_type": "faqItem",
+        "q": "How much does a Next.js project cost?",
+        "a": "Every project is scoped individually after a first call. We don’t publish fixed prices."
+      }
+    ],
+    "_type": "landingPage"
+  }
+]

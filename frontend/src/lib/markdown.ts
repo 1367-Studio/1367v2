@@ -1,5 +1,6 @@
 import { client } from './sanity';
 import { landingPageList, type LandingPageData } from '../data/landing-pages';
+import { getLandingPage } from './landing-pages';
 
 // Markdown versions of the key pages, for AI answer engines and agents.
 // Served at `<page>.md` (home is `/index.md`) and to any request that sends
@@ -32,7 +33,7 @@ export async function renderMarkdown(path: string): Promise<string | null> {
   if (path === '/blog') return blog();
   if (path === '/contact') return contact();
   const landing = landingPageList.find((p) => p.path === path);
-  if (landing) return landingPage(landing);
+  if (landing) return landingPage(await getLandingPage(landing.key as any));
   const project = path.match(/^\/projects\/([^/]+)$/);
   if (project) return projectPage(project[1]);
   const post = path.match(/^\/blog\/([^/]+)$/);

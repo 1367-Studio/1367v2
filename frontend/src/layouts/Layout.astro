@@ -18,6 +18,7 @@ const footerData = await client.fetch(`
   *[_type == "footer"][0]{
     heading, ctaLabel, ctaHref,
     navLinks[]{ label, href },
+    heading_fr, ctaLabel_fr, navLinks_fr[]{ label, href },
     locations[]{ city, country, phone, address },
     logo
   }
@@ -64,10 +65,11 @@ const { title, description, image, type, noindex, headerTheme, hideFooter, lang 
         <slot />
         {!hideFooter && (
           <Footer
-            heading={footerData?.heading ?? undefined}
-            ctaLabel={footerData?.ctaLabel ?? undefined}
+            lang={lang}
+            heading={(lang === "fr" ? footerData?.heading_fr : footerData?.heading) ?? undefined}
+            ctaLabel={(lang === "fr" ? footerData?.ctaLabel_fr : footerData?.ctaLabel) ?? undefined}
             ctaHref={footerData?.ctaHref ?? undefined}
-            navLinks={footerData?.navLinks ?? undefined}
+            navLinks={(lang === "fr" ? footerData?.navLinks_fr : footerData?.navLinks) ?? undefined}
             locations={footerData?.locations ?? undefined}
             logoSrc={footerData?.logo ? builder.image(footerData.logo).height(64).fit('max').auto('format').url() : undefined}
           />
