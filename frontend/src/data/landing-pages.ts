@@ -178,7 +178,7 @@ export const landingPages: Record<string, LandingPageData> = {
     local: {
       title: "Une agence Sanity en France",
       body: "Nous travaillons depuis Marseille et Paris, en français ou en anglais, avec des équipes partout en France et à l’étranger. Les ateliers peuvent se faire sur place.",
-      lines: ["Rue Paradis, 13008 Marseille", "Paris 8e", "hello@1367studio.com · +33 7 63 85 83 88"],
+      lines: ["11 rue Étienne Henry Gouin, 13011 Marseille", "Paris 8e", "hello@1367studio.com · +33 7 63 85 83 88"],
     },
     faqTitle: "Questions fréquentes",
     faqs: [
@@ -225,13 +225,13 @@ export const landingPages: Record<string, LandingPageData> = {
     path: "/fr/agence-web-marseille",
     title: "Agence web à Marseille : Next.js & Sanity | 1367 Studio",
     description:
-      "Agence web à Marseille (8e) : sites sur mesure, plateformes et logiciels en Next.js et Sanity pour les entreprises qui ont dépassé leur site actuel.",
+      "Agence web à Marseille : sites sur mesure, plateformes et logiciels en Next.js et Sanity pour les entreprises qui ont dépassé leur site actuel.",
     serviceName: "Création de sites et développement web sur mesure à Marseille",
-    eyebrow: "Agence web · Marseille 8e",
+    eyebrow: "Agence web · Marseille",
     h1: "Agence web à Marseille pour sites et logiciels sur mesure.",
-    lead: "Votre site ne reflète plus votre entreprise, vos outils internes tiennent avec des tableurs, ou votre plateforme n’existe encore que sur le papier. Nous concevons et développons des sites, des portails clients et des logiciels sur mesure, depuis la rue Paradis.",
+    lead: "Votre site ne reflète plus votre entreprise, vos outils internes tiennent avec des tableurs, ou votre plateforme n’existe encore que sur le papier. Nous concevons et développons des sites, des portails clients et des logiciels sur mesure, depuis Marseille.",
     ctaLabel: "Réserver un appel",
-    highlights: ["Basés à Marseille 8e", "Partenaire officiel Sanity", "Sites, SaaS & outils internes"],
+    highlights: ["Basés à Marseille", "Partenaire officiel Sanity", "Sites, SaaS & outils internes"],
     problemsTitle: "Les situations que nous connaissons bien",
     problems: [
       {
@@ -268,8 +268,8 @@ export const landingPages: Record<string, LandingPageData> = {
     quote: QUOTE_FR,
     local: {
       title: "Une équipe à Marseille",
-      body: "Notre bureau est rue Paradis, dans le 8e arrondissement. Nous accompagnons des entreprises à Marseille, Aix-en-Provence et dans toute la région, ainsi qu’à Paris.",
-      lines: ["Rue Paradis, 13008 Marseille", "hello@1367studio.com", "+33 7 63 85 83 88"],
+      body: "Notre bureau est au 11 rue Étienne Henry Gouin, dans le 11e arrondissement. Nous accompagnons des entreprises à Marseille, Aix-en-Provence et dans toute la région, ainsi qu’à Paris.",
+      lines: ["11 rue Étienne Henry Gouin, 13011 Marseille", "hello@1367studio.com", "+33 7 63 85 83 88"],
     },
     faqTitle: "Questions fréquentes",
     faqs: [
@@ -287,7 +287,7 @@ export const landingPages: Record<string, LandingPageData> = {
       },
       {
         q: "Peut-on se rencontrer ?",
-        a: "Oui, à notre bureau de la rue Paradis ou dans vos locaux à Marseille et alentour. Nous travaillons aussi entièrement à distance si vous préférez.",
+        a: "Oui, à notre bureau du 11e arrondissement ou dans vos locaux à Marseille et alentour. Nous travaillons aussi entièrement à distance si vous préférez.",
       },
       {
         q: "Gérez-vous le référencement ?",

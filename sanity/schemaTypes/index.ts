@@ -39,6 +39,7 @@ import privacySection from './documents/privacySection'
 import cookiesSection from './documents/cookiesSection'
 import legalSection from './objects/legalSection'
 import cookieItem from './objects/cookieItem'
+import landingPage from './documents/landingPage'
 
 export const schemaTypes = [
   // documents
@@ -57,6 +58,7 @@ export const schemaTypes = [
   footer,
   header,
   heroSection,
+  landingPage,
   letsBuildSection,
   post,
   project,

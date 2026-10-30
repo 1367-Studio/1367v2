@@ -12,6 +12,7 @@ interface NavLink {
 }
 
 interface Props {
+  lang?: "en" | "fr";
   heading?: string;
   ctaLabel?: string;
   ctaHref?: string;
@@ -20,17 +21,27 @@ interface Props {
   logoSrc?: string;
 }
 
+const fr = Astro.props.lang === "fr";
+
 const {
-  heading = "Let's design\nwhat's next.",
-  ctaLabel = "CONTACT US",
+  heading = fr ? "Imaginons\nla suite." : "Let's design\nwhat's next.",
+  ctaLabel = fr ? "NOUS CONTACTER" : "CONTACT US",
   ctaHref = "/contact",
-  navLinks = [
-    { label: "Projects", href: "/projects" },
-    { label: "About us", href: "/about" },
-    { label: "Privacy Policy", href: "/legal/privacy-policy" },
-    { label: "Legal Notice", href: "/legal/mentions-legales" },
-    { label: "Get in touch", href: "/contact" },
-  ],
+  navLinks = fr
+    ? [
+        { label: "Projets", href: "/projects" },
+        { label: "À propos", href: "/about" },
+        { label: "Politique de confidentialité", href: "/legal/privacy-policy" },
+        { label: "Mentions légales", href: "/legal/mentions-legales" },
+        { label: "Nous contacter", href: "/contact" },
+      ]
+    : [
+        { label: "Projects", href: "/projects" },
+        { label: "About us", href: "/about" },
+        { label: "Privacy Policy", href: "/legal/privacy-policy" },
+        { label: "Legal Notice", href: "/legal/mentions-legales" },
+        { label: "Get in touch", href: "/contact" },
+      ],
   locations = [
     { city: "Marseille", country: "France", phone: "+33 07 63 85 83 88" },
     { city: "Paris", country: "France", phone: "+33 07 63 85 83 88" },

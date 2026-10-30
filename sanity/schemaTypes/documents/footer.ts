@@ -37,6 +37,34 @@ export default {
       ],
     },
     {
+      name: 'heading_fr',
+      title: 'Heading (French pages)',
+      type: 'string',
+      initialValue: 'Imaginons la suite.',
+    },
+    {
+      name: 'ctaLabel_fr',
+      title: 'Button — Label (French pages)',
+      type: 'string',
+      initialValue: 'NOUS CONTACTER',
+    },
+    {
+      name: 'navLinks_fr',
+      title: 'Nav Links (French pages)',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'navLink',
+          fields: [
+            { name: 'label', title: 'Label', type: 'string' },
+            { name: 'href', title: 'Link', type: 'string' },
+          ],
+          preview: { select: { title: 'label' } },
+        },
+      ],
+    },
+    {
       name: 'logo',
       title: 'Logo',
       type: 'image',

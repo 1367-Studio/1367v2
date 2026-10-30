@@ -1,6 +1,8 @@
 ---
 import LandingPage from "@/components/LandingPage.astro";
-import { landingPages } from "@/data/landing-pages";
+import { getLandingPage } from "@/lib/landing-pages";
+
+const page = await getLandingPage("enSanityAgency");
 ---
 
-<LandingPage page={landingPages.enSanityAgency} />
+<LandingPage page={page} />
