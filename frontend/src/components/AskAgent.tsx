@@ -31,8 +31,8 @@ function loadMessages(): AgentUIMessage[] {
 const textOf = (m: AgentUIMessage) =>
   m.parts.map((p) => (p.type === 'text' ? p.text : '')).join('').trim();
 
-export default function AskAgent({ welcomeMessage, suggestedQuestions }: Props) {
-  const [open, setOpen] = useState(false);
+export default function AskAgent({ welcomeMessage, suggestedQuestions, initialOpen = false }: Props & { initialOpen?: boolean }) {
+  const [open, setOpen] = useState(initialOpen);
   const [input, setInput] = useState('');
   const [dismissedHandoff, setDismissedHandoff] = useState<string | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);

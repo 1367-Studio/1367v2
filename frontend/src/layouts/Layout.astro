@@ -2,7 +2,7 @@
 import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
 import BaseHead from "../components/BaseHead.astro"
-import AskAgent from "../components/AskAgent"
+import LazyAskAgent from "../components/LazyAskAgent"
 import { getAgentConfig } from "@/lib/agent-knowledge"
 import { markdownPathFor } from "@/lib/markdown"
 import { client } from "@/lib/sanity"
@@ -34,23 +34,23 @@ interface Props {
   noindex?: boolean;
   headerTheme?: 'light' | 'dark';
   hideFooter?: boolean;
+  lang?: "en" | "fr";
+  alternates?: { hreflang: string; href: string }[];
+  jsonLd?: Record<string, unknown>[];
 }
 
-const { title, description, image, type, noindex, headerTheme, hideFooter } = Astro.props;
+const { title, description, image, type, noindex, headerTheme, hideFooter, lang = "en", alternates, jsonLd } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
-    <BaseHead title={title} description={description} image={image} type={type} noindex={noindex} />
+    <BaseHead title={title} description={description} image={image} type={type} noindex={noindex} lang={lang} alternates={alternates} jsonLd={jsonLd} />
     {markdownPath && <link rel="alternate" type="text/markdown" href={markdownPath} />}
     <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
-    {/* Google Fonts */}
-    <link rel="preconnect" href="https://app.endlesstools.io">
-    <link rel="dns-prefetch" href="https://app.endlesstools.io">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Sans:wght@400;600&family=Inter:wght@400;600&family=Playfair+Display:wght@400&display=swap" rel="stylesheet">
+    {/* Fonts are self-hosted (see global.css); preload the two used above the fold. */}
+    <link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/geist-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <Header theme={headerTheme}/>
@@ -74,7 +74,7 @@ const { title, description, image, type, noindex, headerTheme, hideFooter } = As
         )}
       </main>
     </div>
-    <AskAgent client:only="react" {...agentConfig} />
+    <LazyAskAgent client:only="react" {...agentConfig} />
     <script>
       import { initBarba } from "@/lib/barba";
 

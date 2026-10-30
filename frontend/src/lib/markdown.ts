@@ -1,4 +1,5 @@
 import { client } from './sanity';
+import { landingPageList, type LandingPageData } from '../data/landing-pages';
 
 // Markdown versions of the key pages, for AI answer engines and agents.
 // Served at `<page>.md` (home is `/index.md`) and to any request that sends
@@ -6,7 +7,8 @@ import { client } from './sanity';
 
 export const SITE = 'https://www.1367studio.com';
 
-const STATIC_PAGES = ['/', '/about', '/projects', '/blog', '/contact'];
+const LANDING_PAGES = landingPageList.map((p) => p.path);
+const STATIC_PAGES = ['/', '/about', '/projects', '/blog', '/contact', ...LANDING_PAGES];
 
 /** Markdown URL for a page path, or null when the page has no Markdown version. */
 export function markdownPathFor(pathname: string): string | null {
@@ -29,6 +31,8 @@ export async function renderMarkdown(path: string): Promise<string | null> {
   if (path === '/projects') return projects();
   if (path === '/blog') return blog();
   if (path === '/contact') return contact();
+  const landing = landingPageList.find((p) => p.path === path);
+  if (landing) return landingPage(landing);
   const project = path.match(/^\/projects\/([^/]+)$/);
   if (project) return projectPage(project[1]);
   const post = path.match(/^\/blog\/([^/]+)$/);
@@ -235,6 +239,10 @@ export async function llmsTxt(): Promise<string> {
         `- ${link('Blog', '/blog.md')}: Notes from the studio on design, development and Sanity.`,
         `- ${link('Contact', '/contact.md')}: Start a project, offices and contact details.`,
       ].join('\n'),
+    '## Services\n\n' +
+      landingPageList
+        .map((p) => `- ${link(p.title.replace(/ \| 1367 Studio$/, ''), `${p.path}.md`)}${p.lang === 'fr' ? ' (French)' : ''}: ${p.description}`)
+        .join('\n'),
     d.projects?.length &&
       '## Case studies\n\n' +
         d.projects.map((p: any) => `- ${link(clean(p.title), `/projects/${p.slug}.md`)}${p.excerpt ? `: ${clean(p.excerpt)}` : ''}`).join('\n'),
@@ -262,6 +270,24 @@ export async function llmsFullTxt(): Promise<string> {
   const paths = [...STATIC_PAGES, ...projects.map((s: string) => `/projects/${s}`), ...posts.map((s: string) => `/blog/${s}`)];
   const pages = await Promise.all(paths.map(renderMarkdown));
   return pages.filter(Boolean).join('\n\n---\n\n');
+}
+
+// ---------------------------------------------------------- landing pages
+
+function landingPage(p: LandingPageData): string {
+  return doc(p.path, [
+    `# ${p.h1}`,
+    `> ${p.lead}`,
+    p.highlights.map((h) => `- ${h}`).join('\n'),
+    `## ${p.problemsTitle}\n\n` + p.problems.map((x) => `### ${x.title}\n\n${x.body}`).join('\n\n'),
+    `## ${p.servicesTitle}\n\n` + p.services.map((x) => `- **${x.title}:** ${x.body}`).join('\n'),
+    `## ${p.processTitle}\n\n` + p.process.map((x, i) => `${i + 1}. **${x.title}:** ${x.body}`).join('\n'),
+    `## ${p.proofTitle}\n\n` + p.cases.map((c) => `- ${link(c.name, `${c.href}.md`)}: ${c.summary}`).join('\n'),
+    p.quote && `> "${p.quote.text}" (${p.quote.author})`,
+    p.local && `## ${p.local.title}\n\n${p.local.body}\n\n${p.local.lines.join('\n')}`,
+    `## ${p.faqTitle}\n\n` + p.faqs.map((f) => `### ${f.q}\n\n${f.a}`).join('\n\n'),
+    `## ${p.closing.title}\n\n${p.closing.description} ${link(p.closing.ctaLabel, '/contact.md')}`,
+  ]);
 }
 
 // ---------------------------------------------------------------- helpers

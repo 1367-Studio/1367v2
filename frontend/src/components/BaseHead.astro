@@ -15,6 +15,12 @@ export interface Props {
   type?: "website" | "article";
   /** Only for staging/preview routes — never on real pages. */
   noindex?: boolean;
+  /** Page language. French landing pages pass "fr". */
+  lang?: "en" | "fr";
+  /** hreflang alternates (absolute or root-relative), including this page. */
+  alternates?: { hreflang: string; href: string }[];
+  /** Extra JSON-LD nodes for this page (FAQPage, Service, BreadcrumbList…). */
+  jsonLd?: Record<string, unknown>[];
 }
 
 const SITE_NAME = "1367 Studio";
@@ -33,12 +39,21 @@ const {
   image = "/1367-studio-preview-2026.png",
   type = "website",
   noindex = false,
+  lang = "en",
+  alternates = [],
+  jsonLd: pageJsonLd = [],
 } = Astro.props;
 
 // Astro.site is set in astro.config.mjs; fall back defensively.
 const siteOrigin = Astro.site ?? new URL("https://www.1367studio.com");
 const canonical = new URL(Astro.url.pathname, siteOrigin).href;
 const ogImage = new URL(image, siteOrigin).href;
+const ogLocale = lang === "fr" ? "fr_FR" : "en_US";
+const ogLocaleAlternates = lang === "fr" ? ["en_US"] : ["en_GB"];
+const hreflangs = alternates.map((a) => ({
+  hreflang: a.hreflang,
+  href: new URL(a.href, siteOrigin).href,
+}));
 
 const SERVICES = [
   "Sanity CMS development & migrations",
@@ -130,8 +145,9 @@ const jsonLd = {
       name: SITE_NAME,
       description: DEFAULT_DESCRIPTION,
       publisher: { "@id": `${siteOrigin.origin}/#organization` },
-      inLanguage: "en",
+      inLanguage: ["en", "fr"],
     },
+    ...pageJsonLd,
   ],
 };
 ---
@@ -166,8 +182,9 @@ const jsonLd = {
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:type" content="image/png" />
-<meta property="og:locale" content="en_US" />
-<meta property="og:locale:alternate" content="en_GB" />
+<meta property="og:locale" content={ogLocale} />
+{ogLocaleAlternates.map((l) => <meta property="og:locale:alternate" content={l} />)}
+{hreflangs.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
 
 {/* Twitter */}
 <meta name="twitter:card" content="summary_large_image" />
