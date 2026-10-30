@@ -1,5 +1,5 @@
 /**
- * Ad tracking + lead submission, consent-first.
+ * Analytics (GA4) + ad tracking (Google Ads) + lead submission, consent-first.
  *
  * - Nothing from Google loads until the visitor accepts the cookie banner
  *   (CNIL: refusing must be as easy as accepting, and no ad cookies before
@@ -16,8 +16,11 @@
 export const GOOGLE_ADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID || 'AW-16498528700';
 export const GOOGLE_ADS_LEAD_LABEL =
   import.meta.env.PUBLIC_GOOGLE_ADS_LEAD_LABEL || 'IiegCPXXja8dELyjjrs9';
+/** GA4 property "www.1367studio.com" (account "Compte Google Ads"). */
+export const GA4_ID = import.meta.env.PUBLIC_GA4_ID || 'G-PBHW30ZSTW';
 
-const CONSENT_KEY = 'cookie-consent';
+// v2: GA4 added to the banner, so earlier (Ads-only) choices are asked again.
+const CONSENT_KEY = 'cookie-consent-v2';
 const ATTRIBUTION_KEY = 'lead-attribution';
 const CONSENT_MAX_AGE = 1000 * 60 * 60 * 24 * 182; // ~6 months
 const ATTRIBUTION_MAX_AGE = 1000 * 60 * 60 * 24 * 90; // Google Ads click window
@@ -138,15 +141,32 @@ function loadGoogleTag() {
     ad_storage: 'granted',
     ad_user_data: 'granted',
     ad_personalization: 'granted',
-    analytics_storage: 'denied',
+    analytics_storage: 'granted',
   });
   window.gtag('js', new Date());
+  // GA4 sends the page_view for the page the visitor is on now; later pages
+  // are sent by trackPageView() after each Barba transition (the stream's
+  // "page changes based on browser history events" is off to avoid doubles).
+  window.gtag('config', GA4_ID);
   window.gtag('config', GOOGLE_ADS_ID);
 
   const s = document.createElement('script');
   s.async = true;
   s.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`;
   document.head.appendChild(s);
+}
+
+/**
+ * GA4 page view for a client-side (Barba) navigation. Barba has already
+ * updated the URL and document.title when its afterEnter hook runs.
+ */
+export function trackPageView() {
+  if (getConsent() !== 'granted' || !window.gtag) return;
+  window.gtag('event', 'page_view', {
+    send_to: GA4_ID,
+    page_location: window.location.href,
+    page_title: document.title,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -234,6 +254,13 @@ export async function submitLead(lead: LeadPayload): Promise<boolean> {
   if (res.ok && getConsent() === 'granted') {
     window.gtag?.('event', 'conversion', {
       send_to: `${GOOGLE_ADS_ID}/${GOOGLE_ADS_LEAD_LABEL}`,
+      value: 1.0,
+      currency: 'EUR',
+    });
+    // GA4 recommended event; marked as a key event in the property.
+    window.gtag?.('event', 'generate_lead', {
+      send_to: GA4_ID,
+      form_name: lead.form,
       value: 1.0,
       currency: 'EUR',
     });
