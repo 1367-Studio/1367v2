@@ -1,6 +1,7 @@
 import barba from '@barba/core'
 import { gsap } from 'gsap'
 import { destroyPage, initPage, markBarbaTransitioned } from '@/lib/page-lifecycle'
+import { trackPageView } from '@/lib/tracking'
 
 // Same spring the hero video's "First Fold" intro uses, from the Figma prototype.
 const SPRING = { mass: 1, stiffness: 115.2, damping: 24 }
@@ -155,6 +156,7 @@ export function initBarba(): void {
         afterEnter() {
           markBarbaTransitioned()
           initPage()
+          trackPageView()
           // Header is persistent and re-derives its light/dark theme from a
           // 'scroll' listener (elementsFromPoint below the pill) — nudge it
           // to recheck against the new page instead of waiting for the user

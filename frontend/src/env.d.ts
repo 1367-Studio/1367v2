@@ -15,6 +15,7 @@ interface ImportMetaEnv {
   /** Optional overrides; defaults live in src/lib/tracking.ts. */
   readonly PUBLIC_GOOGLE_ADS_ID?: string;
   readonly PUBLIC_GOOGLE_ADS_LEAD_LABEL?: string;
+  readonly PUBLIC_GA4_ID?: string;
 }
 
 interface ImportMeta {
