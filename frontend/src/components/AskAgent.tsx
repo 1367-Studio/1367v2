@@ -3,6 +3,7 @@ import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import { ArrowRight, ArrowUp, ArrowCounterClockwise, X } from '@phosphor-icons/react';
 import type { AgentUIMessage } from '../pages/api/agent';
+import { submitLead } from '../lib/tracking';
 
 interface Props {
   welcomeMessage?: string;
@@ -267,12 +268,13 @@ function Handoff({ messages, onDismiss }: { messages: AgentUIMessage[]; onDismis
       .map((m) => `${m.role === 'user' ? name || 'Visitor' : 'Agent'}: ${textOf(m)}`)
       .join('\n\n');
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message: `Sent from the Ask Agent chat.\n\n${transcript}` }),
+      const ok = await submitLead({
+        name,
+        email,
+        message: `Sent from the Ask Agent chat.\n\n${transcript}`,
+        form: 'ask-agent',
       });
-      setStep(res.ok ? 'sent' : 'error');
+      setStep(ok ? 'sent' : 'error');
     } catch {
       setStep('error');
     }
