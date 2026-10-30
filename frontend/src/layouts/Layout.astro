@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro"
 import Footer from "../components/Footer.astro"
 import BaseHead from "../components/BaseHead.astro"
+import ConsentBanner from "../components/ConsentBanner.astro"
 import LazyAskAgent from "../components/LazyAskAgent"
 import { getAgentConfig } from "@/lib/agent-knowledge"
 import { markdownPathFor } from "@/lib/markdown"
@@ -77,6 +78,7 @@ const { title, description, image, type, noindex, headerTheme, hideFooter, lang 
       </main>
     </div>
     <LazyAskAgent client:only="react" {...agentConfig} />
+    <ConsentBanner lang={lang} />
     <script>
       import { initBarba } from "@/lib/barba";
 

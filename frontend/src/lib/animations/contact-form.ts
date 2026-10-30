@@ -1,3 +1,5 @@
+import { submitLead } from '@/lib/tracking'
+
 function closeDropdown() {
   document.getElementById('source-list')?.classList.add('hidden')
   const trigger = document.getElementById('source-trigger')
@@ -70,23 +72,33 @@ export function initContactForm(): void {
   const form = document.getElementById('contact-form') as HTMLFormElement | null
   const status = document.getElementById('contact-status')
 
+  // Back from a no-JS form post (see /api/contact).
+  const params = new URLSearchParams(window.location.search)
+  if (status && params.has('sent')) status.textContent = 'Thanks, your message was sent.'
+  if (status && params.has('error')) status.textContent = 'Something went wrong. Please try again.'
+
   form?.addEventListener('submit', async (event) => {
     event.preventDefault()
     if (!status) return
 
     status.textContent = 'Sending…'
-    const data = Object.fromEntries(new FormData(form))
+    const data = Object.fromEntries(new FormData(form)) as Record<string, string>
 
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+      const ok = await submitLead({
+        name: data.name ?? '',
+        email: data.email ?? '',
+        message: data.message ?? '',
+        company: data.company,
+        website: data.website,
+        source: data.source,
+        botcheck: data.botcheck,
+        form: 'contact-page',
       })
-      status.textContent = res.ok
+      status.textContent = ok
         ? 'Thanks, your message was sent.'
         : 'Something went wrong. Please try again.'
-      if (res.ok) form.reset()
+      if (ok) form.reset()
     } catch {
       status.textContent = 'Network error. Please try again.'
     }

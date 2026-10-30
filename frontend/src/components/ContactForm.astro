@@ -1,5 +1,6 @@
 ---
-// Posts to the Resend-backed endpoint at /api/contact
+// Submitted by lib/animations/contact-form.ts via submitLead() → /api/contact
+// (email via Resend + a row in the leads Google Sheet).
 interface Props {
   submitLabel?: string;
 }
@@ -12,6 +13,16 @@ const { submitLabel = "Submit" } = Astro.props;
   method="POST"
   action="/api/contact"
 >
+  <!-- Honeypot: hidden from people, bots fill it and get silently dropped. -->
+  <input
+    type="text"
+    name="botcheck"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+    class="absolute -left-[9999px] h-px w-px opacity-0"
+  />
+
   <!-- Row 1: Name + Company -->
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
     <div class="relative">

@@ -1,0 +1,84 @@
+---
+/**
+ * Cookie consent banner. Lives outside the Barba container (like the Header)
+ * so it survives page transitions. Refusing is one click, same as accepting.
+ * Any element with [data-cookie-settings] reopens it (see Footer).
+ */
+interface Props {
+  lang?: "en" | "fr";
+}
+const { lang = "en" } = Astro.props;
+const fr = lang === "fr";
+
+const t = fr
+  ? {
+      text: "Nous utilisons des cookies Google Ads pour mesurer l'efficacité de nos annonces. Le site fonctionne de la même façon si vous refusez.",
+      accept: "Accepter",
+      decline: "Refuser",
+      more: "En savoir plus",
+      label: "Cookies",
+    }
+  : {
+      text: "We use Google Ads cookies to measure how well our ads work. The site works the same if you decline.",
+      accept: "Accept",
+      decline: "Decline",
+      more: "Learn more",
+      label: "Cookies",
+    };
+---
+
+<div
+  id="cookie-banner"
+  role="dialog"
+  aria-live="polite"
+  aria-label={t.label}
+  hidden
+  class="fixed bottom-4 left-4 right-4 z-[9999] max-w-[420px] rounded-[12px] border border-white/15 bg-[#0d0d0d]/95 p-5 text-white shadow-2xl backdrop-blur-md sm:right-auto"
+>
+  <p class="font-[Geist] text-[14px] leading-[1.4] text-white/85">
+    {t.text}
+    <a href="/legal/cookie-policy" class="underline underline-offset-2 hover:text-white">{t.more}</a>
+  </p>
+  <div class="mt-4 flex gap-2">
+    <button
+      type="button"
+      data-consent="denied"
+      class="h-10 flex-1 cursor-pointer rounded-[8px] border border-white/30 font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-[-0.01em] transition-colors hover:border-white"
+    >
+      {t.decline}
+    </button>
+    <button
+      type="button"
+      data-consent="granted"
+      class="h-10 flex-1 cursor-pointer rounded-[8px] bg-white font-[Geist_Mono] text-[12px] font-semibold uppercase tracking-[-0.01em] text-primary transition-opacity hover:opacity-80"
+    >
+      {t.accept}
+    </button>
+  </div>
+</div>
+
+<script>
+  import { getConsent, initTracking, setConsent, type Consent } from "@/lib/tracking";
+
+  initTracking();
+
+  const banner = document.getElementById("cookie-banner");
+  if (banner && getConsent() === null) banner.hidden = false;
+
+  // Delegated so footer links keep working after Barba swaps the page.
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+
+    const choice = target.closest<HTMLElement>("[data-consent]");
+    if (choice && banner) {
+      setConsent(choice.dataset.consent as Consent);
+      banner.hidden = true;
+      return;
+    }
+
+    if (target.closest("[data-cookie-settings]") && banner) {
+      e.preventDefault();
+      banner.hidden = false;
+    }
+  });
+</script>
