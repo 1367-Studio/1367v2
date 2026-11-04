@@ -2,6 +2,7 @@
 import { client } from "../lib/sanity";
 import { Menu, X } from "@lucide/astro";
 import PillGlass from "./PillGlass";
+import { AGENT_ENABLED } from "../lib/features";
 
 const header = await client.fetch(`
   *[_type == "header" && _id == "header"][0]{
@@ -108,13 +109,15 @@ const { theme = "light" } = Astro.props;
           ))
         }
       </nav>
-      <button
-        type="button"
-        data-agent-open
-        class="agent-btn header-link cursor-pointer"
-      >
-        Ask agent
-      </button>
+      {AGENT_ENABLED && (
+        <button
+          type="button"
+          data-agent-open
+          class="agent-btn header-link cursor-pointer"
+        >
+          Ask agent
+        </button>
+      )}
       <button
         id="menu-btn-desktop"
         type="button"
@@ -127,13 +130,15 @@ const { theme = "light" } = Astro.props;
 
     <!-- hamburger button (mobile) -->
     <div class="pill-item flex items-center gap-4 md:hidden">
-      <button
-        type="button"
-        data-agent-open
-        class="agent-btn header-link cursor-pointer"
-      >
-        Ask agent
-      </button>
+      {AGENT_ENABLED && (
+        <button
+          type="button"
+          data-agent-open
+          class="agent-btn header-link cursor-pointer"
+        >
+          Ask agent
+        </button>
+      )}
       <button
         id="menu-btn"
         class="header-link cursor-pointer relative z-50"
