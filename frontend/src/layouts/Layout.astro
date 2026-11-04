@@ -5,6 +5,7 @@ import BaseHead from "../components/BaseHead.astro"
 import ConsentBanner from "../components/ConsentBanner.astro"
 import LazyAskAgent from "../components/LazyAskAgent"
 import { getAgentConfig } from "@/lib/agent-knowledge"
+import { AGENT_ENABLED } from "@/lib/features"
 import { markdownPathFor } from "@/lib/markdown"
 import { client } from "@/lib/sanity"
 import imageUrlBuilder from '@sanity/image-url'
@@ -25,7 +26,7 @@ const footerData = await client.fetch(`
   }
 `)
 
-const agentConfig = await getAgentConfig()
+const agentConfig = AGENT_ENABLED ? await getAgentConfig() : null
 const markdownPath = markdownPathFor(Astro.url.pathname)
 
 interface Props {
@@ -77,7 +78,7 @@ const { title, description, image, type, noindex, headerTheme, hideFooter, lang 
         )}
       </main>
     </div>
-    <LazyAskAgent client:only="react" {...agentConfig} />
+    {AGENT_ENABLED && agentConfig && <LazyAskAgent client:only="react" {...agentConfig} />}
     <ConsentBanner lang={lang} />
     <script>
       import { initBarba } from "@/lib/barba";
